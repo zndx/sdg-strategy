@@ -1,15 +1,15 @@
-# Provenance Triple Reasoning
+# Provenance Simplex Reasoning
 
 ## Description:
-This task requires analyzing or reconstructing the three core determinants of an input-to-structure elucidation run and explaining how specific properties of the resulting structured framing can be attributed to each. The triple consists of:
+This task requires analyzing or reconstructing the three core determinants of an input-to-structure elucidation run and explaining how specific properties of the resulting structured framing can be attributed to each. The provenance simplex (named after the 2-simplex in geometry — the complete structure on three vertices and all their pairwise interactions) consists of:
 
 - The **input window**: the particular subset or slice of raw, unconstrained source material that was selected and admitted for processing.
 - The **structuring strategy**: the configuration that determines *how* the raw material is turned into coherent structure — including embedding models and retrieval apertures (such as late-interaction / maxsim mechanisms), reference norms or vocabularies, transformation logic, prompts or rules, and any semantic lenses or filters.
 - The **implementation version**: the specific code, models, and pipeline components (including their versions and configurations) that execute the selection and structuring.
 
-Elucidation pipelines take raw inputs (documents, telemetry streams, tabular datasets, unstructured filings, etc.) and produce a coherent, structured representation suitable for querying, classification, reasoning, or further processing. Outcomes — such as the particular entities or attributes identified, the quality and completeness of the framing, classification or retrieval performance, or observed "drift" relative to prior runs — are jointly determined by the triple. The task evaluates the ability to perform rigorous impact analysis and attribution using available provenance evidence (run records, configuration manifests, embedding similarity scores, structural norms, lineage artifacts, etc.).
+Elucidation pipelines take raw inputs (documents, telemetry streams, tabular datasets, unstructured filings, etc.) and produce a coherent, structured representation suitable for querying, classification, reasoning, or further processing. Outcomes — such as the particular entities or attributes identified, the quality and completeness of the framing, classification or retrieval performance, or observed "drift" relative to prior runs — are jointly determined by the provenance simplex. The task evaluates the ability to perform rigorous impact analysis and attribution using available provenance evidence (run records, configuration manifests, embedding similarity scores, structural norms, lineage artifacts, etc.).
 
-A complete analysis identifies which element(s) of the triple best explain a difference in outcome and justifies the attribution with concrete evidence.
+A complete analysis identifies which element(s) of the simplex best explain a difference in outcome and justifies the attribution with concrete evidence.
 
 ## Modality:
 Text only
@@ -27,7 +27,7 @@ Run A admitted filings for a watchlist of 40 symbols over a 2-year window, using
 
 Run B used the identical embedding model and reference vocabulary but a narrower 18-month window focused on more recent filings for the same symbols, plus a slightly different section-extraction heuristic in the structuring strategy. It produced records with only 71% coverage of the same event types, with notably weaker capture of long-horizon risk disclosures.
 
-The implementation (code, model weights, and retrieval index) was identical. Using only the run records, admitted document manifests, embedding similarity scores, and section-coverage metrics, determine which part of the triple is primarily responsible for the coverage drop and why the effect was strongest on long-horizon disclosures.
+The implementation (code, model weights, and retrieval index) was identical. Using only the run records, admitted document manifests, embedding similarity scores, and section-coverage metrics, determine which element of the provenance simplex is primarily responsible for the coverage drop and why the effect was strongest on long-horizon disclosures.
 ```
 
 Output:
@@ -63,7 +63,7 @@ This produced a coherent framing covering 312 distinct data element types with h
 
 Run B used a narrower selection (only tables from a particular subdomain) but an otherwise identical strategy and the same implementation. It produced a framing with only 187 element types; several categories that were prominent in Run A (particularly cross-table identifier and measurement patterns) were almost entirely absent or collapsed into generic catch-alls.
 
-The raw input collection and implementation were the same; only the admitted table slice and one tunable parameter in the inclusion/exclusion policy differed. Using run manifests, embedding similarity distributions, FK traversal logs, and final element coverage metrics, determine which parts of the triple explain the missing categories and the collapse into generics.
+The raw input collection and implementation were the same; only the admitted table slice and one tunable parameter in the inclusion/exclusion policy differed. Using run manifests, embedding similarity distributions, FK traversal logs, and final element coverage metrics, determine which parts of the provenance simplex explain the missing categories and the collapse into generics.
 ```
 
 Output:
@@ -97,7 +97,7 @@ This produced high-fidelity structured incident graphs with detailed causal chai
 
 Run B used a narrower 90-minute window focused on the exact period of a known incident, but only spans and metrics (no logs), plus the same embedding model and reference signatures. It used a stricter correlation threshold and dropped linked events to reduce data volume. It produced graphs with only 61% recall; several known causal links were missing or collapsed into generic "high latency" nodes, and no log-derived context was present.
 
-The implementation (data loader, embedding index, correlation engine) was identical between runs. Using only the run manifests (which list exact time ranges, service filters, channel selections, and strategy parameters), trace/span identifiers present in each output graph, embedding similarity scores for the retrieved patterns, and the final graph completeness metrics, determine which parts of the triple primarily explain the drop in fidelity and missing causal links.
+The implementation (data loader, embedding index, correlation engine) was identical between runs. Using only the run manifests (which list exact time ranges, service filters, channel selections, and strategy parameters), trace/span identifiers present in each output graph, embedding similarity scores for the retrieved patterns, and the final graph completeness metrics, determine which parts of the provenance simplex primarily explain the drop in fidelity and missing causal links.
 ```
 
 Output:

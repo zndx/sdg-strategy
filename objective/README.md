@@ -40,7 +40,7 @@ Releases are produced by `aegir.lineup sync` (gated by schema-CI + OQuaRE) and `
 
 This repository. A content-addressed, Merkle-shaped record of every outcome-shaping factor that is *neither* the raw input window (FinePDFs harvest cursor + passages) *nor* the code commit.
 
-A run is determined by the **provenance triple** `(window, strategy, code)`.
+A run is determined by the **provenance simplex** `(window, strategy, code)` — three interdependent factors whose interactions shape every outcome (named after the 2-simplex, the complete graph on three vertices).
 
 `strategy_id` is the root identity. Release tags and zettel identifiers are names.
 
@@ -209,7 +209,7 @@ Training infrastructure includes continued pretrain flows, custom fused kernels 
 - Verifiable strategy manifests (rehashable from any project).
 - Ontology + reasoner as model-independent substrate.
 - Blind evaluation contract + withheld reference discipline.
-- Provenance triple and stage lineage keys.
+- Provenance simplex and stage lineage keys.
 - Voice surfaces (partially) via the voices pillar.
 
 **Still largely project-local** (opportunities for further utility extraction):
@@ -224,7 +224,7 @@ Training infrastructure includes continued pretrain flows, custom fused kernels 
 ## Modality Bindings — the instrument generalizes; the specimens change
 
 Nothing in the constitution, the Merkle identity, shadows-as-branches, the clearinghouse,
-or the provenance triple knows about *text*. Only the **collectors** bind a modality. A
+or the provenance simplex knows about *text*. Only the **collectors** bind a modality. A
 sibling programme (e.g. the cybersecurity workstream: synthetic OpenTelemetry / CloudTrail
 stored as HDF5-organized Iceberg tables in object storage) reimplements the collectors and
 inherits everything else. Pillar by pillar:
