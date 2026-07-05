@@ -1,7 +1,9 @@
 # Hypothesis Formation for Data Element Discovery
 
 ## Description:
-This task involves generating plausible, testable hypotheses to explain observed column values, table patterns, or discrepancies between data and the current ontology during the data element discovery and derivation process. Hypotheses are formed in the presence of actual schema definitions (DDL) along with observed values. The task evaluates the model's ability to apply scientific thinking to structured relational data, propose multiple explanations grounded in DDL structure, raw values, and the ontology vocabulary, and suggest how those hypotheses could be validated using metrology signals or additional context.
+This task involves generating plausible, testable hypotheses to explain observed column values, table patterns, or discrepancies between data and the current ontology during the data element discovery and derivation process. Real-world data element elucidation typically spans several related tables. Reasoning must consider foreign key traversal to establish identity and context, as well as explicit decisions about which columns to include (e.g., promoting to direct properties or relationships) or exclude (e.g., to avoid redundancy or follow observed normalization patterns).
+
+Hypotheses are formed in the presence of actual schema definitions (DDL) along with observed values, using large-scale mined schema corpora such as SchemaPile as the canonical structural reference for norms around keys, shapes, naming, and column co-occurrence. The task evaluates the model's ability to apply scientific thinking to structured relational data, propose multiple explanations grounded in multi-table DDL structure, FK relationships, raw values, and the ontology vocabulary, and suggest how those hypotheses could be validated using metrology signals or additional context.
 
 ## Modality:
 Text only
@@ -13,42 +15,57 @@ Text only
 Input:
 
 ```
-The following DDL was extracted for a table in the current construct:
+The following DDL was extracted for a cluster of related tables:
 
 CREATE TABLE transactions (
     id BIGINT PRIMARY KEY,
     cust_ref VARCHAR(255) NOT NULL,
+    order_id BIGINT NOT NULL,
     amount NUMERIC(18,2),
     created_at TIMESTAMP,
     status VARCHAR(50)
 );
 
-In the associated data for this construct, the cust_ref column exhibits two distinct patterns:
-- Some rows contain opaque integer-like strings (e.g. "48291034", "991827")
-- Other rows contain email-like strings (e.g. "alice@example.com", "bob.smith@corp.local")
+CREATE TABLE orders (
+    id BIGINT PRIMARY KEY,
+    customer_id BIGINT,
+    placed_at TIMESTAMP
+);
 
-The current ontology defines a Customer class that has an hasIdentifier data property, but does not currently distinguish multiple identifier styles or contact channels for the same entity. Form two hypotheses that could explain this pattern and how they might be tested during derivation.
+CREATE TABLE customers (
+    id BIGINT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    created_at TIMESTAMP
+);
+
+In the associated data for this construct, cust_ref values in transactions sometimes match customers.email exactly and sometimes resemble opaque internal surrogate keys with no direct match in customers.id. The orders table declares a customer_id FK, but transactions has no declared FK involving cust_ref (only an undeclared order_id). SchemaPile key norms indicate that the majority of customer-referencing columns in real schemas use explicit role_id naming (e.g. customer_id) and that customer dimension tables almost always co-locate a surrogate id with an email column. The current ontology defines a Customer class with a hasIdentifier data property.
+
+Form two hypotheses about the data element represented by cust_ref, including how FK traversal and column inclusion/exclusion decisions should be made, and how they might be tested against SchemaPile structural norms during derivation.
 ```
 
 Output:
 ```
-Hypothesis 1: The column is a legacy composite reference field that was never normalized during schema evolution; different source systems historically used different primary mechanisms to identify customers (internal surrogate vs. email-as-key for guest flows), and the column was retained as-is for traceability.
+Hypothesis 1: cust_ref is a legacy denormalized customer contact reference (email) from source systems that predate a proper normalized customer dimension. The correct modeling is to treat it as a traversable link to customers.email for identity resolution during derivation, introduce an explicit customer_id FK on transactions (following SchemaPile role_id convention and the existing pattern on orders), and exclude embedding customer.name or other customer attributes directly in the transaction fact to avoid redundancy (consistent with SchemaPile shape norms where fact tables reference dimensions via FK rather than duplicating descriptive columns).
 
-Explanation: The VARCHAR(255) declaration with no CHECK constraint, domain, or generated column allows heterogeneous content. The absence of a separate customer_id column with an explicit FK in this DDL suggests that cust_ref was expected to serve as the sole customer reference at the time the table was modeled.
+Explanation: Value overlap between cust_ref and customers.email is high for a subset of rows; the lack of a declared FK and the presence of order_id (which itself links to a customer_id) suggests an incomplete migration. Including customer details by value would duplicate data that can be traversed via FK. SchemaPile shows strong preference for surrogate PK + email on customer tables and role_id FKs on referencing tables.
 
 Test during derivation: 
-- Analyze value format distribution and correlate with other columns present in the same DDL (e.g., does status or a source_system column co-vary with the format?).
-- Check whether other tables in the same construct use a dedicated customer_id FK alongside this table.
-- Use structural metrology against reference schema norms to see whether either format family aligns better with known Customer identifier patterns.
+- Compute value overlap and format distribution of cust_ref against customers.email vs. customers.id.
+- Verify whether the proposed customer_id FK naming and arity align with SchemaPile key_norms (role_id dominant, mostly single-column FKs).
+- Use structural metrology (SchemaPile shape norms) to confirm that transaction-like tables rarely co-locate customer name/email directly; flag any proposed denormalization as low-norm.
+- Propose the FK relationship and re-validate the resulting entities/constructs.
 
-Hypothesis 2: The column intentionally serves a dual role as both a stable internal identifier (for registered customers) and a contact channel (for guest or one-time buyers who have no formal account record).
+Hypothesis 2: cust_ref serves a dual purpose in the source: stable surrogate for registered customers (internal ID) and direct contact/email for guest/one-time transactions that never created a full customer record. The modeling decision is to keep cust_ref as an attribute on transactions for the guest path (inclusion for completeness), introduce a nullable customer_id FK (populated when a match exists via traversal to customers.id or email), and exclude promoting guest emails into the core customers table to avoid polluting the master dimension with transient contacts.
 
-Explanation: This reflects a common business pattern where guest checkouts store the provided email directly in the reference field. The NOT NULL constraint and lack of separate nullable contact columns in the DDL are consistent with overloading the field rather than having distinct identifier and contact attributes.
+Explanation: The mixed value patterns and the fact that orders already has a customer_id (presumably for registered flows) point to two populations. SchemaPile shows many schemas have both surrogate keys and email on customer entities, with some transaction tables carrying a separate contact field when the customer relationship is optional. Forcing everything through a single FK would lose the guest contact information.
 
 Test during derivation:
-- Cross-reference value formats against the presence/absence of a linked customer master record (via other FKs or join patterns described in associated chapters).
-- Examine whether the ontology already distinguishes RegisteredCustomer vs. GuestCustomer roles or subclasses that would justify different identification strategies.
-- Propose splitting or annotating the column during realization and validate the resulting entities against the vocabulary.
+- Segment rows by whether cust_ref format matches customers.email or customers.id; cross-check against presence of order.customer_id.
+- Check SchemaPile common_columns and co-occurrence patterns to see how frequently transaction tables carry both a customer FK and a separate email/contact column.
+- Propose a "guest_contact" attribute or separate lightweight entity for non-matched cust_ref values, then validate cardinality and key patterns against SchemaPile norms.
+- Ensure the ontology can distinguish RegisteredCustomer (with hasIdentifier) from a transient contact role without forcing a full customer record.
+```
 ```
 
 ---
@@ -58,38 +75,58 @@ Test during derivation:
 Input:
 
 ```
-The following DDL was extracted for a table in the current construct:
+The following DDL was extracted for a cluster of related tables:
 
-CREATE TABLE product_attributes (
-    product_id BIGINT,
-    attr_name VARCHAR(100),
-    attr_value TEXT,
-    effective_from DATE,
-    PRIMARY KEY (product_id, attr_name, effective_from)
+CREATE TABLE products (
+    id BIGINT PRIMARY KEY,
+    sku VARCHAR(100) NOT NULL,
+    name VARCHAR(255),
+    category_id BIGINT,
+    created_at TIMESTAMP
 );
 
-In the associated data, the attr_value column is predominantly numeric (e.g. "12.5", "100", "0.01") but also contains sentinel strings such as "N/A", "TBD", and occasional free-text descriptions (e.g. "see datasheet", "varies by batch"). The ontology catalog defines several well-scoped data properties under measurement and descriptor families with explicit range and datatype constraints. The table follows a classic EAV (entity-attribute-value) pattern with no separate type or unit column. Propose two hypotheses.
+CREATE TABLE product_attributes (
+    product_id BIGINT NOT NULL,
+    attr_name VARCHAR(100) NOT NULL,
+    attr_value TEXT,
+    effective_from DATE,
+    PRIMARY KEY (product_id, attr_name, effective_from),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE attribute_definitions (
+    name VARCHAR(100) PRIMARY KEY,
+    data_type VARCHAR(50),
+    unit VARCHAR(50),
+    is_core BOOLEAN
+);
+
+In the associated data, attr_value is numeric for many attr_names but also contains "N/A", "TBD", and free-text for others. The product_attributes table is a classic EAV structure with no explicit type or unit column; type information lives only in the separate attribute_definitions table (linked by attr_name). SchemaPile shape norms show that core product attributes (price, weight, etc.) are usually modeled as dedicated columns on the product table itself rather than left in EAV, while long-tail or variable attributes remain EAV. The ontology catalog has well-defined data properties under measurement and descriptor families with range constraints.
+
+Form two hypotheses about data element modeling for the attributes, addressing FK traversal to products and attribute_definitions plus column inclusion/exclusion decisions (e.g., promoting core attributes vs. keeping EAV), and how they might be tested against SchemaPile norms.
 ```
 
 Output:
 ```
-Hypothesis 1: The table is functioning as a flexible, untyped staging or overflow store for attributes that have not yet been promoted into the ontology as first-class properties. Numeric values represent measurable attributes that should eventually be modeled with proper ranges, while sentinels and text are being used as placeholders until the attribute is properly classified.
+Hypothesis 1: The EAV design is appropriate only for variable/long-tail attributes; core attributes referenced in attribute_definitions.is_core = true (or that match frequent SchemaPile product columns such as price/amount/weight) should be promoted to dedicated columns on the products table (inclusion), with the EAV table retained only for the remainder. The product_id FK should be traversed to attach attributes to the correct product entity, and attr_name should be validated/joined against attribute_definitions for datatype and unit.
 
-Explanation: The TEXT declaration for attr_value combined with the EAV structure and absence of a datatype discriminator column allows mixed content. During early corpus stages, raw attributes are captured this way before full ontology alignment and attribute promotion into families such as measurement or long-tail descriptors.
-
-Test during derivation:
-- Run congruence and structural scoring against the current ontology catalog to identify which attr_name values have consistent units or value distributions that would support promotion to typed data properties.
-- Inspect associated chapters or prose for notes indicating "to be modeled" or "generic attribute".
-- Check whether high-frequency attr_names appear in other constructs with more strongly typed columns.
-
-Hypothesis 2: The sentinel strings ("N/A", "TBD") represent explicit, business-meaningful states (missing by design or pending classification) rather than data quality issues, and should be modeled as distinct individuals or special values within the ontology instead of being treated as literal attribute values.
-
-Explanation: The source system uses these strings to encode lifecycle or applicability states for certain product attributes (e.g., "not applicable for this product family" or "value not yet determined"). The EAV design with a TEXT column makes it easy to store such states alongside real values.
+Explanation: SchemaPile shape norms indicate that product tables in real schemas commonly have a modest number of fixed columns for high-value attributes rather than delegating everything to EAV. Leaving everything in EAV would deviate from observed norms for "core" attributes. The separate attribute_definitions table provides the signal for which attr_names are core vs. variable.
 
 Test during derivation:
-- Separate sentinel values and analyze their co-occurrence with specific attr_name values and product categories/families.
-- Determine whether the ontology already contains individuals or subclasses under a "Missing", "Pending", or "NotApplicable" concept that these could map to.
-- Validate whether treating the sentinels as special values (rather than data) improves realization quality and reduces constraint violations when grounding attributes as data properties.
+- Use SchemaPile common_columns and shape norms to identify which attr_names (price, weight, etc.) appear as direct columns in the majority of product-like tables; mark those for promotion.
+- Traverse the product_id FK to confirm that each product has a bounded set of core attributes that can be safely promoted without cardinality explosion.
+- Join attr_name to attribute_definitions to pull data_type/unit and validate against ontology measurement properties.
+- Propose the promoted columns on products plus a pruned EAV for the rest; re-score the resulting construct shape against SchemaPile norms.
+
+Hypothesis 2: The current EAV + definitions design should be preserved as-is for flexibility (exclusion of promotion for most attributes), but the attr_value column should be augmented with an explicit type discriminator (inclusion of a data_type column derived from attribute_definitions) to support proper grounding. FK traversal from product_attributes.product_id to products and from attr_name to attribute_definitions is required to establish the full context for each data element.
+
+Explanation: While SchemaPile favors dedicated columns for core attributes, many real schemas retain EAV precisely for highly variable or user-defined attributes. The lack of a type column in the EAV table is the main defect; adding it (sourced via the existing FK to definitions) would allow the EAV to remain while still enabling precise ontology alignment and range checking. Full promotion would over-normalize variable attributes that legitimately differ per product.
+
+Test during derivation:
+- Check SchemaPile norms for the prevalence of EAV-style auxiliary tables alongside main entity tables; confirm that EAV is common when attribute cardinality per entity is high or open-ended.
+- Traverse both FKs (product_id and the implicit attr_name link) and verify that the joined view supplies consistent data_type per attr_name.
+- Propose adding a persisted or virtual data_type column (sourced from attribute_definitions) to product_attributes; validate that the resulting shape still matches observed EAV patterns in SchemaPile while improving congruence with ontology data properties.
+- Measure whether any attr_names that are "core" in SchemaPile are currently hidden in EAV and should be exceptions for promotion.
 ```
 
 ## Tags:
