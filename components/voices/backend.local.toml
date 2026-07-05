@@ -1,0 +1,10 @@
+active_model = "local"
+system_prompt_id = "aegir_writer"
+[[providers]]
+name = "local-vllm"
+api_base = "http://127.0.0.1:8100/v1"
+api_style = "openai"
+[[models]]
+name = "instruct"
+provider = "local-vllm"
+alias = "local"
