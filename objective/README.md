@@ -221,6 +221,36 @@ Training infrastructure includes continued pretrain flows, custom fused kernels 
 - Symmetric "strategy" support for classification runs and model training runs (so Atelier and Gaius can declare their own determinants).
 - A thin, shared loading / manifest / ref-resolution library usable outside Aegir.
 
+## Modality Bindings — the instrument generalizes; the specimens change
+
+Nothing in the constitution, the Merkle identity, shadows-as-branches, the clearinghouse,
+or the provenance triple knows about *text*. Only the **collectors** bind a modality. A
+sibling programme (e.g. the cybersecurity workstream: synthetic OpenTelemetry / CloudTrail
+stored as HDF5-organized Iceberg tables in object storage) reimplements the collectors and
+inherits everything else. Pillar by pillar:
+
+| pillar | text / FinePDFs binding (this repo, reference impl.) | telemetry / Iceberg binding (planned sibling) |
+|---|---|---|
+| **window** | harvest cursor + content-hashed passages (immutability by approximation) | **Iceberg snapshot ID + partition range** — exact, atomic, time-travelable. *This is the reference design for window pinning*; the text binding should converge toward it where its stores permit |
+| **lens** | qdrant aperture (SKOS-sourced ColBERT collections) + `binding.json`; materialized repo → runtime | detector/selector sets over event streams; access-path rules (RETE-style field/partition selectors) declaring which telemetry reaches derivation |
+| **voices** | derive prompts, schemas, feedback sources, tool docstrings, vendored writer profile | generator scenario configs + agent surfaces in detection/triage loops |
+| **knobs** | flow parameter defaults | pipeline/job parameter defaults (Flink job configs, window sizes, rates) |
+| **targets** | SchemaPile-mined structural norms, gate floors, brand lexicon | investigation-pattern norms mined from operational reality (query-shape distributions, hot-field rates, tiering policies) — the same epistemic move: *norms measured from the real workload, content-hashed* |
+| **objective** | reasoning tasks in-kind over the system's own artifacts (elucidation, provenance, reverse-engineering) | investigation tasks in-kind (time-bounded reconstruction, attribution, resource forensics, anomaly explanation) — same `tasks/` + `tasks-json/` format |
+
+Two properties transfer with special force:
+
+1. **The producer × judge contract is native wherever generation knows its ground truth.**
+   Synthetic telemetry with planted threat narratives (reference withheld) is the blind-column
+   contract in another modality: the producer generates and scores; an independent judge
+   detects blind. Any modality whose generator knows what it planted gets this for free.
+2. **Window semantics deserve the strongest store available.** Iceberg snapshots make the
+   window pillar exact rather than approximated; when a modality's substrate offers atomic,
+   content-addressed windows, the strategy manifest should pin those identifiers directly.
+
+The portability rule: **if adopting a new modality requires touching anything other than the
+collectors and the task specimens, that is a defect in this repository, not in the modality.**
+
 ## Gaius and Future Extensibility
 
 Gaius is the interactive orchestration, TUI, KB, swarm, and agent platform layer. It is expected to consume the same data products and strategy manifests for reproducibility and explanation. Future work in this repository (or sibling utility layers) may add pillars or sibling manifests to support:
