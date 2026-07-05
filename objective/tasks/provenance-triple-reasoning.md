@@ -1,7 +1,15 @@
 # Provenance Triple Reasoning
 
 ## Description:
-This task requires analyzing or reconstructing the three core determinants of a corpus run — the input window (harvest), the strategy (determinants captured in sdg-strategy), and the code commit — and explaining how specific outcomes (chapter content, construct quality, classification performance, or observed drift) can be attributed to each component. It evaluates the model's ability to perform impact analysis across the provenance triple and to use strategy manifests and run zettels as first-class evidence.
+This task requires analyzing or reconstructing the three core determinants of an input-to-structure elucidation run and explaining how specific properties of the resulting structured framing can be attributed to each. The triple consists of:
+
+- The **input window**: the particular subset or slice of raw, unconstrained source material that was selected and admitted for processing.
+- The **structuring strategy**: the configuration that determines *how* the raw material is turned into coherent structure — including embedding models and retrieval apertures (such as late-interaction / maxsim mechanisms), reference norms or vocabularies, transformation logic, prompts or rules, and any semantic lenses or filters.
+- The **implementation version**: the specific code, models, and pipeline components (including their versions and configurations) that execute the selection and structuring.
+
+Elucidation pipelines take raw inputs (documents, telemetry streams, tabular datasets, unstructured filings, etc.) and produce a coherent, structured representation suitable for querying, classification, reasoning, or further processing. Outcomes — such as the particular entities or attributes identified, the quality and completeness of the framing, classification or retrieval performance, or observed "drift" relative to prior runs — are jointly determined by the triple. The task evaluates the ability to perform rigorous impact analysis and attribution using available provenance evidence (run records, configuration manifests, embedding similarity scores, structural norms, lineage artifacts, etc.).
+
+A complete analysis identifies which element(s) of the triple best explain a difference in outcome and justifies the attribution with concrete evidence.
 
 ## Modality:
 Text only
@@ -13,31 +21,28 @@ Text only
 Input:
 
 ```
-A new run using the same FinePDFs harvest cursor and the same code commit as a prior run produces noticeably different "rich" versus "thin" ratios and lower overall congruence. The only recorded difference is a new strategy_id. 
+Two runs processed overlapping but non-identical slices of raw financial filing documents (10-K and 10-Q exhibits containing textual descriptions of holdings, transactions, and risk factors).
 
-Using the structure of a strategy manifest, identify which pillar changes are most likely to explain the shift in metrology outcomes and why.
+Run A admitted filings for a watchlist of 40 symbols over a 2-year window, using a late-interaction embedding model for semantic retrieval of "material contract" and "related party" sections, plus a reference vocabulary of standardized financial event types. It produced structured prospect records with 87% coverage of key event types according to downstream validation.
+
+Run B used the identical embedding model and reference vocabulary but a narrower 18-month window focused on more recent filings for the same symbols, plus a slightly different section-extraction heuristic in the structuring strategy. It produced records with only 71% coverage of the same event types, with notably weaker capture of long-horizon risk disclosures.
+
+The implementation (code, model weights, and retrieval index) was identical. Using only the run records, admitted document manifests, embedding similarity scores, and section-coverage metrics, determine which part of the triple is primarily responsible for the coverage drop and why the effect was strongest on long-horizon disclosures.
 ```
 
 Output:
 ```
-Most diagnostic pillars to inspect:
+Primary attribution: change in the **input window**.
 
-1. lens/ (especially aiming.snapshot.json and binding.json):
-   - A changed aiming snapshot directly alters which passages are harvested even with the same cursor.
-   - Different collection names or qdrant_url would cause the derive step to operate over a different conceptual aperture.
+Reasoning and evidence:
+- The structuring strategy (late-interaction model + reference vocabulary) was held constant, as were the implementation details. This rules out differences in how sections were embedded or matched once admitted.
+- The window change (full 2-year vs. 18-month recent) directly reduces the pool of older filings. Long-horizon risk disclosures are disproportionately present in earlier parts of the 10-K/10-Q history for many issuers; a recency-biased window therefore systematically under-samples them.
+- Manifests and similarity scores would show that the "missing" event instances in Run B have high embedding similarity to the reference vocabulary but simply were never present in the admitted recent slice.
+- The section-extraction heuristic difference is secondary at best; it would affect precision within admitted documents rather than systematically eliminating entire classes of older disclosures.
 
-2. voices/ (derive.system.md, derive.schema.json, derive.feedback.py, mcp_kvasir.tools.json):
-   - Changes here alter the agent's proposal behavior and the exact form of metrology feedback it receives.
-   - Updated dormant hints or feedback templates can change how many rounds are spent and what "rich" looks like to the agent.
+Secondary contributing factor: the strategy's section-extraction heuristic may interact with window (older filings have different formatting), but the dominant causal factor is the change in which raw material reached the structuring stage. Re-running with the original 2-year window on the same code and strategy should restore coverage.
 
-3. targets/ (schemapile_*_norms.json, floors.json):
-   - Updated SchemaPile norms change what kvasir considers structurally good, directly moving the rich/thin threshold.
-   - Changed gate floors can cause previously acceptable constructs to be rejected or vice versa.
-
-4. knobs/:
-   - Different flow defaults (e.g., passage-chars, rounds, pool) change the operating point of the pipeline even if the underlying voices and targets are similar.
-
-The new strategy_id is the root hash of exactly these component hashes. By comparing the two manifests component-by-component, one can attribute the outcome delta to specific, auditable changes rather than to "the model got lucky."
+This attribution can be further validated by computing the distribution of filing dates for the "missed" events in Run A versus the admitted set in Run B.
 ```
 
 ---
@@ -47,31 +52,87 @@ The new strategy_id is the root hash of exactly these component hashes. By compa
 Input:
 
 ```
-An Atelier blind classification run on a pinned sdg-corpora release shows lower macro-F1 than a previous release on the same held-out columns. The release notes mention only that a new strategy was used for the corpus generation. 
+Two runs processed sets of raw relational table descriptions (column names, types, sample values, and free-text documentation) drawn from a large collection of heterogeneous source schemas.
 
-What evidence from the strategy manifest and run zettels would you examine to determine whether the change should be attributed to the strategy versus other factors?
+Run A used a broad selection of tables (the full "recent" slice of the collection) and a structuring strategy consisting of:
+- late-interaction (maxsim-style) embeddings over column+context for semantic matching against a reference set of known data element patterns;
+- explicit foreign-key graph traversal to propagate type information across related tables;
+- a configurable inclusion/exclusion policy that promoted high-confidence matches to first-class structured elements while demoting or excluding low-confidence or redundant columns.
+
+This produced a coherent framing covering 312 distinct data element types with high congruence to the reference patterns.
+
+Run B used a narrower selection (only tables from a particular subdomain) but an otherwise identical strategy and the same implementation. It produced a framing with only 187 element types; several categories that were prominent in Run A (particularly cross-table identifier and measurement patterns) were almost entirely absent or collapsed into generic catch-alls.
+
+The raw input collection and implementation were the same; only the admitted table slice and one tunable parameter in the inclusion/exclusion policy differed. Using run manifests, embedding similarity distributions, FK traversal logs, and final element coverage metrics, determine which parts of the triple explain the missing categories and the collapse into generics.
 ```
 
 Output:
 ```
-Key evidence to examine:
+Primary attribution: change in the **input window**, with a secondary interaction from the **structuring strategy**.
 
-- strategy_id recorded in the new corpus run zettels versus the old ones.
-- Full manifest comparison between the two strategy_ids, focusing on:
-  - lens/ changes → different passages harvested → different chapters and constructs → different column distributions for classification.
-  - voices/aegir_writer.md or register_voice.json → changed prose style may affect how clearly table semantics are described, impacting blind classifiers that use chapter text.
-  - targets/ (brand_lexicon, floors) → changes here can alter which entities are admitted or how congruence is computed, indirectly affecting the quality of the released vocabulary and constructs.
-- Per-stage lineage keys (from strategy/lineage.py) for "harvest", "derive", "realize", "prose", and "congruence". A change isolated to the harvest stage key strongly implicates the lens.
-- The actual corpus_columns.parquet or base_rows for the two releases to see whether the set of blind columns or their value distributions shifted.
+Evidence and reasoning:
+- The narrower subdomain slice simply contained far fewer tables exhibiting the cross-table identifier and measurement patterns that were well-represented in the broader collection. Embedding similarity scores for those patterns would be high against the reference set, but the supporting tables were never admitted.
+- FK traversal logs would show fewer traversable paths in the narrower slice, reducing the evidence available to confidently bind elements that rely on relational context.
+- The inclusion/exclusion policy change amplified the effect: with fewer strong candidates, the policy's confidence thresholds (or redundancy rules) caused more borderline cases to be excluded or merged into generic buckets rather than registered as distinct elements.
+- Because the implementation (embedding model, traversal logic, policy engine) was identical, the difference is not in *how* admitted tables were processed, but in *which* tables reached the processor and what supporting context they carried.
 
-If the strategy change is confined to voices/aegir_writer.md with no lens or target movement, the performance drop is more likely attributable to description quality than to a fundamentally different relational substrate.
+The collapse into generics is best explained by the interaction: a sparser window provides weaker per-element evidence, which the (slightly altered) policy then treats more conservatively. Re-admitting the broader slice while holding the policy fixed should recover most of the missing categories. Re-admitting the broad slice *and* reverting the policy parameter should recover even more, confirming both factors.
+
+This can be further diagnosed by comparing the distribution of maxsim scores and FK connectivity for "missing" vs. "captured" patterns across the two windows.
+```
+
+### Example 3:
+
+Input:
+
+```
+Two runs processed multi-channel OpenTelemetry data (spans/traces, metrics, and logs) from a distributed system.
+
+Run A used a broad 6-hour window across all services, ingesting full spans with attributes and events, all metrics (gauges and histograms), and correlated logs (with trace_id links). The structuring strategy applied:
+- late-interaction embeddings over span names + log bodies + selected attributes for semantic retrieval of "error propagation" and "latency anomaly" patterns against a reference set of known incident signatures;
+- cross-channel correlation rules that link spans to metric spikes and log errors within the same trace;
+- a configurable windowing policy that included full context (parent spans, linked events) for any matching trace.
+
+This produced high-fidelity structured incident graphs with detailed causal chains and 92% recall against a held-out validation set of labeled incidents.
+
+Run B used a narrower 90-minute window focused on the exact period of a known incident, but only spans and metrics (no logs), plus the same embedding model and reference signatures. It used a stricter correlation threshold and dropped linked events to reduce data volume. It produced graphs with only 61% recall; several known causal links were missing or collapsed into generic "high latency" nodes, and no log-derived context was present.
+
+The implementation (data loader, embedding index, correlation engine) was identical between runs. Using only the run manifests (which list exact time ranges, service filters, channel selections, and strategy parameters), trace/span identifiers present in each output graph, embedding similarity scores for the retrieved patterns, and the final graph completeness metrics, determine which parts of the triple primarily explain the drop in fidelity and missing causal links.
+```
+
+Output:
+```
+Primary attribution: change in the **input window** (specifically the channel selection and temporal scope), with a secondary interaction from the **structuring strategy** (correlation threshold and event inclusion policy).
+
+Evidence and reasoning:
+- The narrower time window in Run B simply did not contain the preceding and following context spans that established the root cause in Run A. Even perfect strategy and code cannot recover signals that were never admitted.
+- Complete omission of the logs channel in Run B eliminated an entire source of causal evidence (error messages and stack traces correlated via trace_id). The strategy's cross-channel rules explicitly rely on log bodies for disambiguation; without the channel, those rules have nothing to operate on. This is visible in the run manifest (logs channel excluded) and in the absence of any log-derived nodes or attributes in the Run B graphs.
+- Embedding similarity scores for the "error propagation" signatures would still be high on the spans that *were* present, but the supporting context (prior spans in the trace, correlated metric histograms, log events) was outside the admitted window or channel.
+- The stricter correlation threshold and dropped linked events in the strategy amplified the data loss: borderline but valid links from the broader window were filtered, and the lack of full event context made some chains unrecoverable.
+
+The implementation being identical rules out bugs in loading or embedding computation as the cause. Replaying the exact same 90-minute window with the original broad strategy parameters (full channels + events + original threshold) on the same code should recover most of the missing links attributable to the strategy change alone. The remaining gap would be attributable purely to the reduced input window.
+
+This can be further diagnosed by:
+- Diffing the set of trace_ids present in the two output graphs.
+- Checking whether the "missing" traces in Run B had high embedding similarity to reference signatures but were excluded by the time/channel filters.
+- Verifying that log-derived attributes appear only in Run A outputs for the critical causal steps.
 ```
 
 ## Tags:
 - Provenance
-- Strategy Manifest
 - Impact Analysis
 - Reproducibility
 - Critical Thinking
-- Relational Data
+- Structured Data Elucidation
+- Semantic Strategy
+- Input Selection
 - Synthetic
+- Embeddings
+- Multi-Channel Telemetry
+- Schema Analysis
+
+## Citations:
+- ISO/IEC 11179 family — for the general shape of registrable data element descriptions
+- ColBERT / late-interaction retrieval literature — for maxsim-style semantic matching over rich contexts
+- OpenLineage and related provenance models — for the value of explicit window/strategy/code attribution in data pipelines
+- OpenTelemetry specification — for the structure of multi-channel telemetry (traces, metrics, logs) and built-in correlation via trace/span context
