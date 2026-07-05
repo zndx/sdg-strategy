@@ -40,7 +40,7 @@ Releases are produced by `aegir.lineup sync` (gated by schema-CI + OQuaRE) and `
 
 This repository. A content-addressed, Merkle-shaped record of every outcome-shaping factor that is *neither* the raw input window (FinePDFs harvest cursor + passages) *nor* the code commit.
 
-A run is determined by the **provenance simplex** `(window, strategy, code)` — three interdependent factors whose interactions shape every outcome (named after the 2-simplex, the complete graph on three vertices).
+A run is determined by the **provenance simplex** `(window, strategy, code)` — three interdependent factors whose interactions shape every outcome (named after the 2-simplex — the filled triangle on three vertices: pairwise edges and the joint interior, because attributions land on vertices, edges, and occasionally the interior).
 
 `strategy_id` is the root identity. Release tags and zettel identifiers are names.
 
