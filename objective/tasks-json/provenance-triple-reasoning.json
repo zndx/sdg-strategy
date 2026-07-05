@@ -1,0 +1,30 @@
+{
+  "name": "Provenance Triple Reasoning",
+  "description": "This task requires analyzing or reconstructing the three core determinants of a corpus run — the input window (harvest), the strategy (determinants captured in sdg-strategy), and the code commit — and explaining how specific outcomes (chapter content, construct quality, classification performance, or observed drift) can be attributed to each component. It evaluates the model's ability to perform impact analysis across the provenance triple and to use strategy manifests and run zettels as first-class evidence.",
+  "modality": "Text only",
+  "diagram": null,
+  "citations": null,
+  "examples": [
+    [
+      {
+        "input": "A new run using the same FinePDFs harvest cursor and the same code commit as a prior run produces noticeably different \"rich\" versus \"thin\" ratios and lower overall congruence. The only recorded difference is a new strategy_id. Using the structure of a strategy manifest, identify which pillar changes are most likely to explain the shift in metrology outcomes and why.",
+        "output": "Most diagnostic pillars to inspect:\n\n1. lens/ (especially aiming.snapshot.json and binding.json):\n   - A changed aiming snapshot directly alters which passages are harvested even with the same cursor.\n   - Different collection names or qdrant_url would cause the derive step to operate over a different conceptual aperture.\n\n2. voices/ (derive.system.md, derive.schema.json, derive.feedback.py, mcp_kvasir.tools.json):\n   - Changes here alter the agent's proposal behavior and the exact form of metrology feedback it receives.\n   - Updated dormant hints or feedback templates can change how many rounds are spent and what \"rich\" looks like to the agent.\n\n3. targets/ (schemapile_*_norms.json, floors.json):\n   - Updated SchemaPile norms change what kvasir considers structurally good, directly moving the rich/thin threshold.\n   - Changed gate floors can cause previously acceptable constructs to be rejected or vice versa.\n\n4. knobs/:\n   - Different flow defaults (e.g., passage-chars, rounds, pool) change the operating point of the pipeline even if the underlying voices and targets are similar.\n\nThe new strategy_id is the root hash of exactly these component hashes. By comparing the two manifests component-by-component, one can attribute the outcome delta to specific, auditable changes rather than to \"the model got lucky.\""
+      }
+    ],
+    [
+      {
+        "input": "An Atelier blind classification run on a pinned sdg-corpora release shows lower macro-F1 than a previous release on the same held-out columns. The release notes mention only that a new strategy was used for the corpus generation. What evidence from the strategy manifest and run zettels would you examine to determine whether the change should be attributed to the strategy versus other factors?",
+        "output": "Key evidence to examine:\n\n- strategy_id recorded in the new corpus run zettels versus the old ones.\n- Full manifest comparison between the two strategy_ids, focusing on:\n  - lens/ changes \u2192 different passages harvested \u2192 different chapters and constructs \u2192 different column distributions for classification.\n  - voices/aegir_writer.md or register_voice.json \u2192 changed prose style may affect how clearly table semantics are described, impacting blind classifiers that use chapter text.\n  - targets/ (brand_lexicon, floors) \u2192 changes here can alter which entities are admitted or how congruence is computed, indirectly affecting the quality of the released vocabulary and constructs.\n- Per-stage lineage keys (from strategy/lineage.py) for \"harvest\", \"derive\", \"realize\", \"prose\", and \"congruence\". A change isolated to the harvest stage key strongly implicates the lens.\n- The actual corpus_columns.parquet or base_rows for the two releases to see whether the set of blind columns or their value distributions shifted.\n\nIf the strategy change is confined to voices/aegir_writer.md with no lens or target movement, the performance drop is more likely attributable to description quality than to a fundamentally different relational substrate."
+      }
+    ]
+  ],
+  "tags": [
+    "Provenance",
+    "Strategy Manifest",
+    "Impact Analysis",
+    "Reproducibility",
+    "Critical Thinking",
+    "Relational Data",
+    "Synthetic"
+  ]
+}

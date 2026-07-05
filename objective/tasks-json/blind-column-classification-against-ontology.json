@@ -1,0 +1,30 @@
+{
+  "name": "Blind Column Classification Against Ontology Vocabulary",
+  "description": "This task requires classifying relational columns (given only their name, data type hints, representative values, table context, and chapter prose) into the appropriate concepts from a provided ontology-derived vocabulary, without access to any withheld reference mappings or ground-truth labels. It evaluates the model's ability to perform the same blind classification that an independent judge (such as Atelier) would perform, using only the visible signals that would be available in a real deployment of the sdg-corpora data product.",
+  "modality": "Text only",
+  "diagram": null,
+  "citations": null,
+  "examples": [
+    [
+      {
+        "input": "Vocabulary excerpt (codes and labels):\n- CUST.IDENTIFIER: Customer identifier\n- CUST.NAME: Legal or display name of a customer or organization\n- TXN.AMOUNT: Monetary amount of a transaction or line item\n- TXN.TIMESTAMP: Point in time when a transaction or event occurred\n- REL.FOREIGN_KEY: Reference to another entity via foreign key relationship\n\nClassify the following column from a blind perspective:\nTable: orders\nColumn: cust_email\nType hint: varchar\nSample values: [\"alice@example.com\", \"bob.smith@corp.co\", \"guest-9921@temp.mail\"]\nTable context from chapter: \"The orders table records purchases. cust_email captures the contact address provided at checkout; for logged-in users this usually matches the customer master record.\"",
+        "output": "Primary classification: CUST.NAME (or more specifically a contact-oriented subclass if available)\n\nReasoning:\n- The values are clearly email addresses, which function as human-readable identifiers or contact points rather than opaque surrogate keys.\n- The chapter explicitly calls it a \"contact address provided at checkout\", aligning with name/contact semantics rather than pure identifier semantics.\n- While it could serve as an identifier in some systems, the presence of recognizable name-like content (local part before @) and the chapter language favor a name/contact category over a pure CUST.IDENTIFIER.\n- It is not a monetary amount or timestamp.\n- REL.FOREIGN_KEY is unlikely because the values do not look like internal keys from another table.\n\nConfidence notes for blind setting: Moderate. The email format is strong evidence, but without the reference we cannot know whether the original construct author chose to model this strictly as an identifier or as a contact attribute."
+      }
+    ],
+    [
+      {
+        "input": "Vocabulary excerpt:\n- FIN.TXN.AMOUNT: Monetary value in a financial transaction\n- FIN.TXN.QUANTITY: Count or quantity of items in a transaction line\n- PROD.IDENTIFIER: Unique identifier for a product or SKU\n- EVENT.TIMESTAMP: Time at which an event or state change was recorded\n\nClassify this column blindly:\nTable: order_lines\nColumn: qty\nType hint: integer\nSample values: [1, 2, 5, 12, 1]\nChapter note: \"qty represents the number of units purchased for the line item. Always positive. Used together with unit_price to compute line total.\"",
+        "output": "Primary classification: FIN.TXN.QUANTITY\n\nReasoning:\n- Values are small positive integers with no decimal component, inconsistent with monetary amounts.\n- The chapter directly states it is \"the number of units purchased\" and is multiplied by unit_price, which is the classic quantity role in transaction lines.\n- Not a product identifier (values repeat across different products and are too small).\n- Not a timestamp.\n- The combination with a price column to derive a total is a strong indicator of the quantity semantic.\n\nAlternative considered: Could be mis-modeled as amount in some source systems, but the explicit chapter language and integer distribution rule this out in favor of quantity."
+      }
+    ]
+  ],
+  "tags": [
+    "Column Type Annotation",
+    "Blind Classification",
+    "Relational Data",
+    "Ontology Vocabulary",
+    "Critical Thinking",
+    "Data Interpretation",
+    "Synthetic"
+  ]
+}
