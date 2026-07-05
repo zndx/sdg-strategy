@@ -1,8 +1,10 @@
 {
- "strategy_id": "6a9b9d3587d7",
+ "strategy_id": "d62846b1a987",
  "components": {
   "knobs/flow_defaults.json": "29ae91aff0b0b06ef37862663da071c197368464398a87ad0c7ba5f98ad8ba48",
-  "lens/aperture.snapshot.json": "f7015b60a43eedd14225aecac58358d24237e0334feb42e0dafaf78d873f40e7",
+  "lens/aiming.snapshot.json": "df555358e4a7eddc385f53997a62b42ba5cf1a5c7d1626a36f7280d160c1a64a",
+  "lens/binding.json": "cf71372769c169ff8758ebb40c45edbc2bfc46bbf780464dc2eb7f49d7fb5ad4",
+  "lens/vocab.snapshot.json": "f7015b60a43eedd14225aecac58358d24237e0334feb42e0dafaf78d873f40e7",
   "targets/brand_lexicon.json": "feae30a0f0cbc1a2c2dd33478ea478a25cdd54aa661fcda935d0fa66a3c0dad8",
   "targets/floors.json": "829a595b7489b95b3e1d6ecab236bb754664b926388f122243b5bb607a523ffa",
   "targets/schemapile_key_norms.json": "92f5dc4889af89ab3f4f24ddf382797355141e3e23dae686d82cbab9f531ba74",
@@ -19,7 +21,9 @@
  },
  "pillars": {
   "lens": [
-   "lens/aperture.snapshot.json"
+   "lens/aiming.snapshot.json",
+   "lens/binding.json",
+   "lens/vocab.snapshot.json"
   ],
   "voices": [
    "voices/aegir_writer.md",
