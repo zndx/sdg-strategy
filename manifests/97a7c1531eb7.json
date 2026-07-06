@@ -1,10 +1,12 @@
 {
- "strategy_id": "d62846b1a987",
+ "strategy_id": "97a7c1531eb7",
  "components": {
-  "knobs/flow_defaults.json": "29ae91aff0b0b06ef37862663da071c197368464398a87ad0c7ba5f98ad8ba48",
-  "lens/aiming.snapshot.json": "df555358e4a7eddc385f53997a62b42ba5cf1a5c7d1626a36f7280d160c1a64a",
+  "knobs/flow_defaults.json": "913a99f7781a4603d8c7612a9c13b44384cd5add6b2f7d0c62c005008a12c8b2",
+  "lens/aiming.skos.ttl": "2693a0251f89325f48dc91b596c6243547b08eeeb062220ab50be99f3b7f445a",
+  "lens/aiming.snapshot.json": "e87af453daa65e4ec9584a106d7effafcd7be59803b136252b5f05da646da404",
   "lens/binding.json": "cf71372769c169ff8758ebb40c45edbc2bfc46bbf780464dc2eb7f49d7fb5ad4",
-  "lens/vocab.snapshot.json": "f7015b60a43eedd14225aecac58358d24237e0334feb42e0dafaf78d873f40e7",
+  "lens/vocab.skos.ttl": "691235a50d7545d4cf69f49f72a6882c25e1ca0798ea52996a1cbe99401c3e4a",
+  "lens/vocab.snapshot.json": "7b1610b798c53de09067d43ad7e8bc1b5162706cb673d7ae2668d671efc06488",
   "targets/brand_lexicon.json": "feae30a0f0cbc1a2c2dd33478ea478a25cdd54aa661fcda935d0fa66a3c0dad8",
   "targets/floors.json": "829a595b7489b95b3e1d6ecab236bb754664b926388f122243b5bb607a523ffa",
   "targets/schemapile_key_norms.json": "92f5dc4889af89ab3f4f24ddf382797355141e3e23dae686d82cbab9f531ba74",
@@ -21,8 +23,10 @@
  },
  "pillars": {
   "lens": [
+   "lens/aiming.skos.ttl",
    "lens/aiming.snapshot.json",
    "lens/binding.json",
+   "lens/vocab.skos.ttl",
    "lens/vocab.snapshot.json"
   ],
   "voices": [

@@ -1,1 +1,1 @@
-{"backends": null, "corpus": null, "entities-from": null, "harvest-target": null, "n-passages": null, "output-dir": null, "passage-chars": null, "pool": null, "rounds": null, "skip-hermit": null}
+{"backends": null, "corpus": null, "entities-from": null, "harvest-target": null, "n-passages": null, "output-dir": null, "passage-chars": null, "pool": null, "rounds": null, "skip-hermit": null, "strategy": null}
