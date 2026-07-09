@@ -1,0 +1,55 @@
+{
+ "strategy_id": "ab5490569e8e",
+ "components": {
+  "knobs/flow_defaults.json": "913a99f7781a4603d8c7612a9c13b44384cd5add6b2f7d0c62c005008a12c8b2",
+  "lens/aiming.skos.ttl": "2693a0251f89325f48dc91b596c6243547b08eeeb062220ab50be99f3b7f445a",
+  "lens/aiming.snapshot.json": "e87af453daa65e4ec9584a106d7effafcd7be59803b136252b5f05da646da404",
+  "lens/binding.json": "cf71372769c169ff8758ebb40c45edbc2bfc46bbf780464dc2eb7f49d7fb5ad4",
+  "lens/vocab.skos.ttl": "a41ea06f80eae7dff5c49d31b3fd347bada38ffca275367b6a019728a85d1d86",
+  "lens/vocab.snapshot.json": "7b1610b798c53de09067d43ad7e8bc1b5162706cb673d7ae2668d671efc06488",
+  "targets/brand_lexicon.json": "feae30a0f0cbc1a2c2dd33478ea478a25cdd54aa661fcda935d0fa66a3c0dad8",
+  "targets/collections_unit.json": "037b88bd796476d31cb42fbedb0d9512232aafdc4a84090966236047d63d204c",
+  "targets/floors.json": "829a595b7489b95b3e1d6ecab236bb754664b926388f122243b5bb607a523ffa",
+  "targets/schemapile_key_norms.json": "92f5dc4889af89ab3f4f24ddf382797355141e3e23dae686d82cbab9f531ba74",
+  "targets/schemapile_shape_norms.json": "4000c3fc9f8c32ea87bcc754c84be6f2f9f46760a9b966c1a6ed7e6ed20f7113",
+  "voices/aegir_writer.md": "8f02bfcb7dd4b5bd866d0d526bf7832a45684cdbc90508556a4b1c55cf6b69ea",
+  "voices/backend.local.toml": "c8cac9ea9017bbd029f8439871c35281095abe76b854335f289d494c92532ef4",
+  "voices/derive.dormant_hints.json": "33ec098cd7804b6fd87eabf5f0ed690f9df1c2f395795ed02439155878001b40",
+  "voices/derive.feedback.py": "8096d3e6e09510e6038808d14188e410eeec6f98d07faab8d88eb08d1751f101",
+  "voices/derive.schema.json": "2f3249d8d72a2b08245f268e4585e8a3839526702ca0d2fe736fa13ba3f50842",
+  "voices/derive.system.md": "a25cd69bda05a67edcb94b68e8c851333604673d1a0514a36f08456250a29fab",
+  "voices/mcp_kvasir.tools.json": "57f79ff039673f5961f2fa88561aa783511d9dae2d3d1f98860287550110572d",
+  "voices/register_voice.json": "10766842096a4c44bc4d15b4f83ab499ff8e8c4ff6977cbc40e4a3870227bf51",
+  "voices/turn_protocol.md": "0ed89aa0dec1c72a7dd666bcf0aa8c2511003564b8e311caf6300d2beb91d9a7"
+ },
+ "pillars": {
+  "lens": [
+   "lens/aiming.skos.ttl",
+   "lens/aiming.snapshot.json",
+   "lens/binding.json",
+   "lens/vocab.skos.ttl",
+   "lens/vocab.snapshot.json"
+  ],
+  "voices": [
+   "voices/aegir_writer.md",
+   "voices/backend.local.toml",
+   "voices/derive.dormant_hints.json",
+   "voices/derive.feedback.py",
+   "voices/derive.schema.json",
+   "voices/derive.system.md",
+   "voices/mcp_kvasir.tools.json",
+   "voices/register_voice.json",
+   "voices/turn_protocol.md"
+  ],
+  "knobs": [
+   "knobs/flow_defaults.json"
+  ],
+  "targets": [
+   "targets/brand_lexicon.json",
+   "targets/collections_unit.json",
+   "targets/floors.json",
+   "targets/schemapile_key_norms.json",
+   "targets/schemapile_shape_norms.json"
+  ]
+ }
+}
