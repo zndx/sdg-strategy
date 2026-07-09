@@ -1,0 +1,27 @@
+{
+ "doctrine": "presentation \u2260 identifier: the render register (how a table LOOKS in a document) is distinct from its schema identity. The DDL/footer keep physical snake_case + surrogate `id` (load-bearing for CTA/CPA); the PROSE table is rendered human. Fix scope: tells 1\u20132 (lead-key, header register) via presentation.py; tell 3 (value shape) is a standing materialization gap.",
+ "reference_finepdfs": {
+  "lead_id_rate": 0.016,
+  "machine_header_rate": 0.006,
+  "human_header_rate": 0.448,
+  "unit_header_rate": 0.13,
+  "value_mask_entropy": 0.516,
+  "freetext_col_rate": 0.539
+ },
+ "baseline_ours": {
+  "lead_id_rate": 0.86,
+  "machine_header_rate": 0.876,
+  "human_header_rate": 0.0,
+  "unit_header_rate": 0.0,
+  "value_mask_entropy": 0.096,
+  "freetext_col_rate": 0.111
+ },
+ "targets": {
+  "lead_id_rate_max": 0.1,
+  "machine_header_rate_max": 0.2,
+  "value_mask_entropy_min": 0.3,
+  "R_register_min": 0.6
+ },
+ "metric": "aegir.ontology.table_register.score_register",
+ "measured_by": "scripts/essence_probe.py (build/\u2026 ) + verify_chapters R_register"
+}
