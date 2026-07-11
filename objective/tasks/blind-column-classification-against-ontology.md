@@ -9,7 +9,7 @@ The reasoner **produces** an opinion over domain categories from column-level ev
 
 This framing matches hierarchical probability distributions from models such as the hierarchical NHSVM (Crammer-Singer style): mass may sit on a parent when evidence supports the broader category but not a unique child.
 
-
+### Opinion algebra (normative, self-contained)
 
 #### Opinion
 

@@ -7,7 +7,7 @@ This task requires inferring **boundary-relative opinion states** and their **li
 
 Through-line: a label or cross-participant verdict is a **lossy projection of an opinion relative to a boundary** — never a free-standing fact about p. Recover ω, check scope, then discount or fuse.
 
-
+### Opinion algebra (normative, self-contained)
 
 #### Opinion
 
