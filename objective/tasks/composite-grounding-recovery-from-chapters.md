@@ -159,14 +159,15 @@ Examples:
 
 When leaf grounding under-determines among children, default coarsened parents:
 
-The three real CCO ICE children under genus `cco:ont00000958` (Information Content Entity) — cited by
-authoritative IRI, never a coined CamelCase alias:
+The three real CCO ICE children under genus `cco:ont00000958` (rdfs:label “Information Content Entity”; skos:altLabel “ICE”) — cited by authoritative IRI, never a coined CamelCase alias. Display names in this card use **skos:altLabel** (not a shortened rdfs:label):
 
-| parent (CCO IRI) | label | typical leaves |
-|------------------|-------|----------------|
-| `cco:ont00000686` | Designative ICE | identifiers, codes used as names, surrogate-adjacent designators |
-| `cco:ont00000853` | Descriptive ICE | measurements, quantities, free descriptions, timestamps of occurrence |
-| `cco:ont00000965` | Prescriptive ICE | status codes, directives, controlled state vocabularies |
+| parent (CCO IRI) | skos:altLabel | rdfs:label (full) | typical leaves |
+|------------------|---------------|-------------------|----------------|
+| `cco:ont00000686` | Designative ICE | Designative Information Content Entity | identifiers, codes used as names, surrogate-adjacent designators |
+| `cco:ont00000853` | Descriptive ICE | Descriptive Information Content Entity | measurements, quantities, free descriptions, timestamps of occurrence |
+| `cco:ont00000965` | **Directive ICE** | Prescriptive Information Content Entity | status codes, directives, controlled state vocabularies |
+
+**Label discipline:** for Designative/Descriptive, skos:altLabel is the natural short form of rdfs:label. For `cco:ont00000965`, CCO’s skos:altLabel is **Directive ICE** while rdfs:label is **Prescriptive Information Content Entity** — different head words. **“Prescriptive ICE” is not a CCO label** (it mashes rdfs:label’s “Prescriptive …” with the “… ICE” altLabel pattern) and must not appear as if authoritative. Prefer IRI + skos:altLabel in paths: `cco:ont00000965 (Directive ICE)`.
 
 Inherit coarsened counting / projection rules from the opinion algebra (W = 2; parent mass atomic under v1).
 
@@ -428,7 +429,7 @@ Grammar: v1 (self-contained in description)
 Frame (subtree) + base rates a(·):
   Shipment (0.20), Order (0.15), Carrier (0.10)
   designated_by → cco:ont00000686 (Designative ICE) (0.15)
-  has_status → cco:ont00000965 (Prescriptive ICE) (0.15)
+  has_status → cco:ont00000965 (Directive ICE) (0.15)
   shipped_at, delivered_at → cco:ont00000853 (Descriptive ICE) / time (0.25 split across time props)
 Simulator fact: alignment unique for columns below; one grammar-valid witness family is direct FKs from shipments → orders and shipments → carriers (junction alternatives exist and are free).
 
@@ -461,7 +462,7 @@ Per column (composite ⇐ path; witness sketch):
 - carrier_name ⇐ Shipment —carried_by→ Carrier —designated_by→ cco:ont00000686 (Designative ICE)
   (or has_name → cco:ont00000853 (Descriptive ICE) — free under J when prose only says “name”)
   same J pattern as order_ref for the FK path
-- status ⇐ Shipment —has_status→ cco:ont00000965 (Prescriptive ICE)
+- status ⇐ Shipment —has_status→ cco:ont00000965 (Directive ICE)
   ĝ: datatype/code column; v̂: project
 - shipped_at, delivered_at ⇐ Shipment —time props→ cco:ont00000853 (Descriptive ICE)
   delivered_at nullability consistent with prose “in flight”
@@ -623,9 +624,9 @@ Input:
 
 ```
 Grammar: v1 (self-contained in description)
-Frame + a(·): Shipment (0.25), has_status→ cco:ont00000965 (Prescriptive ICE) (0.25),
+Frame + a(·): Shipment (0.25), has_status→ cco:ont00000965 (Directive ICE) (0.25),
   has_note→ cco:ont00000853 (Descriptive ICE) (0.25), cco:ont00000686 Designative ICE (0.25)
-Simulator fact: alignment maps status → has_status → cco:ont00000965 (Prescriptive ICE). Sample values are controlled codes.
+Simulator fact: alignment maps status → has_status → cco:ont00000965 (Directive ICE). Sample values are controlled codes.
 
 Chapter prose: "The status field free-texts a long narrative of what happened to the parcel in customer language."
 
@@ -641,10 +642,10 @@ Output:
 ```
 Verdict classes: **Q + V**
 
-Conflict: prose claims free-text narrative (cco:ont00000853 Descriptive ICE); signature + samples are low-cardinality codes (cco:ont00000965 Prescriptive ICE / has_status).
+Conflict: prose claims free-text narrative (cco:ont00000853 Descriptive ICE); signature + samples are low-cardinality codes (cco:ont00000965 Directive ICE / has_status).
 
 Correct moves (either acceptable if ω-calibrated):
-- Prefer signature+samples for V: status ⇐ has_status→ cco:ont00000965 (Prescriptive ICE) with residual u for prose drift; **or**
+- Prefer signature+samples for V: status ⇐ has_status→ cco:ont00000965 (Directive ICE) with residual u for prose drift; **or**
 - Coarsen under genus cco:ont00000958 with mass on both ont00000853 and ont00000965 under coarsened rules; **or**
 - Underdetermined + probe
 
