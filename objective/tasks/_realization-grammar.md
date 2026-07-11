@@ -1,17 +1,12 @@
-# Realization Grammar (v1)
+# Realization Grammar (authoring extract)
 
-**Normative for** `composite-grounding-recovery-from-chapters` (and any task that
-scores a relational **witness** under ontology→table→view composition).
+**Non-normative.** Open-Reasoning-Tasks style cards are standalone: the binding
+realization grammar is **inlined** in:
 
-Task cards **include this module by reference**. `tasks-json` regeneration
-**inlines** it mechanically into the task description — do not hand-maintain a
-divergent copy in JSON.
+- `composite-grounding-recovery-from-chapters.md`
 
-Derived from the programme’s realize / spine / chapter-view paths (normalized,
-EAV, junction, star/snowflake profiles; projection and FK-join views). v1 is the
-**minimal licensed subset** specimens use. Expansion ledger at the end.
-
----
+Edit that task file for export. Keep this extract in sync only as an editor
+convenience when changing the shared surface.
 
 ## Forward composition
 
