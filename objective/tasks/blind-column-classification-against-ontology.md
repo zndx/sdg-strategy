@@ -12,7 +12,7 @@ First-order role of this task (vs second-order loop reasoning in *Boundary-Relat
 - Here the reasoner **produces** an opinion over domain categories from column-level evidence (blind: no reference key).
 - There the reasoner **recovers** multi-participant opinions, scope, discount, and licensed fusion from message traces.
 
-This framing matches hierarchical probability distributions from models such as the hierarchical NHSVM (Crammer-Singer style) in Atelier: mass may sit on a parent when evidence supports the broader category but not a unique child. The opinion view separates committed belief from uncommitted uncertainty and keeps base rates explicit for projection (P ≈ b + a·u; a is load-bearing when u is high).
+This framing matches hierarchical probability distributions from models such as the hierarchical NHSVM (Crammer-Singer style) in Atelier: mass may sit on a parent when evidence supports the broader category but not a unique child. Under the shared algebra's **v1 coarsened-partition default**, that parent mass is an atomic frame element (“subtree / role, leaf unresolved”) for projection — it does **not** hyper-redistribute into children. The opinion view separates committed belief from uncommitted uncertainty and keeps base rates explicit for projection (P(x) ≈ b(x) + a(x)·u; a is load-bearing when u is high).
 
 **Base rates are first-class.** Specimens pin a(·) over the relevant vocabulary frame (empirical frequencies when given; otherwise state underdetermination). Do not silently invent a.
 
@@ -57,10 +57,13 @@ Table context from chapter: "The orders table records purchases. cust_email capt
 
 Output:
 ```
-Subjective Opinion (multinomial over the CUST subtree):
+Subjective Opinion (multinomial over a **coarsened partition** of the CUST taxonomy):
+
+Frame elements treated as disjoint for projection (v1 default — see _opinion-algebra.md):
+CUST.EMAIL | CUST.CONTACT | CUST.NAME | CUST.IDENTIFIER | (other mass absorbed in listed terms here)
 
 - b(CUST.EMAIL) = 0.68
-- b(CUST.CONTACT) = 0.12     # parent mass: contact role clear; leaf discrimination incomplete
+- b(CUST.CONTACT) = 0.12     # atomic coarsened element: contact-typed, leaf deliberately unresolved — NOT hyper-mass to redistribute into EMAIL/PHONE
 - b(CUST.NAME) = 0.05
 - b(CUST.IDENTIFIER) = 0.02
 - u = 0.13
@@ -68,14 +71,18 @@ Subjective Opinion (multinomial over the CUST subtree):
 
 Base rates (from boundary/frame prior, not invented):
 - a(CUST.EMAIL) = 0.35
+- a(CUST.CONTACT) = 0.20
+  (priors sum to 1 over the full pinned frame including NAME, IDENTIFIER, other)
 
-Projected probability:
-- CUST.EMAIL ≈ 0.68 + 0.13*0.35 ≈ 0.725
+Projected probability (partition formula only — parent mass does not flow into children):
+- P(CUST.EMAIL) ≈ 0.68 + 0.13*0.35 ≈ 0.725
+- P(CUST.CONTACT) ≈ 0.12 + 0.13*0.20 ≈ 0.146
+  A hyper-opinion reading that folded b(CONTACT) into EMAIL via relative child base rates would yield a *different* P(EMAIL); that reading is out of scope for v1 and is not ground truth here.
 
 Reasoning:
 - Strong positive evidence for CUST.EMAIL: canonical email-shaped values; chapter says "contact address".
-- Mass on CUST.CONTACT parent rather than forcing a pure leaf — hierarchical residual when channel subtypes remain possible.
-- u = 0.13 licensed in the blind setting: without the withheld reference, dual-use as identifier in guest flows is not excluded (calibration: residual u w.r.t. key is correct).
+- Mass on CUST.CONTACT as its own coarsened outcome: evidence supports contact role while leaving open that the authoritative leaf might be CONTACT-general (or another channel) under the withheld key — committed belief in “contact-typed, leaf unresolved,” not uncommitted u and not a share of EMAIL.
+- u = 0.13 licensed in the blind setting: dual-use as identifier in guest flows is not excluded (calibration: residual u w.r.t. key is correct).
 - Emitting only the label CUST.EMAIL with no u would be **label collapse** — a lossy projection of this opinion.
 
 Downstream: this ω is fusion-ready under the shared v1 operator rules (cumulative only with independent sources; refuse double-counting).

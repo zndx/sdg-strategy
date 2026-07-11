@@ -15,10 +15,18 @@ An **opinion** on a binary proposition is ω = (b, d, u, a) with b + d + u = 1:
 | **u** | uncertainty mass (uncommitted epistemic residual) |
 | **a** | base rate (prior used when projecting expectation from residual u) |
 
-**Projected probability** (expectation): P ≈ b + a·u.  
+**Projected probability** (expectation), for an element of a **partition** frame: P(x) ≈ b(x) + a(x)·u.  
 Because a weights the unresolved mass, **a is load-bearing precisely when u is high** — the usual regime in metrology and blind settings.
 
-**Multinomial opinions** assign belief masses over a frame of categories (or taxonomy subtrees) plus a shared u; each category may carry its own base rate a(·) over the frame.
+**Multinomial opinions** assign belief masses over a frame of categories plus a shared u, with Σᵢ b(xᵢ) + u = 1; each frame element may carry its own base rate a(·) with Σᵢ a(xᵢ) = 1.
+
+### Hierarchical taxonomies: coarsened partition (v1 default)
+
+Taxonomy specimens often place mass on both a **parent** (e.g. CUST.CONTACT) and a **child** (e.g. CUST.EMAIL). In full hyper-opinion terms that parent mass is mass on a *superset* and, under hyper-opinion projection, would partially flow into P(EMAIL) weighted by relative child base rates — yielding a different P(EMAIL) than the partition formula.
+
+**v1 default for this programme:** the projection frame is a **coarsened partition**. Parent nodes that carry belief mass are **atomic, disjoint frame elements** meaning “this subtree / role, leaf deliberately unresolved.” Projection uses P(x) ≈ b(x) + a(x)·u with **no automatic redistribution** of parent mass into children. Ground truth is therefore unique: P(EMAIL) does **not** receive a share of b(CONTACT).
+
+Reading parent mass as “undischarged among children” (true hyper-opinion) is **out of scope for v1** unless a specimen explicitly opts in and states the hyper-opinion projection rule. Specimens and keys must use coarsened-partition language (“contact-typed, leaf unresolved as its own frame element”), not “mass that should flow into EMAIL.”
 
 ## Qualitative bins (default)
 
@@ -33,9 +41,11 @@ Qualitative answers are licensed when consistent with the trace. Approximate ban
 
 "Thin evidence" in this table means **high uncertainty mass**, not a product-label synonym for "bad."
 
-## Evidence ↔ opinion (beta bijection)
+## Evidence ↔ opinion (bijection)
 
-When a specimen supplies evidence counts, the ground-truth map is the **beta–opinion bijection** with default non-informative weight **W = 2**:
+Default non-informative weight **W = 2** in all cases below.
+
+### Binomial (binary proposition)
 
 ```
 b = r / (r + s + W)
@@ -46,7 +56,18 @@ u = W / (r + s + W)
 - **r** — positive evidence mass (admitted confirming signals, under the specimen's counting rule)
 - **s** — negative evidence mass (admitted disconfirming signals)
 
-Ground truth for a participant's opinion is **computable from the simulated trace**: count what crossed its membrane, apply the bijection, apply the stated base rate. No free-text mental-state grading is required.
+### Multinomial (Dirichlet generalization)
+
+For a frame {x₁, …, xₖ} with non-negative evidence counts rᵢ on each element:
+
+```
+b(xᵢ) = rᵢ / (W + Σⱼ rⱼ)
+u     = W / (W + Σⱼ rⱼ)
+```
+
+**W = 2 regardless of frame cardinality k.** A common error is to take W = k (or W = k+1) by false analogy with a Dirichlet(1,…,1) prior dimension count; under this module the non-informative weight stays **W = 2** whether the frame is binary or multi-way. (The binary case is the specialisation r = r₊, s = r₋, same W.)
+
+Ground truth for a participant's opinion is **computable from the simulated trace**: count what crossed its membrane, apply the appropriate bijection, apply the stated base rates. No free-text mental-state grading is required.
 
 ## Base rates are first-class
 
