@@ -28,6 +28,24 @@ Taxonomy specimens often place mass on both a **parent** (e.g. CUST.CONTACT) and
 
 Reading parent mass as “undischarged among children” (true hyper-opinion) is **out of scope for v1** unless a specimen explicitly opts in and states the hyper-opinion projection rule. Specimens and keys must use coarsened-partition language (“contact-typed, leaf unresolved as its own frame element”), not “mass that should flow into EMAIL.”
 
+#### Coarsened counting rule (required for computable parent mass)
+
+Design principle: the correct ω is **computable from the simulated trace** — count admitted evidence, apply the bijection. Once parents are atomic frame elements, the generator needs a rule for when evidence accrues to a **parent** rather than a **leaf**. Without it, simulators only ever produce leaf-granular counts, ground-truth ω never carries parent mass, and any emitted parent mass (which this module encourages when leaf discrimination is incomplete) scores as divergence from spec — advice and scoring map at war.
+
+**v1 default counting rule** (specimens may refine, not silently omit):
+
+| signal character (after membrane admission) | count accrues to |
+|---------------------------------------------|------------------|
+| Discriminates a specific leaf (or other atomic element) under the frame | +1 to r(that leaf / element) |
+| Consistent with a parent type / role but **non-discriminating among its children** | +1 to r(that parent as coarsened atom) |
+| Contradicts a leaf or parent under the specimen's negative-evidence rule | +1 to the corresponding negative mass / opposing element as the specimen defines |
+
+Only after counts are assigned on the **same coarsened frame** used for projection does the multinomial bijection produce ground-truth b(·) and u, including non-zero b(parent) when the trace truly under-discriminates leaves.
+
+#### v1 scoring over coarsened opinion space
+
+Whatever distance metric the gate uses on opinion space, **v1 treats coarsened frame elements as atomic**: mass on the correct parent and mass on a wrong subtree are equidistant from mass on the correct leaf unless the metric is redefined. **Hierarchical partial credit is out of scope for v1** — deliberate, parallel to the fusion-operator restriction. A later version may introduce taxonomy-aware distances; until then, do not grade “near miss on parent” as closer than “wrong branch” under the default atomic metric.
+
 ## Qualitative bins (default)
 
 Qualitative answers are licensed when consistent with the trace. Approximate bands when numbers are used:
