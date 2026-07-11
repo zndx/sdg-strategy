@@ -161,7 +161,7 @@ Verdict classes: **O + X + H/stage**
    - (c) importance weights if propensities are modeled.
    Raw rich-rate improvement under A is partly **population change**, not only better work on shared passages.
 
-3. Stage role: full vocab as harvest rifle is usually a **mis-binding**. Vocab's primary job is congruence/grounding downstream; using it as C at harvest dilutes admission (off-domain 2100) even though its non-empty definitions + wide net can still admit *more* LIMS-tagged text than a tight rich aiming set — cardinality and coverage, not a refutation of content-first. H: binding must declare which collection is the harvest aperture.
+3. Stage role: full vocab as harvest aperture is usually a **mis-binding** for this pipeline: its primary role is later congruence/grounding; as harvest C it admits heavy off-domain mass (2100) while still, via cardinality and residual definitions, admitting more LIMS-tagged text than tight aiming. H: binding must declare which collection is the harvest aperture.
 
 Confirming probe: score the same 200 labeled canaries under A and V (correction b); recompute rich-rate and V on that fixed set. If A's advantage shrinks to near zero on the intersection/probe while remaining large on conditioned rates, the selection artifact is confirmed.
 ```
@@ -347,7 +347,7 @@ Admission under claim + τ:
 
 If K2 misses (sim actually < τ or not in index): falsifies "cataloging covered" — either DATAENG definitions are poor/empty (separation failure), wrong collection binding, or index not materialized from claimed SKOS (H/materialize defect).
 
-(Relation to Example 1 Membrane V: rejecting K5 does not forbid a large vocab collection from admitting many passages — vocab entries with *some* definitional text plus high |C| can clear τ. K5 is the zero-definition litany canary, not a miniature of sdg_domains.)
+K5 is the zero-definition litany canary. A large vocabulary collection whose entries still carry definitional text can clear τ for many passages; that case is cardinality-plus-definitions, distinct from K5.
 
 Confirming probe: inject K1–K6 into the live stream (or offline MaxSim table against production C); require the admit/reject pattern above. Expanding C to energy should flip K6 without flipping K3.
 ```
@@ -396,15 +396,13 @@ Confirming probe:
 
 ## Tags:
 - Aperture Selection
-- Harvest Membrane
-- Lens Configuration
+- Information Retrieval
+- Late Interaction
+- MaxSim
 - Operating Point
 - Selection Effects
-- Comparability
+- Experimental Design
 - Drift Attribution
-- Blind Spots
-- Information Retrieval
 - Metrology
-- Provenance Simplex
-- Strategy Identity
+- Systems Thinking
 - Synthetic
