@@ -416,7 +416,7 @@ Joint target often written carelessly as a single p; keep the factors distinct:
 - p_sem: "chosen IRI is the author's intended concept" (not disposed by this loop).
 
 Trace:
-1. Boundary emits CONTAMINATION{ref: cco:ont00000965, ...} — ref NOT IN authority (CCO pin 2026-04-04).
+1. Boundary emits CONTAMINATION{ref: cco:DirectiveICE, ...} — ref NOT IN authority (CCO pin 2026-04-04).  <!-- coined-ok: rejection-context; hallucinated external name -->
 2. Remediate request includes live CANDIDATES from current CCO (**five IRIs**) + rules + signal.
 3. Agent returns Manchester axiom using cco:ont00000965 + rationale.
 4. Parse membrane: OK.

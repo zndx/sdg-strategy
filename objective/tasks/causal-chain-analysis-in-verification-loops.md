@@ -253,7 +253,7 @@ Replay: frozen-suffix (Remediate proposals exogenous; parse/formal/dispose deriv
 
 Trace:
 
-t0  detect: CONTAMINATION ref=cco:ont00000965
+t0  detect: CONTAMINATION ref=cco:DirectiveICE  <!-- coined-ok: rejection-context; hallucinated external name -->
 t1  Remediate: candidates=[five IRIs]; axiom uses cco:ont00000965
 t2  parse: OK   [derived]
 t3  formal: unsat (disjointness involving ont00000965)   [derived]
