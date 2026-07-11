@@ -17,23 +17,27 @@ This task requires **designing, predicting, and auditing the harvest aperture** 
 
 ### What an aperture is (the membrane)
 
-An **aperture** is an admission surface over passages (or analogous units). Late-interaction / MaxSim-style `sim` scores against concept **definitional text** (content-first SKOS, not label litany).
+An **aperture** is an admission surface over passages (or analogous units).
+
+**Reference text binding (Aegir):** `sim` **is** Qdrant/ColBERT **MaxSim** — not a cosine-over-single-vector stand-in and not “MaxSim-style.” Concepts and passages are encoded as ColBERTv2 multi-vectors (`colbert_encoder`); the aiming/vocab collections are Qdrant multivector indexes with `MultiVectorComparator.MAX_SIM`; harvest and congruence query via native MaxSim (`aegir.ontology.domain_index`). Score is against concept **definitional text** (content-first SKOS: prefLabel + altLabel + definition + scopeNote + comment — not label litany). In specimens, `sim(e(p), e(c))` means that MaxSim unless the specimen names a different scorer.
+
+Other modalities (e.g. telemetry detector sets) may substitute a different scored admission function; they must **name** it. Do not read bare `sim` as dense cosine unless a specimen says so.
 
 **Admission regime (declare per specimen — the two have different theorems):**
 
 | regime | rule | monotonicity in C |
 |--------|------|-------------------|
-| **threshold** | `admit(p) ⇔ ∃ c ∈ C. sim(e(p), e(c)) ≥ τ` | **Monotone:** C ⊆ C′ ⇒ A(C) ⊆ A(C′). Intersection A ∩ A′ = A when C ⊆ C′. |
-| **top-k / budget** | score every p by s(p) = max_{c∈C} sim(e(p), e(c)); admit the top k (or fill budget B) among those with s(p) ≥ τ_floor if a floor is set | **Non-monotone:** enlarging C re-ranks the pool; previously admitted passages can be **evicted** by new competitors. \|A\| may be fixed by construction. |
+| **threshold** | `admit(p) ⇔ ∃ c ∈ C. MaxSim(e(p), e(c)) ≥ τ` | **Monotone:** C ⊆ C′ ⇒ A(C) ⊆ A(C′). Intersection A ∩ A′ = A when C ⊆ C′. |
+| **top-k / budget** | score every p by s(p) = max_{c∈C} MaxSim(e(p), e(c)); admit the top k (or fill budget B) among those with s(p) ≥ τ_floor if a floor is set | **Non-monotone:** enlarging C re-ranks the pool; previously admitted passages can be **evicted** by new competitors. \|A\| may be fixed by construction. |
 
 Every specimen **must state its regime**. Unmarked regime is a defect. Intuition that “adding concepts only grows the set” holds only under threshold; under budget it is a trap.
 
 | component | role | must be pinned for metrology-grade harvest |
 |-----------|------|-----------------------------------------------|
-| **C** | concept set (aiming SKOS → ColBERT collection points) | `lens/aiming.skos.ttl` + `lens/aiming.snapshot.json` |
+| **C** | concept set (aiming SKOS → ColBERT multivector points) | `lens/aiming.skos.ttl` + `lens/aiming.snapshot.json` |
 | **τ / k / B** | threshold and/or top-k budget / floor policy | knobs / harvest policy in strategy — **regime parameters** |
-| **e** | embedding / late-interaction **model version** | model id + weights digest — **part of the membrane**, not an invisible constant |
-| **index** | ANN realization (HNSW `ef`/`M`, quantization, exact vs approx) | either hashed into the strategy or **exact search mandated at the gate** |
+| **e** | ColBERT / late-interaction **model version** (multi-vector encoder) | model id + weights digest — **part of the membrane**, not an invisible constant |
+| **index** | ANN realization (HNSW `ef`/`M`, quantization, exact vs approx MaxSim) | either hashed into the strategy or **exact search mandated at the gate** |
 
 **Effective aperture** is a function of `(C, regime params, e, index)`, not of `C` alone. Two runs with identical `strategy_id` that omit `e` or `index` from the hash can harvest **different** sets — a metrology defect. Live reference shape: aiming collection `sdg_aperture` (composite multi-domain concepts, rich definitions) vs full vocab `sdg_domains` (classification vocabulary; primary role is later congruence/grounding, not the harvest rifle). Binding declares runtime collection names; materialize is repo → Qdrant.
 
