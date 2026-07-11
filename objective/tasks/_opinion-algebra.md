@@ -1,8 +1,13 @@
-# Opinion Algebra (shared)
+# Opinion Algebra (authoring extract)
 
-Normative surface for tasks that produce or consume **subjective opinions**
-(boundary-relative or first-order). Task cards include this module by reference;
-do not maintain a divergent copy of the bijection, bins, or operator list.
+**Non-normative.** Open-Reasoning-Tasks style cards are standalone: the binding
+opinion algebra is **inlined** in:
+
+- `boundary-relative-opinion-states-in-cas-architectures.md`
+- `blind-column-classification-against-ontology.md`
+
+Edit those task files for export. Keep this extract in sync only as an editor
+convenience when changing the shared surface.
 
 ## Opinion
 
