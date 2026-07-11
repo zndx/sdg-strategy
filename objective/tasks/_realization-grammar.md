@@ -138,11 +138,14 @@ Examples:
 
 When leaf grounding under-determines among children, default coarsened parents:
 
-| parent | typical leaves |
-|--------|----------------|
-| **DesignativeICE** | identifiers, codes used as names, surrogate-adjacent designators |
-| **DescriptiveICE** | measurements, quantities, free descriptions, timestamps of occurrence |
-| **PrescriptiveICE** | status codes, directives, controlled state vocabularies |
+The three real CCO ICE children under genus `cco:ont00000958` (Information Content Entity) — cited by
+authoritative IRI, never a coined CamelCase alias:
+
+| parent (CCO IRI) | label | typical leaves |
+|------------------|-------|----------------|
+| `cco:ont00000686` | Designative ICE | identifiers, codes used as names, surrogate-adjacent designators |
+| `cco:ont00000853` | Descriptive ICE | measurements, quantities, free descriptions, timestamps of occurrence |
+| `cco:ont00000965` | Prescriptive ICE | status codes, directives, controlled state vocabularies |
 
 Inherit coarsened counting / projection rules from the opinion algebra (W = 2; parent mass atomic under v1).
 

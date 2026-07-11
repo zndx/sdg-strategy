@@ -159,11 +159,14 @@ Examples:
 
 When leaf grounding under-determines among children, default coarsened parents:
 
-| parent | typical leaves |
-|--------|----------------|
-| **DesignativeICE** | identifiers, codes used as names, surrogate-adjacent designators |
-| **DescriptiveICE** | measurements, quantities, free descriptions, timestamps of occurrence |
-| **PrescriptiveICE** | status codes, directives, controlled state vocabularies |
+The three real CCO ICE children under genus `cco:ont00000958` (Information Content Entity) — cited by
+authoritative IRI, never a coined CamelCase alias:
+
+| parent (CCO IRI) | label | typical leaves |
+|------------------|-------|----------------|
+| `cco:ont00000686` | Designative ICE | identifiers, codes used as names, surrogate-adjacent designators |
+| `cco:ont00000853` | Descriptive ICE | measurements, quantities, free descriptions, timestamps of occurrence |
+| `cco:ont00000965` | Prescriptive ICE | status codes, directives, controlled state vocabularies |
 
 Inherit coarsened counting / projection rules from the opinion algebra (W = 2; parent mass atomic under v1).
 
@@ -424,9 +427,9 @@ Input:
 Grammar: v1 (self-contained in description)
 Frame (subtree) + base rates a(·):
   Shipment (0.20), Order (0.15), Carrier (0.10)
-  designated_by → DesignativeICE (0.15)
-  has_status → PrescriptiveICE (0.15)
-  shipped_at, delivered_at → DescriptiveICE / time (0.25 split across time props)
+  designated_by → Designative ICE (0.15)
+  has_status → Prescriptive ICE (0.15)
+  shipped_at, delivered_at → Descriptive ICE / time (0.25 split across time props)
 Simulator fact: alignment unique for columns below; one grammar-valid witness family is direct FKs from shipments → orders and shipments → carriers (junction alternatives exist and are free).
 
 Chapter prose (excerpt):
@@ -449,17 +452,17 @@ Grammar: v1 (self-contained in description)
 Verdict classes: **V + W + J**
 
 Per column (composite ⇐ path; witness sketch):
-- shipment_id ⇐ Shipment —designated_by→ DesignativeICE
+- shipment_id ⇐ Shipment —designated_by→ Designative ICE
   ĝ: Shipment→table shipments; designative col or natural id; v̂: project
   free: surrogate vs natural id style; forced: some stable identifier on Shipment
-- order_ref ⇐ Shipment —fulfills→ Order —designated_by→ DesignativeICE
+- order_ref ⇐ Shipment —fulfills→ Order —designated_by→ Designative ICE
   ĝ: object property → FK (direct or via junction); v̂: join+project designative of Order
   **forced:** an FK path Shipment→Order exists; **free:** direct FK vs junction; table/column names
-- carrier_name ⇐ Shipment —carried_by→ Carrier —designated_by→ DesignativeICE (or has_name→DescriptiveICE)
+- carrier_name ⇐ Shipment —carried_by→ Carrier —designated_by→ Designative ICE (or has_name→Descriptive ICE)
   same J pattern as order_ref
-- status ⇐ Shipment —has_status→ PrescriptiveICE
+- status ⇐ Shipment —has_status→ Prescriptive ICE
   ĝ: datatype/code column; v̂: project
-- shipped_at, delivered_at ⇐ Shipment —time props→ DescriptiveICE
+- shipped_at, delivered_at ⇐ Shipment —time props→ Descriptive ICE
   delivered_at nullability consistent with prose “in flight”
 
 Artifacts: none required beyond possible surrogate if shipment_id is synthetic (then **I** with identifier-policy witness).
@@ -526,7 +529,7 @@ Input:
 
 ```
 Grammar: v1 (self-contained in description)
-Frame + a(·): Order (0.2), Customer (0.2), involves_agent (0.15), designated_by (0.15), NameICE under Designative (0.15), placed_at (0.15)
+Frame + a(·): Order (0.2), Customer (0.2), involves_agent (0.15), designated_by (0.15), Designative ICE under Designative (0.15), placed_at (0.15)
 Simulator fact: two grammar-valid factorizations for the customer name chain:
   (F1) direct FK order.customer_id → customer.id + name column on customer;
   (F2) junction order_party(order_id, customer_id) realizing involves_agent.
@@ -549,9 +552,9 @@ Output:
 Verdict classes: **V + W + J**
 
 Composite (V):
-- order_id ⇐ Order —designated_by→ DesignativeICE
-- placed_at ⇐ Order —placed_at→ DescriptiveICE
-- customer_name ⇐ Order —involves_agent→ Customer —designated_by→ NameICE (Designative)
+- order_id ⇐ Order —designated_by→ Designative ICE
+- placed_at ⇐ Order —placed_at→ Descriptive ICE
+- customer_name ⇐ Order —involves_agent→ Customer —designated_by→ Designative ICE (Designative)
 
 Witness (W) — two valid sketches:
 - F1: ĝ Order→orders, Customer→customers, FK orders.customer_id; v̂ join on FK, project name
@@ -559,9 +562,9 @@ Witness (W) — two valid sketches:
 
 J:
 - **Forced:** an FK-capable path Order→Customer exists (shared names across order_id values imply re-joinable customer identity)
-- **Free:** direct FK vs junction; table and column names; whether name is designative vs descriptive leaf under NameICE
+- **Free:** direct FK vs junction; table and column names; whether name is designative vs descriptive leaf under Designative ICE
 
-ω: high b on composite path; u on leaf NameICE vs broader Designative when prose only says “display name”
+ω: high b on composite path; u on leaf Designative ICE vs broader Designative when prose only says “display name”
 
 Confirming probe: third view listing customer_id alone would still leave F1/F2 free; exposing a junction-shaped sample would force F2.
 ```
@@ -591,8 +594,8 @@ Output:
 Verdict classes: **V + W + I + Y**
 
 V:
-- sku ⇐ Product —has_sku→ DesignativeICE
-- label ⇐ Product —has_label→ DescriptiveICE
+- sku ⇐ Product —has_sku→ Designative ICE
+- label ⇐ Product —has_label→ Descriptive ICE
 
 I (artifacts) + witness:
 - row_id — surrogate identifier policy under ĝ (no ontological referent); v̂ project
@@ -614,8 +617,8 @@ Input:
 
 ```
 Grammar: v1 (self-contained in description)
-Frame + a(·): Shipment (0.25), has_status→PrescriptiveICE (0.25), has_note→DescriptiveICE (0.25), DesignativeICE (0.25)
-Simulator fact: alignment maps status → has_status (PrescriptiveICE). Sample values are controlled codes.
+Frame + a(·): Shipment (0.25), has_status→Prescriptive ICE (0.25), has_note→Descriptive ICE (0.25), Designative ICE (0.25)
+Simulator fact: alignment maps status → has_status (Prescriptive ICE). Sample values are controlled codes.
 
 Chapter prose: "The status field free-texts a long narrative of what happened to the parcel in customer language."
 
@@ -631,10 +634,10 @@ Output:
 ```
 Verdict classes: **Q + V**
 
-Conflict: prose claims free-text narrative (DescriptiveICE); signature + samples are low-cardinality codes (PrescriptiveICE / has_status).
+Conflict: prose claims free-text narrative (Descriptive ICE); signature + samples are low-cardinality codes (Prescriptive ICE / has_status).
 
 Correct moves (either acceptable if ω-calibrated):
-- Prefer signature+samples for V: status ⇐ has_status→PrescriptiveICE with residual u for prose drift; **or**
+- Prefer signature+samples for V: status ⇐ has_status→Prescriptive ICE with residual u for prose drift; **or**
 - Coarsen to parent ICE undecided between Descriptive/Prescriptive with mass on both children under coarsened rules; **or**
 - Underdetermined + probe
 
@@ -657,7 +660,7 @@ Simulator fact: colleague witness below fails **internal commutativity** (criter
 Chapter + view `v_order_customer` as in spirit of Example 3 (order_id, customer_name, order_total).
 
 Colleague’s candidate witness (given as input):
-  Composite claim: customer_name ⇐ Order —involves_agent→ Customer —designated_by→ NameICE
+  Composite claim: customer_name ⇐ Order —involves_agent→ Customer —designated_by→ Designative ICE
   ĝ: tables orders, customers; **no FK / no junction** between them
   v̂: "join orders to customers on orders.customer_name = customers.name"
 ```
@@ -668,7 +671,7 @@ Verdict classes: **W** (primary) + V note
 
 W failure: v̂ joins on **non-key / non-FK** columns; grammar forbids join-on-name. Also ĝ never realizes involves_agent as a relation edge, so the composite path through involves_agent **does not commute** with the witness (diagnostic: claimed property P absent from ĝ while V cites P).
 
-Repair sketch (any legal one): introduce FK or junction for involves_agent; join only on that edge; project NameICE.
+Repair sketch (any legal one): introduce FK or junction for involves_agent; join only on that edge; project Designative ICE.
 
 V: composite claim may still be the right endpoint path; the task is to reject the broken square, not to invent DDL identity.
 

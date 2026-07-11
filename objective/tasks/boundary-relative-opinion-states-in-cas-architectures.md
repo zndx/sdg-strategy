@@ -416,7 +416,7 @@ Joint target often written carelessly as a single p; keep the factors distinct:
 - p_sem: "chosen IRI is the author's intended concept" (not disposed by this loop).
 
 Trace:
-1. Boundary emits CONTAMINATION{ref: cco:DirectiveICE, ...} — ref NOT IN authority (CCO pin 2026-04-04).
+1. Boundary emits CONTAMINATION{ref: cco:ont00000965, ...} — ref NOT IN authority (CCO pin 2026-04-04).
 2. Remediate request includes live CANDIDATES from current CCO (**five IRIs**) + rules + signal.
 3. Agent returns Manchester axiom using cco:ont00000965 + rationale.
 4. Parse membrane: OK.
@@ -432,7 +432,7 @@ Partial permeability:
 - Parse: syntax only.
 - HermiT: TBox+ABox consistency only.
 
-Retired anti-pattern: static dict DirectiveICE → ont00000965 without candidates.
+Retired anti-pattern: static dict DirectiveICE → ont00000965 without candidates.  <!-- coined-ok: rejection-context -->
 
 Recover opinions per hop with scope. Are dict path and candidate path epistemically equivalent?
 ```
@@ -443,7 +443,7 @@ Proposition: p_auth, p_syn, p_con, p_sem (distinct)
 Verdict classes: **S + P + C**
 
 Participant opinions after the successful trace:
-- Boundary on "DirectiveICE ∈ authority": high d, low u. On p_auth for a replacement: near-vacuous until a candidate is chosen.
+- Boundary on "DirectiveICE ∈ authority": high d, low u. On p_auth for a replacement: near-vacuous until a candidate is chosen.  <!-- coined-ok: rejection-context -->
 - Agent on p_auth for ont00000965: high b if candidates are authority-filtered (membership evidence is the candidate list). On p_sem: residual u — semantic fit under-determined. Pre-HermiT on p_con for this candidate: high u with **a ≈ 0.2** (uniform over five), not low u.
 - Parse on p_syn: high b, low u. On p_auth / p_con / p_sem: **no opinion** (S).
 - HermiT on p_con: high b, low u after msg 5. On p_sem: **no opinion**. On p_auth: does not add membership evidence beyond consistency of whatever IRI was asserted.
