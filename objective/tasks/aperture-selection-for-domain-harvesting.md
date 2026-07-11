@@ -212,7 +212,9 @@ V(∅)    = −2·2000 = **−4000**
 
 τ* = **0.62** under this cost model: best among tabulated τ and **beats abstention** (−1360 > −4000). Negative V means the stated prices still prefer running at 0.62 over not harvesting; "all grid points negative" is not a license to abstain without comparing V(∅).
 
-Knife-edge (deliberate): V(0.62) − V(0.75) = 40 at c_miss = 2. Equating V(0.62)=V(0.75) yields c_miss* = (1440−1100−740 − (1120−500−220)) / (900−480) = 200/420 ≈ **1.90**. So 0.62 beats 0.75 only for c_miss > ≈1.90; the specimen is built so the ranking is thin at the stated c_miss = 2 — making underdetermination-without-c_miss vivid, not accidental.
+Knife-edge (deliberate): V(0.62) − V(0.75) = 40 at c_miss = 2. Equating V(0.62)=V(0.75):
+  (−400 − 480 c) = (400 − 900 c)  ⇒  420 c = 800  ⇒  c_miss* = 800/420 ≈ **1.90**.
+So 0.62 beats 0.75 only for c_miss > ≈1.90; the specimen is built so the ranking is thin at the stated c_miss = 2 — making underdetermination-without-c_miss vivid, not accidental.
 
 If c_miss were unspecified: ranking between 0.62 and 0.75 is **underdetermined** (crosses at ≈1.90); correct output is underdetermination + request for c_miss (or a probe-set recall SLA), not a preferred essay.
 
