@@ -11,6 +11,29 @@ Elucidation pipelines take raw inputs (documents, telemetry streams, tabular dat
 
 A complete analysis derives the attribution FROM the concrete evidence given (manifests, score distributions, identifier diffs, date histograms), states the verdict with its structural fingerprint (window changes produce category-structured deltas aligned to what was admitted; strategy changes produce deltas structured around the altered mechanism; implementation changes tend to produce uniform, distribution-level shifts with preserved rankings), quantifies the decomposition where the evidence permits, and proposes the replay(s) that would confirm or refute it.
 
+In the reference text/telemetry bindings, late-interaction retrieval scores are **MaxSim** (multi-vector maximum similarity), not a generic cosine stand-in, unless a specimen names another scorer.
+
+### Simulator facts (two slots)
+
+| slot | where | purpose |
+|------|--------|---------|
+| **Given assumptions** | input block | Model-visible pins (e.g. “channel selection is strategy, not window”). The model must use them. |
+| **Key ground truth** | key only | Graded targets or hidden alignments. Must not appear in the input. |
+
+### Required output shape
+
+```
+Verdict: window-primary | strategy-primary | implementation-primary
+         | <vertex>×<vertex> edge | interior | underdetermined
+         [+ quantified decomposition when tables permit]
+
+Derivation: cite evidence tables / fingerprints
+
+Confirming replay(s): cost-ordered; predicted outcomes that would confirm or refute
+```
+
+Underdetermined is a first-class correct answer when pins are missing or fingerprints conflict — design the discriminating experiment; do not invent a vertex.
+
 ## Modality:
 Text only
 
@@ -33,6 +56,7 @@ Evidence tables:
 3. Max similarity of the 41 against the reference vocabulary (scored offline): mean 0.71, min 0.62 — all above the 0.55 admission threshold.
 4. The 7 missing-but-in-window events all originate in filings using the pre-2021 EDGAR exhibit format; the section-extraction heuristic's parse-success rate is 96% on post-2021 format, 78% on pre-2021 format.
 
+Given assumptions: selection mechanisms (including section-extraction heuristics) are strategy, not window.
 Attribute the coverage drop. Quantify the decomposition and state the confirming replay.
 ```
 
@@ -74,6 +98,7 @@ Evidence tables:
 4. Max similarity of the 9 against the renamed identifier patterns: 0.55-0.60 (v15) vs 0.70+ (v14).
 5. The 4 remaining map to unchanged entries with v15 scores 0.63-0.71 (above threshold) — they registered under different, more specific type names in B (renames, not losses).
 
+Given assumptions: window and implementation eliminated by the byte-equal manifests and digests stated above.
 Attribute the collapse. State what would confirm it and what the finding implies for the strategy.
 ```
 
@@ -108,7 +133,7 @@ Evidence tables:
 
 1. Of A's 214 links, B misses 78. Partition by requirement: 31 involve at least one span outside B's 90-minute range; 39 require log-derived disambiguation (their correlation in A cites log-body evidence); 8 correlate in A with scores in [0.55, 0.75).
 2. The three classes are disjoint (each missing link assigned to its binding constraint, window first).
-3. Per the task convention: channel selection is a strategy mechanism, not a window property.
+Given assumptions: channel selection is a strategy mechanism, not a window property.
 
 Attribute the recall drop with a quantified decomposition, identify any interaction, and give the discriminating replay plan.
 ```
@@ -151,6 +176,7 @@ Evidence tables:
 3. Rank agreement of retrieved candidates per query, A vs B: Kendall tau 0.96.
 4. The binding losses are exactly the candidates whose A-scores lay in [0.62, 0.67) — the band a ~0.046 deflation pushes under the threshold.
 
+Given assumptions: window and strategy pins are as stated (snapshot ID and strategy root hash equal).
 Attribute the recall drop, evaluate the analyst's proposal, and state the correct remediation.
 ```
 
@@ -181,6 +207,7 @@ Run 1: 4,102 elements registered. Run 2: 3,364 (-18%), with losses spread across
 
 Available evidence: the two output element sets; object-store access logs (retained 90 days — covering Run 2 only); the v3 config as currently deployed; the git reflog for "prod".
 
+Given assumptions: no hidden pins exist beyond what is listed; “prod” and “v2/v3” are the only recorded labels.
 Attribute the difference.
 ```
 
@@ -217,7 +244,7 @@ The durable finding is about provenance, not this incident: pin windows as immut
 
 ## Citations:
 - ISO/IEC 11179 family — for the general shape of registrable data element descriptions
-- ColBERT / late-interaction retrieval literature — for maxsim-style semantic matching over rich contexts
+- ColBERT / late-interaction retrieval literature — for MaxSim semantic matching over rich contexts
 - OpenLineage and related provenance models — for the value of explicit window/strategy/code attribution in data pipelines
 - OpenTelemetry specification — for the structure of multi-channel telemetry (traces, metrics, logs) and built-in correlation via trace/span context
 - Factorial experiment design (Fisher; Box, Hunter & Hunter) — for attribution via controlled replays when observational evidence underdetermines

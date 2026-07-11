@@ -16,6 +16,30 @@ A complete elucidation TERMINATES IN ONE OR MORE DATA ELEMENT RECORDS — the pr
 
 The task evaluates scientific thinking over structured relational data: proposing multiple explanations grounded in multi-table DDL structure, FK relationships, raw values, and the ontology vocabulary; DISCRIMINATING between them with tests; and — in the de novo case — detecting that the current vocabulary lacks the element and producing the registrable definition rather than forcing a bad fit.
 
+Ontology bindings use real BFO/CCO IRIs (or `sdg:` coins with HermiT-checkable grounding). Do not invent identifiers under `cco:` / `bfo:`. Display names for CCO classes use that release’s skos:altLabel when short forms are needed (e.g. `cco:ont00000686` Designative ICE).
+
+### Simulator facts (two slots)
+
+| slot | where | purpose |
+|------|--------|---------|
+| **Given assumptions** | input block | Model-visible pins (SchemaPile rates, lens floors, unit conventions). |
+| **Key ground truth** | key only | Graded alignments or withheld reference codes. Not shown in the input. |
+
+### Required output shape
+
+```
+Hypotheses: H1, H2, … (competing when the evidence underdetermines)
+
+For each hypothesis — Data Element Record(s):
+  name, definition, concept binding, representation, multiplicity/identity,
+  evidence, confidence, falsification tests + adjudicating instruments
+
+Discriminating tests: observations that separate H_i from H_j
+Confirming probe / registration plan: reasoner, structural metrology, lens closure as applicable
+```
+
+A complete answer terminates in **Data Element Records**, not free-form discussion alone.
+
 ## Modality:
 Text only
 
@@ -51,6 +75,8 @@ CREATE TABLE customers (
 );
 
 Observed values: 71% of transactions.cust_ref match customers.email exactly (case-insensitive); 26% are 12-char base36 tokens with no match in customers.id or email; 3% are empty strings. orders declares a customer_id FK; transactions declares none (order_id is an undeclared join). SchemaPile key norms: customer-referencing columns overwhelmingly use role_id naming (customer_id); customer dimensions co-locate surrogate id + email. The ontology defines Customer with hasIdentifier and hasEmailAddress data properties.
+
+Given assumptions: SchemaPile rates and ontology Customer/hasEmailAddress as stated above are model-visible.
 
 Form two hypotheses about the data element(s) represented by cust_ref. Each must terminate in Data Element Record(s), with FK-traversal and inclusion/exclusion decisions, and tests that discriminate between the hypotheses.
 ```
@@ -121,6 +147,8 @@ CREATE TABLE attribute_definitions (
 
 Observed values for attr_name='net_weight': 94% parse as positive decimals; attribute_definitions gives data_type='decimal', unit='kg'; 4% are "N/A" (all on products in category 'digital-download'); 2% are "TBD" (all with effective_from in the future). For attr_name='color': free text, 40 distinct values, 8 cover 95% of rows. SchemaPile shape norms: weight-like attributes appear as dedicated columns on product tables in the majority of product schemas; color-like attributes split between dedicated columns and EAV.
 
+Given assumptions: attribute_definitions and SchemaPile patterns above are model-visible.
+
 Elucidate the data elements hiding in this EAV structure. Terminate in Data Element Records, resolve the sentinel semantics, and decide promotion vs EAV retention per SchemaPile norms.
 ```
 
@@ -177,6 +205,8 @@ CREATE TABLE cure_log (
 
 Sampled values: cure_temp_c in [121.0, 176.5], tight modes at 121.1 and 176.7; cure_dwell_min in [45, 240]; ramp_rate_c_min in [0.5, 3.0]. The concept lens (vocabulary classification) returns no concept above the belief floor for any of the three cure_* columns — nearest hits are generic "Temperature Measurement" and "Duration" with low margins. SchemaPile co-occurrence shows process-parameter triplets (setpoint, dwell, ramp) recurring in process-log tables across manufacturing schemas.
 
+Given assumptions: lens belief-floor gap and SchemaPile process-parameter co-occurrence as stated; bfo:0000015 is process.
+
 The vocabulary lacks these elements. Perform de novo elucidation: detect the gap, form the hypothesis, and produce the registrable Data Element Records plus the ontology registration that verification instruments could admit or refute.
 ```
 
@@ -226,4 +256,4 @@ Verification plan (instruments adjudicate, not the proposer):
 
 ## Citations:
 - ISO/IEC 11179-3 — Metadata registries: data element metamodel (concept + representation)
-- sdg-strategy objective/README.md — programme constitution (de novo Data Element elucidation as the bespoke model's terminal capability)
+- BFO 2020 / CCO — formal grounding for process and quality-style bindings in de novo registration
