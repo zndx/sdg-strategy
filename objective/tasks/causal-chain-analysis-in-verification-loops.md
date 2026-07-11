@@ -11,17 +11,17 @@ Labels such as `thin` / `rich` / `CORRECTED` appear as **opaque trace events** w
 
 Stages are a **graph**, not a flat list. Unless a specimen overrides it, the normative graph is:
 
-```
-                    ┌──────────────────────────────┐
-                    │                              ▼
-  admit ──► propose ──► structural ──► (accept?) ──► formal ──► dispose
-                 ▲              │ no / thin
-                 │              ▼
-                 └──────── feedback
-                              │ (max rounds exhausted, still thin)
-                              ▼
-                           escalate ──► formal?  [only if policy edge present]
-                                    └──► dispose(escalate|reject)
+```mermaid
+flowchart TD
+  admit([admit]) --> propose[propose]
+  propose --> structural[structural]
+  structural -->|accept| formal[formal]
+  structural -->|thin / no| feedback[feedback]
+  feedback -->|repair| propose
+  feedback -->|max rounds, still thin| escalate[escalate]
+  escalate -->|policy edge present| formal
+  escalate -->|no formal edge| dispose_early[dispose: escalate or reject]
+  formal --> dispose[dispose: certify or reject]
 ```
 
 Edges that matter:
