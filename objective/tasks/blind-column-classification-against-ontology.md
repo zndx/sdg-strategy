@@ -3,15 +3,22 @@
 ## Description:
 This task requires classifying relational columns (given only their name, data type hints, representative values, table context, and chapter prose) against a hierarchically structured ontology vocabulary. The vocabulary is provided with explicit parent-child relationships (using dot-notation codes and parent pointers).
 
-Rather than emitting a single point label or softmax distribution, the required output is a **reasoned opinion** in the style of Subjective Logic. The reasoner must assign:
+Rather than emitting a single point label or softmax distribution, the required output is a **reasoned opinion** under the shared subjective-opinion algebra.
 
-- Belief mass (b) to specific categories or to composite sets representing subtrees (capturing the hierarchical nature of the taxonomy).
-- An explicit uncertainty mass (u) representing epistemic uncertainty remaining after considering the available evidence (small samples, ambiguous context, blind setting with no reference key).
-- Implicit or stated base rates (a) for projection.
+**Normative opinion algebra** (ω, multinomial masses + u, base rates a(·), beta bijection with W = 2, qualitative bins, label collapse, calibration of u to admitted evidence, v1 fusion notes for downstream use): see [`_opinion-algebra.md`](./_opinion-algebra.md). That module is included by reference and is binding for this task.
 
-This framing captures the essence of the hierarchical probability distributions produced by models such as the hierarchical NHSVM (Crammer-Singer style) used in Atelier: the model produces a distribution over the taxonomy tree, but the Subjective Logic view cleanly separates committed belief from uncommitted uncertainty and supports principled hierarchical reasoning (e.g., mass on a parent node when the evidence supports the broader category but is insufficient to distinguish children).
+First-order role of this task (vs second-order loop reasoning in *Boundary-Relative Opinion States in CAS Architectures*):
 
-The task mirrors the blind classification setting used by Atelier as an independent efficacy gate over sdg-corpora releases.
+- Here the reasoner **produces** an opinion over domain categories from column-level evidence (blind: no reference key).
+- There the reasoner **recovers** multi-participant opinions, scope, discount, and licensed fusion from message traces.
+
+This framing matches hierarchical probability distributions from models such as the hierarchical NHSVM (Crammer-Singer style) in Atelier: mass may sit on a parent when evidence supports the broader category but not a unique child. The opinion view separates committed belief from uncommitted uncertainty and keeps base rates explicit for projection (P ≈ b + a·u; a is load-bearing when u is high).
+
+**Base rates are first-class.** Specimens pin a(·) over the relevant vocabulary frame (empirical frequencies when given; otherwise state underdetermination). Do not silently invent a.
+
+**Labels are lossy.** A single leaf code without u is a collapsed projection; the task requires the full opinion (masses + u + a), not a costume label alone.
+
+The setting mirrors Atelier's blind classification gate over sdg-corpora releases: residual u w.r.t. the withheld reference is **correct**, not a defect.
 
 ## Modality:
 Text only
@@ -32,7 +39,14 @@ Hierarchical Vocabulary (code, label, parent_code):
     - CUST.EMAIL: Electronic mail address used for contact or identification (parent: CUST.CONTACT)
     - CUST.PHONE: Telephone or messaging number (parent: CUST.CONTACT)
 
-Classify the following column from a blind perspective. Produce a Subjective Logic-style opinion (belief masses on categories or subtrees + uncertainty mass) together with reasoning:
+Frame prior (pinned base rates over the CUST subtree for projection):
+- a(CUST.EMAIL) = 0.35
+- a(CUST.CONTACT) = 0.20
+- a(CUST.NAME) = 0.20
+- a(CUST.IDENTIFIER) = 0.15
+- a(other/unlisted under CUST) = 0.10
+
+Classify the following column from a blind perspective. Produce a multinomial opinion (belief masses on categories or subtrees + uncertainty mass) using the pinned base rates for any projected probabilities.
 
 Table: orders
 Column: cust_email
@@ -43,27 +57,28 @@ Table context from chapter: "The orders table records purchases. cust_email capt
 
 Output:
 ```
-Subjective Opinion (multinomial over the CUST subtree, in the spirit of Subjective Logic):
+Subjective Opinion (multinomial over the CUST subtree):
 
 - b(CUST.EMAIL) = 0.68
-- b(CUST.CONTACT) = 0.12     # mass on parent: evidence supports contact role but limited discrimination between email vs other channels
+- b(CUST.CONTACT) = 0.12     # parent mass: contact role clear; leaf discrimination incomplete
 - b(CUST.NAME) = 0.05
 - b(CUST.IDENTIFIER) = 0.02
-- u = 0.13                    # uncommitted uncertainty (blind setting, small sample, possible dual use as identifier in guest flows)
+- u = 0.13
+- Σb + u = 1.00
 
-Base rate (a) derived from vocabulary frequency in the broader CUST subtree: a(CUST.EMAIL) ≈ 0.35 (relatively common contact attribute).
+Base rates (from boundary/frame prior, not invented):
+- a(CUST.EMAIL) = 0.35
 
-Projected probability (b + u·a):
+Projected probability:
 - CUST.EMAIL ≈ 0.68 + 0.13*0.35 ≈ 0.725
-- CUST.CONTACT (as category) remains high when uncertainty is considered at the parent level.
 
 Reasoning:
-- Strong positive evidence for CUST.EMAIL: sample values are canonical email addresses; chapter language explicitly uses "contact address".
-- Some belief mass is deliberately placed on the CUST.CONTACT parent rather than forcing a leaf decision. This reflects the hierarchical nature of the taxonomy and the fact that the evidence (while pointing to contact) does not strongly distinguish EMAIL from other future contact subtypes.
-- Residual uncertainty mass (u=0.13) is warranted in the blind setting: without the withheld reference we cannot rule out that in this particular construct the column was intentionally modeled under CUST.IDENTIFIER (e.g., for guest users where email doubles as the key).
-- An NHSVM-style hierarchical classifier would likely produce a probability distribution with high mass on CUST.EMAIL but non-negligible probability mass remaining in the CUST.CONTACT subtree. The Subjective Logic framing makes the epistemic component explicit rather than burying it inside a calibrated softmax.
+- Strong positive evidence for CUST.EMAIL: canonical email-shaped values; chapter says "contact address".
+- Mass on CUST.CONTACT parent rather than forcing a pure leaf — hierarchical residual when channel subtypes remain possible.
+- u = 0.13 licensed in the blind setting: without the withheld reference, dual-use as identifier in guest flows is not excluded (calibration: residual u w.r.t. key is correct).
+- Emitting only the label CUST.EMAIL with no u would be **label collapse** — a lossy projection of this opinion.
 
-This opinion can be used directly for downstream fusion (Dempster-Shafer or Subjective Logic combination operators) with other evidence sources or for pignistic decision making.
+Downstream: this ω is fusion-ready under the shared v1 operator rules (cumulative only with independent sources; refuse double-counting).
 ```
 
 ---
@@ -81,7 +96,13 @@ Hierarchical Vocabulary (code, label, parent_code):
   - FIN.TXN.IDENTIFIER: Transaction or line identifier (parent: FIN.TXN)
   - FIN.TXN.ATTRIBUTE: Generic or auxiliary transaction attribute (parent: FIN.TXN)
 
-Classify the following column from a blind perspective. Output a Subjective Logic opinion reflecting hierarchical uncertainty:
+Frame prior (pinned):
+- a(FIN.TXN.AMOUNT) = 0.30
+- a(FIN.TXN.QUANTITY) = 0.22
+- a(FIN.TXN.IDENTIFIER) = 0.28
+- a(FIN.TXN.ATTRIBUTE) = 0.20
+
+Classify the following column. Output a Subjective Logic opinion reflecting hierarchical uncertainty.
 
 Table: order_lines
 Column: qty
@@ -96,22 +117,22 @@ Subjective Opinion (multinomial over the FIN.TXN subtree):
 
 - b(FIN.TXN.QUANTITY) = 0.78
 - b(FIN.TXN.AMOUNT) = 0.04
-- b(FIN.TXN.ATTRIBUTE) = 0.06     # small mass on generic parent reflecting possible mis-categorization in source
+- b(FIN.TXN.ATTRIBUTE) = 0.06
 - b(FIN.TXN.IDENTIFIER) = 0.01
 - u = 0.11
 
-Base rate a(FIN.TXN.QUANTITY) ≈ 0.22 within the FIN.TXN frame.
+Base rate a(FIN.TXN.QUANTITY) = 0.22 (pinned).
 
 Projected probability:
 - FIN.TXN.QUANTITY ≈ 0.78 + 0.11*0.22 ≈ 0.804
 
 Reasoning:
-- Dominant belief in FIN.TXN.QUANTITY driven by integer distribution, small positive values, and explicit chapter statement that it is multiplied by unit_price to obtain a total.
-- Very low belief in FIN.TXN.AMOUNT because the values lack monetary characteristics (no decimals, no currency variation visible in samples).
-- Modest mass on the FIN.TXN.ATTRIBUTE parent acknowledges that in some source systems a "qty" column can be overloaded with auxiliary flags; the blind view cannot fully exclude this.
-- The uncertainty mass (u = 0.11) is lower than in the previous example because the chapter language is direct and the data type + value pattern are highly diagnostic. An NHSVM hierarchical model would typically place the large majority of its probability mass on the QUANTITY leaf while still leaving a small tail on the parent FIN.TXN node and siblings.
+- Dominant belief in QUANTITY: small positive integers; chapter multiplies by unit_price for line total.
+- Low belief in AMOUNT: no monetary shape in samples.
+- Modest mass on ATTRIBUTE: blind setting cannot fully exclude overloaded flags in other systems.
+- u = 0.11 lower than Example 1: chapter language is direct and type+values are diagnostic — still non-zero because the reference key is withheld (licensed residual).
 
-This opinion cleanly separates the model's hierarchical preference (strong for QUANTITY) from residual epistemic uncertainty that would be useful when fusing with other classifiers or when deciding whether to escalate the column for human review in a blind gate.
+NHSVM-style hierarchical models would place most mass on QUANTITY with a tail on the parent/siblings; the opinion form makes the epistemic component explicit for fusion or escalation (high conflict / high fused u → human review under second-order loop rules).
 ```
 
 ## Tags:

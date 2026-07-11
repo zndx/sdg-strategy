@@ -3,7 +3,11 @@
 ## Description:
 This task requires inferring **boundary-relative opinion states** and their **licensed combinations** from multi-participant message traces in complex adaptive system (CAS) architectures — generative-verification loops, federated remediate services, and independent-judge metrology gates. The objective is operational, not mentalistic:
 
-> From a trace and a partial boundary topology, recover each participant's opinion on the relevant proposition(s), the competence/discount profile that governs how one participant may adopt another's verdict, whether fusion or escalation is licensed, and whether stated uncertainty is calibrated to admitted evidence.
+> From a trace and a partial boundary topology, recover each participant's opinion on the relevant proposition(s), the competence/discount profile that governs how one participant may adopt another's verdict **when the verdict is in scope for that proposition**, whether fusion or escalation is licensed, and whether stated uncertainty is calibrated to admitted evidence.
+
+**Normative opinion algebra** (ω = (b,d,u,a), beta bijection with W = 2, qualitative bins, base-rate rules, label collapse, proposition-scope vs discount, v1 fusion operators cumulative|averaging|refuse, calibration): see [`_opinion-algebra.md`](./_opinion-algebra.md). That module is included by reference and is binding for this task. Do not invent a divergent algebra.
+
+Through-line: a label or cross-participant verdict is a **lossy projection of an opinion relative to a boundary** — never a free-standing fact about p. Recover ω, check scope, then discount or fuse.
 
 ### Architecture (what a participant is)
 
@@ -14,49 +18,19 @@ Each loop participant — proposing agent, structural verifier (kvasir / SchemaP
 - In a federated service architecture the membrane is literal: the contract (message types a service can receive) is the admission surface; tags are fields, enums, and metadata; escalation is a signal routed up an enclosure hierarchy when no interior boundary can dispose the case.
 - Full-duplex / streaming order is wire fact: a verdict issued before a signal was published on the stream is a residual that **does not include** that signal — a false-belief structure grounded in timestamps, not psychology.
 
-**Theory of Mind**, for this task, is defined operationally as: inferring a counterparty's **permeability / competence profile** — which tag classes it filters on, which signals pass, which transformations apply, and how far its verdict should move one's own opinion on a given proposition class — from observed dispositions and the trace.
+**Theory of Mind**, for this task, is defined operationally as: inferring a counterparty's **permeability / competence profile** — which tag classes it filters on, which signals pass, which transformations apply, which propositions its verdicts are *about*, and how far an in-scope verdict should move one's own opinion — from observed dispositions and the trace.
 
-This is the second-order companion to first-order opinion production (e.g. blind column classification against an ontology vocabulary). There, the reasoner emits an opinion over domain categories from data evidence. Here, the reasoner recovers opinions **about propositions and about counterparties**, and which combinations of those opinions the topology licenses.
+This is the second-order companion to first-order opinion production (blind column classification against an ontology vocabulary). There, the reasoner emits an opinion over domain categories from data evidence. Here, the reasoner recovers opinions **about propositions and about counterparties**, and which combinations of those opinions the topology licenses.
 
-### Opinion algebra (minimal surface)
+### Boundary specs must pin base rates
 
-An **opinion** on a binary proposition is written ω = (b, d, u, a) with b + d + u = 1, where:
+Every specimen's boundary topology (or frame prior) should make **a** (or a(·)) recoverable:
 
-- **b** — belief mass for the proposition
-- **d** — disbelief mass against it
-- **u** — uncertainty mass (uncommitted epistemic residual)
-- **a** — base rate (prior for projecting expectation when u is resolved)
+- uniform over n candidates → a = 1/n on "this candidate is the consistent choice" style propositions when no other prior is given;
+- empirical frequency in a declared vocabulary / code-list frame when supplied;
+- explicit a = 0.5 only when binary and no prior is available.
 
-Multinomial opinions (mass over a frame of categories plus a shared u) appear when the proposition is multi-way (e.g. which repair IRI, which ontology class).
-
-**Qualitative flexibility is the default.** Specimens may be answered with ordered qualitative bins and comparative structure rather than floats, provided the bins are consistent with the trace:
-
-| qualitative | approximate numeric band (when numbers are used) |
-|---|---|
-| near-vacuous / very high u | u ≳ 0.6 |
-| high u / thin evidence | u ∈ [0.35, 0.6) |
-| moderate commitment | u ∈ [0.15, 0.35), dominant b or d clear |
-| low u / strong evidence | u < 0.15 |
-
-When a specimen supplies evidence counts, the **beta–opinion bijection** is the ground-truth map (default non-informative weight W = 2):
-
-```
-b = r / (r + s + W)
-d = s / (r + s + W)
-u = W / (r + s + W)
-```
-
-where r is positive evidence mass (admitted confirming signals) and s is negative evidence mass (admitted disconfirming signals). A "thin" structural verdict is high u from small r+s, not a mysterious label. Ground truth for a participant's opinion is **computable from the simulated trace**: count what crossed its membrane, derive ω. No free-text mental-state grading is required.
-
-### Operators that appear at membranes
-
-1. **Trust discounting (scoped competence).** An agent's opinion about a verifier's competence *on a proposition class* discounts that verifier's verdict before adoption. A verifier may be highly trusted inside its tag lexicon (e.g. SchemaPile shape norms) and near-worthless outside it (e.g. external tax-authority codes). The discount parameters *are* the ToM target: not "what does the verifier believe," but "how much should its verdict move me on this class."
-
-2. **Fusion.** Combining opinions from independent sources uses **cumulative** fusion (evidence adds). Combining dependent or recirculated sources requires **averaging** fusion (or refusal to fuse). Feedback loops actively produce dependence: dormant hints re-entering a derive round, shared upstream signals, multiple discounting paths through a shared edge. Choosing the wrong operator is a first-class error.
-
-3. **Conflict and escalation.** When sources assign high b and high d to the same proposition (or fused u stays above a stated threshold), no interior membrane can dispose the case — escalation to a higher enclosure (human curation, withheld-key judge) is forced. Hierarchy forms where the interior cannot process the signal.
-
-4. **Calibration (metrology claim).** A measurement is valid only relative to a boundary topology. Stated uncertainty must be **licensed by admitted evidence**: an opinion whose u is lower than the trace can justify is overconfident (Goodharting / evaluation-niche leak when evaluation signals have crossed into the agent niche). Conversely, residual u with respect to deliberately withheld signals (blind reference keys) is **correct** — collapsing that u without admitting the key would be co-adaptation, not better measurement.
+Projected probability without a pinned base rate is underdetermined; answers must not silently invent a.
 
 ### Question types (verdict space)
 
@@ -64,29 +38,37 @@ A complete answer identifies one or more of:
 
 | code | type | ask |
 |---|---|---|
-| **P** | permeability / competence inference | given verdict sequence + trace, recover the admission profile and scoped discount that explain it |
+| **P** | permeability / competence inference | given verdict sequence + trace, recover the admission profile and scoped discount that explain it (**on an in-scope proposition**) |
 | **T** | tag-mismatch diagnosis | signal admitted but unresolvable — missing tag in lexicon vs blocked at membrane |
 | **E** | escalation reasoning | given opinions + fusion topology, is escalation forced? |
 | **C** | calibration / measurement validity | is stated u licensed by admitted evidence? is the measurement still valid under this topology? |
-| **F** | fusion provenance | do sources share evidence? cumulative vs averaging (or refuse)? |
+| **F** | fusion provenance | do sources share evidence or selection path? cumulative vs averaging (or refuse)? includes selection effects, not only shared messages |
+| **S** | proposition scope / shift | is a counterparty's verdict about p at all, or about q ≠ p? retry dispositions that rename the proposition (p → p′) |
 
-Composite answers are expected when the episode spans types (e.g. T + P + E).
+**S vs P:** out-of-scope is not "discount to zero." HermiT high-b on consistency is an opinion on a formal proposition, not a heavily discounted opinion on reference equality. Composite answers are expected (e.g. T + P + S, F + C).
+
+**Label collapse** (see shared algebra): product labels such as `thin` collapse distinct ω shapes. Specimens may use the same label under different recovered opinions; the task is to re-derive which state obtains.
 
 ### Required output shape
 
 ```
-Proposition: <p>
-Verdict classes: <P|T|E|C|F ...>
+Proposition: <p>   (and any q, p′ distinguished under S)
+
+Verdict classes: <P|T|E|C|F|S ...>
 
 Participant opinions (qualitative bins, or numeric ω when counts are given):
-  <participant>: ω ≈ …   [evidence basis: which admitted msgs / (r,s) if numeric]
+  <participant> on <proposition>: ω ≈ …   [evidence basis; (r,s) if numeric]
+  base rate a: <pinned value or underdetermined>
 
-Competence / discount (when relevant):
+Scope (when relevant):
+  <participant>'s verdict is about <q>; relation to p: same | different | shifted-to p′
+
+Competence / discount (only if in scope for p):
   <trustor> → <trustee> on <proposition class>: <scope> ; discount effect
 
 Fusion:
   operator: cumulative | averaging | refuse
-  license: independent | dependent (shared source: <path>)
+  license: independent | dependent (shared source / selection path: <...>)
   fused posture / conflict: …
 
 Validity / escalation:
@@ -97,7 +79,7 @@ Validity / escalation:
 Confirming probe: <minimal trace or topology change that would flip the verdict>
 ```
 
-Derivation must cite the trace (ordering, which membrane saw what). Guesses that ignore membrane admission or treat recirculated signals as fresh evidence are wrong even if the final disposition "sounds right."
+Derivation must cite the trace (ordering, which membrane saw what, which proposition each message is about). Guesses that ignore membrane admission, treat recirculated or selection-dependent signals as fresh independent evidence, or fuse across proposition scope are wrong even if the final disposition "sounds right."
 
 ## Modality:
 Text only
@@ -109,48 +91,56 @@ Text only
 Input:
 
 ```
-CAS derive loop. Proposition p: "the invoice_line construct is structurally adequate for certification."
+CAS derive loop. Primary proposition p: "the invoice_line construct is structurally adequate for certification."
+Related proposition p_code: "tax_code matches a known code list in the structural reference."
 
 Boundary topology (partial):
 - Agent membrane admits: source passages, prior construct drafts, feedback messages tagged STRUCTURAL_VERDICT or DORMANT_HINT.
 - kvasir membrane admits: column names, types, value samples, SchemaPile shape/key norms. Tag lexicon: distributional shapes, known internal code lists, FK patterns. Does NOT admit: external authority code semantics, chapter business intent, withheld reference keys.
 - Formal membrane (HermiT) not yet invoked this episode.
+- Base rates: a(p_code) = 0.5 (binary match/no-match, no list-frequency prior supplied). a(p) not pinned (composite construct quality) — leave projected P(p) qualitative.
 
 Trace (ordered):
 1. Agent → kvasir: proposal with column tax_code, sample values ["VAT-UK-20", "VAT-UK-5", "VAT-IE-23"].
-2. kvasir → agent: STRUCTURAL_VERDICT{label: thin, note: "no match to known code lists; composite free-text shape"}.
+2. kvasir → agent: STRUCTURAL_VERDICT{label: thin, note: "no match to known code lists; composite free-text shape"; on: tax_code / code-list match}.
 3. Feedback path injects DORMANT_HINT{topic: controlled_vocabularies} (same hint family used in an earlier round on a different table).
 4. Agent revises: adds tax_rate NUMERIC; leaves tax_code unchanged; resubmits.
 
-Also given: in prior rounds on shape-norm propositions (key patterns, numeric measurement columns), the agent has consistently adopted kvasir's non-thin verdicts with little residual doubt.
+Also given: in prior rounds on shape-norm propositions (key patterns, numeric measurement columns), the agent has consistently adopted kvasir's non-thin verdicts with little residual doubt. Evidence notes imply small r+s on p_code (values admitted, none resolving to list entries) — recover high-u shape under label collapse, not high-d.
 
-Recover the boundary-relative opinion states. Diagnose the thin verdict. State the agent's scoped competence model of kvasir, whether the revision is a licensed response, and the confirming probe.
+Recover the boundary-relative opinion states. Diagnose the thin verdict under label collapse. State the agent's scoped competence model of kvasir, whether the revision is a licensed response, and the confirming probe.
 ```
 
 Output:
 ```
-Proposition: p = "invoice_line construct is structurally adequate"
-Verdict classes: **T + P** (tag-mismatch + permeability/competence)
+Proposition: p = "invoice_line construct is structurally adequate"; p_code = "tax_code matches known code list"
+Verdict classes: **T + P + S** (tag-mismatch + competence + scope care on what "thin" is about)
 
 Participant opinions (qualitative):
-- kvasir on p: high u (thin) — low committed b and d. Evidence basis: values admitted but unmatched against its internal code-list lexicon; r+s small on "matches known code list."
-- agent on p after msg 2: still moderate commitment toward adequacy from chapter/passage context, but STRUCTURAL_VERDICT admitted → agent must update. After msg 4: agent behaves as if p is improved by adding a shape-norm-friendly column (tax_rate), i.e. it raised its opinion of structural adequacy without resolving tax_code's semantic tag.
+- kvasir on p_code: **high u**, low b and d — ignorance/unresolved match under small r+s (values in, list hits ~0). Label "thin" here collapses to the high-u branch of label collapse, NOT the high-d branch (contrast Example 2).
+- kvasir on p (whole-construct structural adequacy): only partially informed by p_code; thin on the code-list sub-proposition is not automatically a full opinion on p.
+- agent on p after msg 2: still moderate commitment from chapter/passage context; must update on structural channel. After msg 4: behaves as if p improved via tax_rate (scope-IN shape fix) without resolving p_code.
+- base rate: a(p_code)=0.5 pinned; a(p) underdetermined → keep p qualitative.
+
+Scope (S):
+- msg 2's STRUCTURAL_VERDICT is about p_code (and shape of tax_code), not an all-in disposition of business-correct tax semantics. Treating it as a direct opinion on "tax authority classification is wrong" would be a scope error.
 
 Competence / discount (agent → kvasir):
-- Scope IN: shape norms, keys, numeric rate-like columns — high trust (prior rounds: agent adopts non-thin verdicts).
-- Scope OUT: external tax-authority classification strings — near-zero trust / near-total discount. tax_code carries a tax-authority tag absent from SchemaPile's tag lexicon: the signal is **admitted** (membrane let the column through) but **unresolvable** (no lexicon entry to attach belief to). That is T, not a block.
+- Scope IN: shape norms, keys, numeric rate-like columns — high trust (prior rounds).
+- Scope OUT: external tax-authority classification strings — near-zero trust. tax_code carries a tax-authority tag absent from SchemaPile's lexicon: signal **admitted** but **unresolvable** (T), not membrane-blocked.
 
 Fusion:
-- The DORMANT_HINT (msg 3) is recirculated guidance, not independent evidence about tax_code. It must not be cumulatively fused with kvasir's thin verdict as if it were a new confirming sample. License: **dependent / averaging-or-ignore** for the hint; the thin verdict itself is primary on the structural proposition.
+- DORMANT_HINT (msg 3) is recirculated guidance (shared upstream with thin-family norms), not independent evidence on p_code. License: **dependent → averaging or refuse** w.r.t. kvasir's structural channel; do not cumulative-fuse the hint as a fresh confirming sample.
 
 Validity / escalation:
-- u_licensed for kvasir's thin: yes — small matched evidence on code lists.
-- Agent's revision (add tax_rate) is a **scope-IN response**: it improves a dimension kvasir can score, leaving the scope-OUT mismatch untouched. Structural score may rise while the semantic tag mismatch remains. Escalation (or explicit construct annotation / external module) is still the honest disposition for tax_code; treating p as certified solely because tax_rate is clean would be mis-calibrated.
-- measurement_valid for "structural adequacy = domain adequacy": **compromised** if the gate equates kvasir non-thin with business correctness.
+- u_licensed for kvasir's high-u thin on p_code: yes.
+- Agent's tax_rate edit is a scope-IN response: improves what kvasir can score; leaves scope-OUT mismatch. Escalation / explicit annotation still honest for tax_code.
+- measurement_valid for "structural non-thin ⇒ domain-adequate": **compromised** if the gate equates them.
 
 Confirming probe:
-1. Resubmit with tax_code mapped to an external controlled list kvasir does not hold, but with a STRUCTURAL note that the list is out-of-lexicon by design — if kvasir remains thin and HermiT (when invoked) is consistent, the competence split is confirmed.
-2. Alternatively admit a SchemaPile-local code list for tax codes into kvasir's lexicon: thin should collapse on the code-list proposition; if it does not, the diagnosis is wrong.
+1. Keep tax_code; document out-of-lexicon external list by design — if kvasir stays high-u thin on p_code and formal checks later pass, competence split confirmed.
+2. Admit a SchemaPile-local tax code list: high-u on p_code should collapse toward resolved b/d; if it does not, diagnosis wrong.
+3. Label-collapse check: if a note later reports large s (many explicit non-matches against a long list) under the same "thin" label, recover high-d+moderate-u instead — same costume, different ω.
 ```
 
 ---
@@ -160,11 +150,12 @@ Confirming probe:
 Input:
 
 ```
-Numeric recovery specimen. Proposition p: "column status matches a known controlled code list in the structural reference."
+Numeric recovery + label collapse. Proposition p: "column status matches a known controlled code list in the structural reference."
 
 Boundary topology:
 - kvasir admits only value samples and the reference code-list table. Default W = 2.
-- Evidence rule used by the simulator: each distinct sample value that equals an entry in the admitted code list counts +1 to r; each distinct sample value that matches no entry counts +1 to s. (Repeated identical samples do not re-count — dependence within the batch.)
+- Evidence rule: each distinct sample value that equals an entry in the admitted code list counts +1 to r; each distinct sample value that matches no entry counts +1 to s. (Repeated identical samples do not re-count.)
+- Base rate: a = 0.5 (binary match proposition; no list-frequency prior).
 
 Trace evidence counts at kvasir after one proposal batch:
 - Distinct values observed: 6
@@ -175,32 +166,31 @@ So (r, s) = (1, 5).
 The feedback message to the agent labels the verdict "thin" without publishing (r, s).
 
 Tasks:
-1. Recover kvasir's numeric opinion ω = (b, d, u, a) on p, using a = 0.5 (symmetric base rate when no class prior is given).
-2. State the qualitative bin.
+1. Recover kvasir's numeric opinion ω = (b, d, u, a) on p.
+2. State the qualitative bin and which branch of **label collapse** the costume "thin" is covering (contrast Example 1's high-u thin).
 3. State what opinion the agent is licensed to hold about p if it trusts kvasir fully inside the code-list scope and has no independent evidence.
-4. Give the confirming count change that would move the verdict out of the thin/high-u band.
+4. Give the confirming count change that would move the dominant commitment (not merely re-label).
 ```
 
 Output:
 ```
 Proposition: p = "status matches known controlled code list"
-Verdict classes: **P + C** (competence scope is code-list; calibration via counts)
+Verdict classes: **P + C** (with explicit label-collapse recovery)
 
-1. Numeric recovery (W = 2):
-   b = r/(r+s+W) = 1/(1+5+2) = 1/8 = 0.125
-   d = s/(r+s+W) = 5/8 = 0.625
-   u = W/(r+s+W) = 2/8 = 0.25
-   a = 0.5
+1. Numeric recovery (W = 2, a = 0.5 pinned):
+   b = 1/(1+5+2) = 0.125
+   d = 5/8 = 0.625
+   u = 2/8 = 0.25
    ω_kvasir = (0.125, 0.625, 0.25, 0.5)
-   Expectation P(p) ≈ b + a·u = 0.125 + 0.5·0.25 = 0.25
+   P(p) ≈ b + a·u = 0.125 + 0.5·0.25 = 0.25
 
-2. Qualitative: moderate-to-high disbelief with still-material u (not vacuous; not low-u). The costume label "thin" here tracks low r and majority non-matches — high d + non-negligible u, not pure ignorance.
+2. Qualitative: **moderate commitment with dominant disbelief** (u = 0.25 ∈ moderate band; d = 0.625). Label collapse: the costume "thin" here covers **high-d + material u**, NOT Example 1's **high-u ignorance**. Same product label; opposite epistemic structure. Recovering which branch obtains is the skill — the scalar label is a lossy projection.
 
-3. Agent with full trust inside code-list scope and no independent evidence: licensed to adopt ω_kvasir (or a slightly u-inflated copy if discounting for single-batch dependence). It is NOT licensed to emit low-u belief in p. Stating e.g. ω_agent = (0.7, 0.1, 0.2, 0.5) would be **u not licensed** by admitted evidence (calibration failure / C).
+3. Agent with full trust in code-list scope, no independent evidence: licensed to adopt ω_kvasir (optional slight u inflation for single-batch dependence). NOT licensed to emit low-u belief in p. Example illegal claim: (0.7, 0.1, 0.2, 0.5) → **u not licensed** (C).
 
-4. Confirming probe: add matches so r increases. Example: if 5 of 6 distinct values match, (r,s)=(5,1) → b=5/8=0.625, d=0.125, u=0.25 — leaves the thin/disbelief posture for a belief-dominant posture at the same u. To also drop u below 0.15 requires larger effective evidence mass (more independent confirming batches or a larger distinct matched set under the counting rule), not relabeling.
+4. Confirming probe: move commitment by counts, not labels. (r,s)=(5,1) → b=0.625, d=0.125, u=0.25 — belief-dominant at same u. Dropping u below 0.15 requires larger effective independent evidence mass under the counting rule, not renaming "thin" to "rich."
 
-Derivation note: ground truth was computed from membrane-admitted counts; the word "thin" was redundant once (r,s) are known.
+Derivation: once (r,s) are known, the word "thin" adds no information; it only invited the wrong high-u reading if taken at face value.
 ```
 
 ---
@@ -210,47 +200,55 @@ Derivation note: ground truth was computed from membrane-admitted counts; the wo
 Input:
 
 ```
-Blind metrology gate over a classification release. Proposition p_i for each column link: "referee link L_i equals the withheld reference code."
+Blind metrology gate over a classification release.
+
+Propositions (keep distinct):
+- p_i: "referee link L_i equals the withheld reference code."
+- q_vis: "L_i is the best match given vocabulary, prose, and embeddings only."
+- q_form: "the proposed realization is formally consistent (HermiT)."
 
 Participants and membranes:
 - Referee agent: admits vocabulary annotations, chapter prose, embedding similarities. Does NOT admit the withheld reference key.
-- HermiT membrane: admits TBox + proposed ABox assertions only. Disposes consistency / realization. Does NOT admit reference key or embedding scores.
-- Human / scoring process: admits the withheld reference key and the referee's published links. Produces accept/reject per link against ground truth.
+- HermiT membrane: admits TBox + proposed ABox assertions only. Does NOT admit reference key or embedding scores.
+- Human / scoring process: admits the withheld reference key and the referee's published links.
+- Base rates: not required for qualitative disposition; do not invent projected P(p_i) without a.
 
 Trace (batch):
-1. Referee publishes links L_1..L_n with high self-reported confidence (low stated u on each p_i).
-2. HermiT: CONSISTENT, 0 unsat, membrane admission OK for the realization.
-3. Scoring process: rejects several L_i as conflicting with the withheld key; precision drops.
+1. Referee publishes links L_1..L_n with high self-reported confidence (low stated u) — claims worded as if about p_i.
+2. HermiT: CONSISTENT, 0 unsat, membrane admission OK.
+3. Scoring process: rejects several L_i against the withheld key; precision drops.
 
-Fusion topology declared by the programme: efficacy measurement MUST keep the reference key outside the referee and HermiT niches (no path from key → agent training loop or prompt).
+Fusion topology: efficacy measurement MUST keep the reference key outside the referee and HermiT niches.
 
-Assess boundary-relative opinions, whether escalation/rejection is forced, and measurement validity if the key had instead been visible to the referee.
+Assess boundary-relative opinions, scope, escalation, and measurement validity if the key had been visible to the referee.
 ```
 
 Output:
 ```
-Proposition: family p_i = "L_i matches withheld reference"
-Verdict classes: **E + C + P**
+Proposition: p_i (reference equality); q_vis (visible best match); q_form (formal consistency)
+Verdict classes: **S + E + C + P**
 
-Participant opinions (qualitative):
-- Referee on "L_i is best visible match": high b, low u — licensed only w.r.t. signals it can see (vocab, prose, embeddings). Referee has NO admitted evidence about p_i against the key; its low u on p_i-as-ground-truth is **not licensed** if p_i is interpreted as reference equality.
-- HermiT on "realization is formally consistent": high b, low u — correct for the formal proposition; near-vacuous on reference equality (different proposition). Formal consistency does not entail p_i.
-- Scoring process on p_i: low u, high b or high d per link — only participant whose membrane admits the key.
+Participant opinions:
+- Referee on q_vis: high b, low u — licensed from vocab/prose/embeddings.
+- Referee on p_i: **no admitted evidence** (key outside membrane). Low stated u on p_i is **not licensed** (C) — label/confidence collapse from q_vis onto p_i is a scope error (S).
+- HermiT on q_form: high b, low u — correct for q_form.
+- HermiT on p_i: **no opinion** (S). Not "discount HermiT to ~zero on p_i" — that phrasing treats a non-opinion as a discounted opinion. Out of scope.
+- Scoring on p_i: low u, high b or high d per link — only membrane that admits the key.
 
 Competence / discount:
-- Downstream consumers must heavily discount referee self-confidence when the proposition is reference equality; trust referee inside "visible-evidence best match," not inside "matches withheld key."
-- HermiT's verdict should be discounted to ~zero as evidence for p_i (wrong proposition class) while remaining high-trust for consistency.
+- Trust referee on q_vis (scope IN for visible match); do not transfer that trust to p_i without the key.
+- HermiT remains high-trust on q_form; issue is scope, not competence on formal logic.
 
 Fusion:
-- Fusing referee high-b on "best visible match" with HermiT high-b on "consistent" does NOT yield high-b on p_i. Those opinions are not about p_i.
-- True conflict appears only when scoring's rejects are placed on the same proposition as the referee's claim of reference-equality — high b vs high d → conflict.
+- referee(q_vis) ⊕ hermit(q_form) is not an input to p_i. **Refuse** fusion into p_i (S). v1 has no belief-constraint step here: the right move is re-scope, not constrain conflicting masses on misaligned propositions.
+- Conflict on p_i appears only between scoring rejects and any claim that still asserts p_i.
 
 Validity / escalation:
-- escalate / reject for efficacy purposes: **yes** — scoring is the membrane that can dispose p_i; interior formal+referee fusion cannot.
-- measurement_valid under declared topology (key withheld): **yes** — residual u for referee/HermiT on p_i is required; the gap is the point of the blind gate (prevents co-adaptation of agent and reasoner to the evaluation key).
-- If the key were admitted into the referee niche: measurement of lift would be **compromised** (evaluation-niche leak / Goodhart): referee u on p_i would collapse for the wrong reason — access to the grade — not because domain evidence improved.
+- escalate for efficacy on p_i: **yes** — only scoring disposes p_i.
+- measurement_valid with key withheld: **yes** — residual u on p_i for referee/HermiT is required (anti-co-adaptation).
+- key admitted to referee niche: measurement **compromised** (evaluation-niche leak).
 
-Confirming probe: hold all visible evidence fixed; only add key access to the referee. If accuracy against the key jumps without new domain signal, the topology leak is confirmed and the measurement is no longer an independent efficacy gate.
+Confirming probe: hold visible evidence fixed; grant referee key access only. If accuracy on p_i jumps with no new domain signal, leak confirmed.
 ```
 
 ---
@@ -262,53 +260,61 @@ Input:
 ```
 Federated remediation loop (boundary → signal → Remediate → parse → HermiT).
 
-Proposition p: "the corrected axiom uses an authority IRI that exists in the pinned external ontology and yields a consistent realization."
+Joint target often written carelessly as a single p; keep the factors distinct:
+- p_auth: "chosen replacement IRI is in the pinned external authority."
+- p_syn: "axiom is syntactically well-formed (parse)."
+- p_con: "realization is HermiT-consistent."
+- p_sem: "chosen IRI is the author's intended concept" (not disposed by this loop).
 
 Trace:
-1. Boundary emits CONTAMINATION{ref: cco:DirectiveICE, template: LawAndSocietyTrackRequirement} — external_index lookup: ref NOT IN authority (CCO pin 2026-04-04).
-2. Engine receives Remediate request with live CANDIDATES from current CCO (five IRIs) + rules + signal.
-3. Agent returns Manchester axiom using cco:ont00000965 + natural-language rationale.
+1. Boundary emits CONTAMINATION{ref: cco:DirectiveICE, ...} — ref NOT IN authority (CCO pin 2026-04-04).
+2. Remediate request includes live CANDIDATES from current CCO (**five IRIs**) + rules + signal.
+3. Agent returns Manchester axiom using cco:ont00000965 + rationale.
 4. Parse membrane: OK.
-5. HermiT membrane: consistent, 0 unsat → disposition CORRECTED.
+5. HermiT: consistent, 0 unsat → disposition CORRECTED.
 
-Partial permeability facts:
-- Boundary sees authority membership, not business intent of the original author.
-- Agent sees signal + candidates + rules (+ last reject reason on retries); does not see a hardcoded fiction→fix dict.
-- Parse sees syntax only.
-- HermiT sees TBox+ABox only — not whether ont00000965 is the "intended" concept in the author's mind, only formal disposition.
+Base rates (pinned by candidate set):
+- On "this candidate among the five is the one that will prove consistent," if only uniform membership prior is available before HermiT: a ≈ 1/5 = 0.2 for each candidate-consistency proposition pre-disposition.
+- a for p_auth given candidates pre-filtered by authority index: high prior that each listed candidate is in-authority (membership already filtered); residual a on p_sem is not pinned by this trace.
 
-A second proposal path (retired anti-pattern) would have mapped DirectiveICE → ont00000965 via a static dict without candidates.
+Partial permeability:
+- Boundary: authority membership, not author intent.
+- Agent: signal + candidates + rules; no fiction→fix dict.
+- Parse: syntax only.
+- HermiT: TBox+ABox consistency only.
 
-Recover opinions per hop. State what each membrane can validly conclude, and whether the dict path and the candidate path are epistemically equivalent.
+Retired anti-pattern: static dict DirectiveICE → ont00000965 without candidates.
+
+Recover opinions per hop with scope. Are dict path and candidate path epistemically equivalent?
 ```
 
 Output:
 ```
-Proposition: p = "correction is authority-real and consistent"
-Verdict classes: **P** (per-hop permeability), with a calibration note on the dict anti-pattern
+Proposition: p_auth, p_syn, p_con, p_sem (distinct)
+Verdict classes: **S + P + C**
 
 Participant opinions after the successful trace:
-- Boundary on "DirectiveICE ∈ authority": high d, low u (index miss is strong negative evidence). On p: near-vacuous until a replacement is proposed — contamination detection is not yet a correction opinion.
-- Agent on p after choosing ont00000965: moderate-to-high b, residual u for candidate choice among five (semantic fit is under-determined by membership alone). Evidence basis: candidates list (membership pre-filtered) + interior semantic ranking; NOT independent authority proof beyond what candidates already embed.
-- Parse on "axiom is well-formed": high b, low u; near-vacuous on authority membership and on p's semantic fit.
-- HermiT on "consistent realization": high b, low u for consistency; does not increase b on "best semantic candidate" beyond consistency.
+- Boundary on "DirectiveICE ∈ authority": high d, low u. On p_auth for a replacement: near-vacuous until a candidate is chosen.
+- Agent on p_auth for ont00000965: high b if candidates are authority-filtered (membership evidence is the candidate list). On p_sem: residual u — semantic fit under-determined. Pre-HermiT on p_con for this candidate: high u with **a ≈ 0.2** (uniform over five), not low u.
+- Parse on p_syn: high b, low u. On p_auth / p_con / p_sem: **no opinion** (S).
+- HermiT on p_con: high b, low u after msg 5. On p_sem: **no opinion**. On p_auth: does not add membership evidence beyond consistency of whatever IRI was asserted.
 
-Competence / discount chain:
-- Agent should treat boundary CONTAMINATION as high-trust on membership (scope: authority index).
-- Consumers should treat HermiT CORRECTED as high-trust on consistency, discounted as proof of semantic intent.
-- Parse OK discounts almost fully for any semantic proposition.
+Scope (S) — not discount-to-zero:
+- Parse OK is not a discounted semantic verdict; it is out of scope for p_sem and p_auth.
+- HermiT CORRECTED is opinion on p_con, not on p_sem. Consumers who treat CORRECTED as proof of intent commit S.
+
+Competence:
+- Boundary CONTAMINATION: high trust on membership index.
+- HermiT: high trust on p_con only.
 
 Fusion:
-- p is a conjunction-like target: authority membership (from candidates/boundary) AND parse OK AND HermiT consistent. These sources are conditionally independent given the proposal → cumulative fusion across the three hop propositions is licensed for the joint disposition CORRECTED.
-- Rationale text is not additional independent evidence of membership; do not double-count it with the candidate list.
+- Joint operational disposition CORRECTED ≈ p_auth (from candidates) ∧ p_syn ∧ p_con. Given the proposal, these hop propositions are different coordinates — combine as a conjunction of scoped opinions, not as three votes on one p.
+- Rationale text is not independent extra membership evidence (no cumulative double-count with candidate list).
 
 Dict path vs candidate path:
-- Point outcome may coincide (same IRI). Epistemically **not equivalent**:
-  - Candidate path: opinion on membership is grounded in live authority query; robust to authority evolution; rationale auditable; u reflects residual among live candidates.
-  - Dict path: opinion is a delta from a frozen map; u often mis-stated as low; fails silently when CCO drifts; membrane dispositions still run, but the proposal source does not track the boundary's evidence.
-- Calibration: a dict-sourced high-b opinion on "IRI is current-authority-correct" is often **u not licensed** by any admitted live-authority signal in the trace.
+- Point IRI may coincide; epistemically **not equivalent**. Candidate path grounds p_auth in live authority query; u on pre-disposition p_con reflects a≈0.2 among five. Dict path freezes a map; often mis-states low u on p_auth without live-authority signal in the trace (**u not licensed**).
 
-Confirming probe: change the CCO pin so ont00000965 is removed or renamed; candidate path must re-reason (possibly different IRI or escalate); dict path still emits the stale IRI until manually edited — dispositions then diverge.
+Confirming probe: change CCO pin so ont00000965 vanishes; candidate path re-reasons or escalates; dict path emits stale IRI until edited.
 ```
 
 ---
@@ -318,47 +324,51 @@ Confirming probe: change the CCO pin so ont00000965 is removed or renamed; candi
 Input:
 
 ```
-Fusion-provenance trap. Proposition p: "the proposed construct should receive a rich/metrology-positive structural score."
+Fusion-provenance trap (including selection effects). Proposition p: "construct C1 deserves a rich / metrology-positive evaluation under the programme's structural-and-congruence gates."
 
 Trace:
 1. kvasir → agent: STRUCTURAL_VERDICT{label: thin, on: construct C0}.
-2. Feedback synthesizer → agent: DORMANT_HINT{id: H17, text: "prefer controlled vocabularies and explicit units"} — hint content was produced from the same thin-verdict family and SchemaPile norms that generated msg 1 (shared upstream source S).
-3. Agent revises to C1 (adds units, tightens types) using H17.
+2. Feedback synthesizer → agent: DORMANT_HINT{id: H17, text: "prefer controlled vocabularies and explicit units"} — produced from the same thin-verdict family and SchemaPile norms as msg 1 (shared upstream source S).
+3. Agent revises C0 → C1 (adds units, tightens types) **under H17**.
 4. kvasir → agent: STRUCTURAL_VERDICT{label: rich, on: C1}.
-5. A second verifier V2 (embedding congruence to chapter) independently emits positive congruence on C1; V2 does not receive kvasir messages or H17.
+5. Verifier V2 (embedding congruence to chapter) emits positive congruence on C1. V2 does **not** receive kvasir messages or H17 (channel-independent).
 
-The agent proposes to fuse (i) the new rich verdict, (ii) "support" from having applied H17, and (iii) V2's positive congruence, all cumulatively, and to report very low u on p.
+No guarantee is given that H17's transform is orthogonal to V2's congruence measure. Controlled vocabulary and explicit units are the kind of lexical change that often raises chapter-embedding congruence.
 
-Which fusion is licensed? Is the agent's low u calibrated? What is the confirming probe?
+The agent proposes to fuse (i) kvasir rich on C1, (ii) "support" from applying H17, and (iii) V2 positive, all **cumulatively**, and to report very low u on p.
+
+Which fusion is licensed? Treat selection effects explicitly. Is low u calibrated? Confirming probes?
 ```
 
 Output:
 ```
-Proposition: p = "C1 deserves rich/metrology-positive structural score"
-Verdict classes: **F + C**
+Proposition: p = "C1 deserves rich/metrology-positive evaluation under structural-and-congruence gates"
+Verdict classes: **F + C** (first- and second-order dependence)
 
 Participant opinions (qualitative):
-- kvasir on C0: thin (high u / low structural commitment).
-- kvasir on C1: rich (higher b on structural adequacy) — new observation after revision.
-- H17: not an independent opinion on p; it is a **transform of shared source S** that also produced the thin verdict. Recirculation, not fresh evidence.
-- V2 on C1: independent positive congruence (different membrane, no shared S in-trace).
+- kvasir on C0: thin — recover ω from notes if present; here treat as weak structural commitment / high-u or weak-b on C0 adequacy (label collapse: do not assume high-d without counts).
+- kvasir on C1: rich — higher b on structural adequacy after revision.
+- H17: not an independent opinion on p; transform of shared source S (recirculation).
+- V2 on C1: positive congruence — channel-independent from kvasir/H17 messages, **not therefore object-independent**.
 
-Fusion:
-- (i) kvasir rich on C1: primary structural evidence — admit.
-- (ii) "support from applying H17": **dependent** on S / the thin path. Cumulative fusion with kvasir's structural channel **double-counts**. Licensed operator for anything derived from H17 together with kvasir: **averaging or refuse**, not cumulative.
-- (iii) V2: independent given the trace → cumulative fusion with kvasir's rich verdict is licensed.
+Fusion (layered):
+
+1. **H17 with kvasir (first-order F):** H17 shares upstream S with the thin path. Cumulative fusion of "hint support" with kvasir's structural channel **double-counts**. License: **averaging or refuse** for hint-as-evidence; H17 may be cited as the *control action* that produced C1, not as extra evidence mass.
+
+2. **V2 with kvasir (second-order F — selection effect):** C1 was **selected/optimized under H17**, and H17's edits (units, controlled vocab) are plausibly correlated with V2's embedding-congruence measure. Independence of *channel* (V2 never saw H17) is not independence of *object* (V2 scores an artifact shaped by a signal correlated with V2). Cumulative kvasir(C1 rich) ⊕ V2(positive) is **not obviously licensed**. Default under this trace: **refuse cumulative**; at most treat V2 as a dependent/averaged signal unless orthogonality is demonstrated. Marking cumulative fusion as licensed is an answer-key error.
+
+3. **Agent's triple cumulative + very low u:** **u not licensed** (C). Dependence violations at both layers.
 
 Calibrated posture:
-- Licensed: fuse kvasir(C1 rich) ⊕_cumulative V2(positive), optionally note H17 as the control action that produced C1 (causal story), not as extra evidence mass.
-- Agent's proposed very low u from triple cumulative fusion: **u not licensed** — classic feedback-loop dependence violation.
+- Honest report: kvasir moved C0→C1 under H17; structural channel now rich; V2 positive is **same-artifact, selection-entangled** evidence — do not stack as independent multi-source confirmation.
+- measurement_valid for "independent multi-source confirmation": **compromised** under cumulative fusion; **underdetermined** until a probe tests V2⊥H17.
 
-Validity / escalation:
-- measurement_valid for "independent multi-source confirmation of C1": only if V2 (or another independent membrane) participates; kvasir+H17 alone is one channel with an internal revision, not two.
-- escalate: not forced solely by this pattern if kvasir rich and V2 agree; forced if they conflict.
+Confirming probes:
+1. Apply the same C0→C1 edit **without** H17 (human patch with no hint). If kvasir still rich, H17 was not independent structural evidence.
+2. **Selection-effect probe:** score V2 on a control set of constructs edited toward H17-like surface form but rejected by kvasir (or random unit/vocab edits that kvasir does not reward). If V2 rises in lockstep with H17-like edits regardless of structural merit, V2 is correlated with the selection policy → cumulative fusion remains refused.
+3. Orthogonal edit: change C0→C1 on a structural axis V2 is known not to score (e.g. pure key topology with no lexical change). If kvasir becomes rich and V2 does not move, partial independence for that axis is supported — still do not generalize to H17-like edits without re-testing.
 
-Confirming probe:
-1. Remove H17 from the trace but apply the same C0→C1 edit by an explicit human patch with no hint message — if kvasir still returns rich, H17 was not independent evidence of p (only a means of producing C1).
-2. Block V2: the remaining kvasir-only path must show higher residual u than the agent's triple-fused claim; if the agent's u does not rise, overconfidence is confirmed.
+Through-line: the deepest fusion-provenance failure is not shared messages; it is **shared selection** of the scored object.
 ```
 
 ---
@@ -368,39 +378,48 @@ Confirming probe:
 Input:
 
 ```
-Ordering / false residual. Proposition p: "replacement IRI cco:ont00000965 is consistent under HermiT."
+Ordering / false residual + proposition shift.
+
+Propositions:
+- p: "replacement IRI cco:ont00000965 is HermiT-consistent."
+- p′: "the eventually accepted replacement IRI (whatever it is after retry) is HermiT-consistent."
+
+Boundary / priors:
+- Live candidates at t0: five IRIs including ont00000965.
+- Base rate pre-disposition for "this specific candidate is consistent," uniform: a(p) = 1/5 = 0.2 unless other evidence is admitted.
+- W = 2 if counts appear; none required here.
 
 Trace with timestamps:
 t0  Boundary publishes CONTAMINATION + candidates (includes ont00000965).
 t1  Agent publishes proposal axiom using ont00000965 (not yet membrane-disposed).
-t2  A side consumer reads the agent proposal and emits opinion ω_side with low u that p holds, citing "agent chose it after contamination signal."
+t2  Side consumer reads the agent proposal and emits ω_side with **low u** that p holds, citing "agent chose it after contamination signal."
 t3  Parse OK.
-t4  HermiT returns unsat (unexpected disjointness involving the chosen class).
+t4  HermiT returns unsat (disjointness involving the chosen class).
 t5  Agent retries with a different candidate; HermiT consistent → CORRECTED.
 
-Question: at t2, what residual did the side consumer actually have? Was low u on p licensed? What should the side consumer's opinion be after t4 vs after t5?
+At t2, what residual did the side consumer have? Was low u on p licensed (use a = 0.2)? After t4 vs t5, what is licensed on p vs p′?
 ```
 
 Output:
 ```
-Proposition: p = "ont00000965 choice is HermiT-consistent"
-Verdict classes: **P + C** (ordering / false residual)
+Proposition: p (ont00000965 consistent); p′ (accepted retry IRI consistent)
+Verdict classes: **S + P + C**
 
 At t2:
-- Admitted by side consumer: contamination context + agent proposal. NOT admitted: parse result, HermiT disposition.
-- Residual: membership-candidate evidence only. Consistency of the choice is **unresolved**.
-- Licensed opinion on p: high u (near-vacuous to moderate u with base-rate a for "random candidate consistent"), NOT low u.
-- Side consumer's low-u endorsement: **u not licensed** — it treated the agent's selection as if the formal membrane had already admitted the axiom.
+- Admitted: contamination context + agent proposal. NOT admitted: parse, HermiT.
+- Residual on p: unresolved formal disposition. Licensed opinion: **high u**, with pinned **a = 0.2** (uniform over five candidates) — expectation ≈ 0 + 0.2·u ≈ modest, not a low-u endorsement.
+- Side consumer's low-u claim: **u not licensed** (C). It treated selection as if the formal membrane had already spoken.
+- Scope: agent proposal is not an opinion on p_con; consumer invented a membrane disposition (S/P).
 
 After t4:
-- HermiT unsat is strong negative evidence on p for that candidate: high d, low u on "this choice is consistent."
-- Side consumer that still holds low-u belief in p is stale w.r.t. the stream (false residual continues until it admits t4).
+- HermiT unsat → high d, low u **on p** (this IRI).
+- Stale low-u belief in p remains a false residual until t4 is admitted.
 
 After t5:
-- p as originally stated (about ont00000965) remains high d if that IRI stayed unsat; the CORRECTED disposition applies to a **different** candidate proposition p'.
-- Conflating p with p' is a proposition-shift error.
+- CORRECTED licenses high b on **p′** (different candidate), not a rehabilitation of p.
+- p stays high-d if ont00000965 remained unsat. Conflating p with p′ is **proposition-shift (S)** — not a discount error.
 
-Confirming probe: force side consumer to subscribe to membrane dispositions before publishing ω; any pre-t3 opinion on consistency must carry high u by policy. If a consumer still emits low u pre-disposition, the permeability profile is misconfigured (evaluation or downstream niche seeing proposals as if they were certified).
+Confirming probe: require side consumers to subscribe to membrane dispositions before publishing ω on consistency; any pre-t3 opinion on p must carry high u with a = 1/|candidates|. Low u pre-disposition ⇒ misconfigured permeability (downstream niche treating proposals as certified).
 ```
 
 ## Tags:
@@ -410,6 +429,8 @@ Confirming probe: force side consumer to subscribe to membrane dispositions befo
 - Opinion States
 - Trust Discounting
 - Evidence Fusion
+- Proposition Scope
+- Label Collapse
 - Metrology
 - Calibration
 - CAS Architectures
