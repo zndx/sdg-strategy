@@ -1,87 +1,108 @@
 # Causal Chain Analysis in Verification Loops
 
 ## Description:
-This task requires recovering **actual causation** for a proposal’s terminal disposition in a hybrid generative–verification loop. Evidence is an **event trace** (timestamped messages, scores, and gate dispositions). The answer names which events caused the outcome, which were mere timeline, whether the stage graph licensed each gate, and the **minimal flip set** — the smallest set of trace or config edits that changes the disposition under a stated simulator.
+This task requires recovering **actual causation** for a proposal’s terminal disposition in a hybrid generative–verification loop. Evidence is an **event trace** (timestamped messages, scores, and gate dispositions). The answer names which events caused the outcome, which were mere timeline, whether the stage graph licensed each gate, and the **minimal flip set** — the smallest set of **exogenous** edits that changes the disposition under the stated replay semantics.
 
-Terminal object (v1): a single proposal’s disposition — **certify** | **reject** | **escalate**. Run-level outcomes (coverage collapse, family-wide failure rates) are deferred except for one marked **bridge** specimen that traces a population symptom to a repeated proposal-level mechanism.
+Terminal object (v1): a single proposal’s disposition — **certify** | **reject** | **escalate**. Run-level outcomes are deferred except for one marked **aggregate** specimen (**A**) that traces a population symptom to a repeated proposal-level mechanism.
 
-Labels such as `thin` / `rich` / `CORRECTED` appear as **opaque trace events** with meaning stated in the specimen. This task operates on event causation (what was emitted when), not on recovering underlying opinion masses.
+Labels such as `thin` / `rich` / `CORRECTED` appear as **opaque trace events** with meaning stated in the specimen. This task operates on event causation (what was emitted when). For recovering epistemic content of those labels as opinions, see the separate opinion-states task card; it is out of scope here.
 
 ### Default stage graph
 
-Stages are a **graph**, not a flat list. Unless a specimen overrides it, the normative graph is:
+Stages are a **graph**. Unless a specimen overrides it, the normative graph is:
 
 ```mermaid
 flowchart TD
   admit([admit]) --> propose[propose]
   propose --> structural[structural]
   structural -->|accept| formal[formal]
-  structural -->|thin / no| feedback[feedback]
+  structural -->|thin, rounds remain| feedback[feedback]
+  structural -->|thin, max rounds exhausted| dispose_struct[dispose: reject or escalate]
   feedback -->|repair| propose
-  feedback -->|max rounds, still thin| escalate[escalate]
-  escalate -->|policy edge present| formal
-  escalate -->|no formal edge| dispose_early[dispose: escalate or reject]
+  structural -->|escalate policy edge| formal
   formal --> dispose[dispose: certify or reject]
 ```
 
-Edges that matter:
-
 | edge | meaning |
 |------|---------|
-| admit → propose | passage (or signal) enters the agent |
+| admit → propose | passage or signal enters the agent |
 | propose → structural | structural membrane scores the proposal |
-| structural → formal | **gated:** only on structural **accept** (or an explicit **escalate → formal** edge when declared) |
-| structural → feedback → propose | repair loop (may repeat up to a stated max rounds) |
+| structural → formal | **gated:** structural **accept**, or an explicit **escalate-policy** edge on the structural node |
+| structural → feedback → propose | repair loop while rounds remain |
+| structural → dispose | max rounds exhausted while still thin (no formal) |
 | formal → dispose | certify or reject after formal disposition |
-| * → escalate / reject / certify | terminal dispose nodes |
 
-**Short-circuit (default policy, part of the graph):** formal (expensive membrane) fires only after structural accept **or** an explicit escalate→formal edge. Invoking formal on a structurally thin proposal without that edge is a **G**-class illegality.
+**Short-circuit (default):** formal fires only after structural accept **or** an explicit structural→formal escalate-policy edge. Invoking formal on a structurally thin proposal without that edge is a **G**-class illegality.
 
-**Override:** a specimen may declare its own stage graph in the input; that declaration is then normative for the specimen (e.g. contamination → Remediate → parse → HermiT for remediation chains). Same pattern as fixed defaults with marked opt-out elsewhere in the suite.
+**Escalate** is a **terminal disposition** value (alongside certify / reject), not a routing node. Routing to formal under special policy is the **escalate-policy edge**, not a hop through an escalate stage.
+
+**Override:** a specimen may declare its own stage graph; that declaration is normative for the specimen (e.g. contamination → Remediate → parse → HermiT).
+
+### Replay semantics (v1 constant)
+
+Ground truth is defined by a **frozen-suffix / exogenous–derived partition**:
+
+| class | events | on replay |
+|-------|--------|-----------|
+| **Exogenous** (agent- or operator-emitted) | admit content, proposal bodies, feedback/hint text, Remediate proposals, policy/config pins | **Editable** in a flip set; if not edited, **frozen as recorded** |
+| **Derived** (mechanical stages) | structural verdicts, parse results, formal dispositions, dispose | **Always recomputed** from current exogenous state and the stage graph; **not** directly editable in a flip set |
+
+Consequences:
+
+1. Flip sets may touch only **exogenous** material (and design/config — see below). Writing `{ t2 := thin }` when t2 is structural is illegal under v1.
+2. **Decisive** means: the exogenous event appears in **every** minimal flip set that changes the actual disposition, under frozen-suffix replay.
+3. Earlier proposals that are superseded by a later frozen proposal are typically **contributing** (path history), while the **last exogenous proposal body** that derived the terminal gate is the usual **decisive** locus for proposal defects.
+4. Minimality is non-unique; any valid minimal exogenous flip set is correct.
+
+### Trace flips vs design flips
+
+| kind | scope | reported as |
+|------|--------|-------------|
+| **Trace flip** | edits to exogenous events in the recorded trace (admit, propose bodies, hints) | **Minimal flip set** — used for decisive/contributing tags |
+| **Design flip** | config/policy/ontology-pin/voice changes outside a single proposal body | **Design flip** field — legal confirming material; **does not** strip decisive tags from trace events when an alternate design path also flips |
+
+Decisive/contributing tags are computed over **trace-edit scope**. Design flips may appear in confirming probes and aggregate interventions without redefining those tags.
 
 ### What counts as a causal answer
 
-A complete answer:
+1. Terminal disposition and dispose event.
+2. Ordered chain with **decisive** | **contributing** | **incidental** on each link (tags judged under frozen-suffix replay).
+3. At least one **minimal flip set** of exogenous edits (non-unique OK).
+4. **Overdetermination (N)** only when two or more **independently sufficient** exogenous causes remain active in the actual terminal path — fixing either alone leaves the same disposition. (A defect repaired in-flight is no longer a cause of the actual outcome.)
+5. **G** — stage-graph legality.
+6. **L** — when a repair loop is present: did feedback cause the repair content?
+7. **Confirming probe** — simulator recipe for the flip set (and design flips if used).
 
-1. States the **terminal disposition** and the dispose event in the trace.
-2. Lists an ordered chain of **links**, each tagged:
-   - **decisive** — in every minimal flip set for this disposition (or sole but-for cause when unique)
-   - **contributing** — necessary enabler; removing it alone may not flip if overdetermined
-   - **incidental** — precedes or co-occurs; flip set need not touch it
-3. Gives at least one **minimal flip set**: smallest set of edits (event delete/rewrite, score change, policy edge change, proposal edit) such that replaying the graph yields a different disposition. **Minimality may be non-unique** — any valid minimal set is correct.
-4. Marks **overdetermination** when two or more independently sufficient causes exist: no single-event but-for cause; joint flip set required.
-5. Checks **G** — stage-graph legality (was formal licensed? was feedback an edge that actually closed?).
-6. Checks **L** when a repair loop is present — did feedback *cause* the fix, or did the agent change something orthogonal while feedback was only timeline?
-7. Ends with a **confirming probe** (simulator rerun recipe for the flip set).
+**Gated-topology theorem (for N):** under the default graph, a structural-visible defect and a formal-visible defect cannot **co-cause** a *formal* reject, because formal never runs while structural is thin. True overdetermination at formal requires **two independent formal-visible defects** (e.g. two unsat cores) in the proposal that reached formal.
 
-**Degenerate success:** a straight-through certify with no contingency yields a large flip set and little interesting attribution. The correct key says so (calibration), rather than narrating process steps as causes.
+**Degenerate success:** straight-through certify without contingency yields many exogenous minimal flips and little informative attribution — state that explicitly.
 
 ### Question types (verdict space)
 
 | code | type | ask |
 |------|------|-----|
-| **G** | stage-graph legality | which gates were licensed; short-circuit / escalate edges |
-| **R** | root / minimal flip | decisive links; minimal flip set(s) for the disposition |
-| **N** | necessity / overdetermination | single but-for vs jointly sufficient causes |
-| **L** | loop attribution | whether feedback caused the repair vs incidental co-timing |
-| **U** | underdetermined | evidence insufficient for a unique flip story; discriminating experiment |
-| **B** | bridge (marked) | run-level symptom explained by repeated proposal-level mechanism |
-
-Composite answers expected (e.g. **G + R**, **R + N**, **L + R**).
+| **G** | stage-graph legality | which gates were licensed; short-circuit / escalate-policy edges |
+| **R** | root / minimal flip | decisive exogenous links; minimal flip set(s) |
+| **N** | necessity / overdetermination | single but-for vs jointly sufficient active causes |
+| **L** | loop attribution | whether feedback caused the repair |
+| **U** | underdetermined | evidence insufficient; discriminating experiment |
+| **A** | aggregate (marked) | run-level symptom from repeated proposal-level mechanism |
 
 ### Required output shape
 
 ```
 Disposition: certify | reject | escalate
 Stage graph: default | <declared override>
+Replay: frozen-suffix (exogenous frozen unless edited; derived recomputed)
 
-Verdict classes: <G|R|N|L|U|B …>
+Verdict classes: <G|R|N|L|U|A …>
 
 Chain (ordered):
   t…  event  — decisive | contributing | incidental
   …
 
-Minimal flip set(s): { … }   [any one valid minimal set if non-unique]
+Minimal flip set(s) [exogenous only]: { … }
+Design flip(s) [optional]: { … }
 Overdetermination: no | yes — joint set { … }
 
 Graph legality (G): …
@@ -90,14 +111,15 @@ Loop attribution (L): …   [if feedback present]
 Confirming probe: replay with flip set → expected new disposition
 ```
 
-Anti-patterns (do not produce):
+Anti-patterns:
 
-- Numbered process retellings that treat every stage as a cause of success when nothing failed.
-- Modal claims without a flip set (“could not be repaired,” “contributed to strong downstream results”) unsupported by the trace.
+- Process retellings of frictionless success as a unique causal chain.
+- Modal claims without an exogenous flip set (“could not be repaired,” “strong downstream results”) when the trace lacks support.
+- Editing derived events inside a flip set.
 
 ### Evidence form
 
-**Traces only** for causal content. Prose may frame the setting; scores, admissions, and dispositions must appear as timed events. Temporal precedence (cause before effect) is gradeable from the trace.
+**Traces only** for causal content. Prose may frame; scores and dispositions appear as timed events.
 
 ## Modality:
 Text only
@@ -109,51 +131,52 @@ Text only
 Input:
 
 ```
-Stage graph: default (admit → propose → structural ⇄ feedback → formal on structural accept → dispose).
-Max feedback rounds: 2. Formal only after structural accept.
+Stage graph: default. Max feedback rounds: 2. Formal only after structural accept.
+Replay: frozen-suffix (v1).
 
 Trace (proposal P1, target: order_status construct):
 
-t0  admit: passage "order status history" (mixed event log + current state columns in one flat description)
-t1  propose: flat table order_status + entities {Order, StatusChange} conflated into one class
-t2  structural: verdict=thin  note="weak keys; event/state columns mixed; low referential coverage"
+t0  admit: passage "order status history" (mixed event log + current state in one flat description)
+t1  propose: flat table order_status; Order and StatusChange conflated into one class
+t2  structural: verdict=thin  note="weak keys; event/state mixed; low referential coverage"   [derived]
 t3  feedback: hint="separate temporal events from identity-bearing objects; clarify keys"
-t4  propose: revised flat table; StatusChange still modeled as fields on Order (core conflation remains)
-t5  structural: verdict=thin  note="same event/state mix; keys still ambiguous"
-t6  dispose: reject  reason="max rounds; structural never accepted"   [formal not invoked]
+t4  propose: revised flat table; StatusChange still fields on Order (core conflation remains)
+t5  structural: verdict=thin  note="same event/state mix"   [derived]
+t6  dispose: reject  reason="max rounds exhausted; still thin"   [derived; formal not invoked]
 
-Question: Recover the causal structure of reject. Was formal invocation required? Give a minimal flip set that yields certify (or escalate-to-formal if you change policy). Include loop attribution for feedback.
+Question: Causal structure of reject. Formal required? Minimal flip set for a different disposition. Loop attribution.
 ```
 
 Output:
 ```
 Disposition: reject
 Stage graph: default
+Replay: frozen-suffix
 Verdict classes: **G + R + L**
 
 Chain:
-- t0 admit mixed passage — contributing (enabled a hard proposal; not alone decisive)
-- t1 propose conflated model — decisive (root modeling choice carried through)
-- t2 structural thin — contributing (disposition signal; follows t1)
-- t3 feedback — incidental as *cause of fix* (see L); contributing as *loop fuel* only
-- t4 propose still conflated — decisive (repair failed; but-for continued thin)
-- t5 structural thin — contributing (terminal structural state)
-- t6 reject — terminal dispose
+- t0 admit mixed passage — contributing (hard problem setup)
+- t1 first conflated propose — contributing (path history; superseded under frozen-suffix by t4)
+- t2 structural thin — derived / incidental as flip target (recomputed from t1)
+- t3 feedback — incidental as cause of fix (L); loop fuel only
+- t4 propose still conflated — **decisive** (last exogenous proposal; every minimal flip must change this body or never reach a better derived path)
+- t5 structural thin — derived from t4
+- t6 reject — derived terminal
 
-G (graph legality):
-- Formal was **not** invoked; under default policy that is correct: no structural accept, no escalate→formal edge.
-- dispose(reject) at t6 is licensed by max-rounds + persistent thin.
+G: formal omitted correctly (no accept, no escalate-policy edge). dispose(reject) licensed by max-rounds + persistent thin (structural → dispose edge).
 
-L (loop attribution):
-- Feedback at t3 did **not** cause a structural fix: t4 preserved the event/continuant conflation. Loop edges ran; the repair content failed. Attribution of reject lands on unfixed proposal structure, not on “feedback was weak text.”
+L: t3 did not produce a structural fix; t4 kept the conflation. Reject is from unfixed proposal content.
 
-R / minimal flip set (one valid minimal set):
-- { t4 proposal rewritten to split Order (continuant) from StatusChangeEvent (occurrent) with proper keys, such that t5 would be structural accept and t6' formal would pass given no unsat in specimen }
-  Alternatively minimal for different terminal: { add policy edge escalate→formal after max thin; force formal } only if the specimen’s formal would accept — here formal content is untested, so prefer the proposal split that earns structural accept then formal.
+R / minimal flip set (exogenous; one valid set):
+- { t4 := proposal that splits Order (continuant) from StatusChangeEvent (occurrent) with proper keys }
+  Replay recomputes t5 structural accept → formal (if consistent) → certify or formal-reject.
+  { t1 := split … } alone does **not** flip under frozen-suffix: t4 stays recorded-conflated and still derives thin → reject. So t1 is contributing, t4 decisive.
 
-N: not overdetermined — a successful t4 repair alone would open the accept→formal path; t0 alone is insufficient without t1/t4.
+Design flip (optional, separate field): { enable escalate-policy edge structural→formal after max thin } — only if formal would accept the still-conflated body (often false); reported as design flip, does not make t4 non-decisive for trace-scope tags.
 
-Confirming probe: replay from t4 with split-table proposal; expect structural accept → formal → certify (or formal reject if axioms still unsat — then extend flip set). Replay with feedback text deleted but t4 kept conflated: still reject → shows feedback text was not the fix cause.
+N: single decisive locus t4 for actual reject; overdetermination no.
+
+Confirming probe: edit only t4 to split model → expect accept path. Edit only t1, freeze t4 → still reject. Delete t3 text, keep t4 → still reject (feedback not the fix cause).
 ```
 
 ---
@@ -163,41 +186,44 @@ Confirming probe: replay from t4 with split-table proposal; expect structural ac
 Input:
 
 ```
-Stage graph: default. Max feedback rounds: 1.
+Stage graph: default. Max feedback rounds: 1. Replay: frozen-suffix.
 
 Trace (proposal P2):
 
 t0  admit: passage with clear transaction line items and keys
 t1  propose: transaction_line table, PK/FK present, types aligned to norms
-t2  structural: verdict=accept  note="rich; keys and shapes match reference norms"
-t3  formal: consistent, 0 unsat, realization admitted
-t4  dispose: certify
-t5  log line: "artifact expected to improve downstream family coverage"   [no metrics in trace]
+t2  structural: verdict=accept  note="rich; keys and shapes match"   [derived]
+t3  formal: consistent, 0 unsat   [derived]
+t4  dispose: certify   [derived]
+t5  log: "artifact expected to improve downstream family coverage"   [no metrics]
 
-Question: Attribute certify. Is this an informative causal success?
+Question: Attribute certify. Informative causal success?
 ```
 
 Output:
 ```
 Disposition: certify
 Stage graph: default
+Replay: frozen-suffix
 Verdict classes: **R** (degenerate) + **G**
 
 Chain:
-- t0–t3 all on the success path — each is contributing to the sense that the path was open
-- t4 certify — terminal
-- t5 log claim — **incidental / unsupported**: no downstream metrics in the trace; cannot enter a flip set for t4
+- t0, t1 — contributing enablers on an open success path
+- t2–t4 — derived success path
+- t5 — incidental; no metrics; out of flip scope for t4
 
-G: structural accept licensed formal; formal success licensed certify. Legal path.
+G: accept licensed formal; formal licensed certify.
 
-R / informative causation:
-- Straight-through success with no contingency: **attribution is degenerate**. Almost every prefix event is a candidate enabler; the minimal flip set is large (any of: block admit, force thin at t2, inject unsat at t3, …).
-- Correct key: no single interesting but-for cause of certify; process description is not causation.
-- Contrast repair-then-certify specimens, where the successful retry is a tight flip element.
+R: **Degenerate success.** No contingency; many size-1 exogenous minimal flips exist (none uniquely “the” cause). Process narration is the wrong output shape.
 
-Minimal flip set (example of many): { t2 := thin with max rounds 0 → reject } or { t3 := unsat → reject }.
+Minimal flip set examples (exogenous only; any one valid):
+- { t0 := empty / off-domain admit that cannot support the proposal }
+- { t1 := corrupt proposal body (drop keys, break types) } → derived thin → reject under max rounds
+- Design flip: { ontology pin that makes t1’s axioms unsat } → formal reject after accept
 
-Confirming probe: any one of those edits flips certify → reject; multiplicity of minimal sets confirms degeneracy of “why success” without contingency.
+Illegal under v1: { t2 := thin }, { t3 := unsat } — derived edits.
+
+Confirming probe: apply any one exogenous flip above; disposition leaves certify. Multiplicity of minimal flips is the calibration signal.
 ```
 
 ---
@@ -207,52 +233,51 @@ Confirming probe: any one of those edits flips certify → reject; multiplicity 
 Input:
 
 ```
-Stage graph (declared override — remediation):
+Stage graph (override — remediation):
   detect → Remediate → parse → formal → dispose
-  on formal unsat: loop Remediate (max 3) with last reject reason admitted
-  no structural stage
+  on formal unsat: loop Remediate (max 3) with last reject reason admitted to the next Remediate
+Replay: frozen-suffix (Remediate proposals exogenous; parse/formal/dispose derived).
 
-Trace (template LawAndSocietyTrackRequirement):
+Trace:
 
-t0  detect: CONTAMINATION ref=cco:DirectiveICE  (authority miss)
-t1  Remediate: candidates=[… five IRIs …]; proposal axiom uses cco:ont00000965
-t2  parse: OK
-t3  formal: unsat  (disjointness involving ont00000965)
-t4  Remediate: retry different candidate cco:ont00001069; rationale cites t3 reason
-t5  parse: OK
-t6  formal: consistent, 0 unsat
-t7  dispose: certify (CORRECTED)
+t0  detect: CONTAMINATION ref=cco:DirectiveICE
+t1  Remediate: candidates=[five IRIs]; axiom uses cco:ont00000965
+t2  parse: OK   [derived]
+t3  formal: unsat (disjointness involving ont00000965)   [derived]
+t4  Remediate: retry cco:ont00001069; rationale cites t3 reason
+t5  parse: OK   [derived]
+t6  formal: consistent, 0 unsat   [derived]
+t7  dispose: certify (CORRECTED)   [derived]
 
-Question: What caused certify? Minimal flip set? Loop attribution for the retry.
+Question: What caused certify? Minimal flip set? Loop attribution. (Design flips optional.)
 ```
 
 Output:
 ```
 Disposition: certify (CORRECTED)
 Stage graph: remediation override
+Replay: frozen-suffix
 Verdict classes: **R + L + G**
 
 Chain:
-- t0 detect — contributing (opened remediation; without it no chain)
-- t1 first proposal ont00000965 — contributing to *path length*; decisive for *first* formal failure
-- t2 parse OK — incidental for final certify (necessary hygiene, not distinctive)
-- t3 unsat — decisive for forcing retry; but-for the retry path
-- t4 second proposal ont00001069 — **decisive for certify** (successful repair content)
-- t5 parse OK — incidental hygiene
-- t6 formal consistent — contributing terminal formal state
-- t7 certify — dispose
+- t0 detect — contributing (opens remediation)
+- t1 first Remediate ont00000965 — contributing (sets up first formal failure; superseded for final certify by t4)
+- t2 parse OK — derived hygiene
+- t3 unsat — derived; marks need for retry (not exogenous)
+- t4 Remediate ont00001069 — **decisive** for certify (last exogenous repair payload under frozen-suffix)
+- t5–t7 — derived success path
 
-G: formal after parse is licensed by the declared graph; retry edge after unsat is licensed (max 3).
+G: parse→formal and unsat→Remediate retry licensed by override graph.
 
-L: The t3→t4 loop **caused** the fix: t4 content changed *because* unsat reason was admitted. Certify counterfactually depends on that retry. A replay that freezes t1’s IRI through a second formal attempt stays reject/unsat.
+L: t4 content depends on admitting t3’s reason; the **loop is the mechanism**, t4’s IRI is the **repair payload**. Freezing t1’s IRI into a second formal attempt (design of retry disabled) yields non-certify.
 
-R / minimal flip set (unique-ish for certify→reject):
-- { t4 proposal := still ont00000965 (ignore t3) } → formal unsat again → non-certify
-  Or { delete t3–t4; force dispose after first unsat } under a graph without retry.
+R / minimal flip set (exogenous):
+- { t4 := still ont00000965 } → derived formal unsat → non-certify
 
-N: single primary repair cause for final certify is t4 under contingency of t3; t0 alone does not certify.
+Design flip (separate; does not remove t4’s decisive tag in trace-scope):
+- { ontology pin removes disjointness that unsat ont00000965 } with t4 frozen to ont00000965 might certify — alternate design path, reported under Design flip.
 
-Confirming probe: replay with t4 forced to ont00000965 → unsat, no certify. Replay with t1 already ont00001069 and t3 skipped → certify without loop (shows t4’s IRI is the repair payload; loop is the mechanism that found it).
+Confirming probe: exogenous t4 rollback → unsat. t1 already ont00001069 and no second loop → certify without retry (payload vs mechanism).
 ```
 
 ---
@@ -262,55 +287,55 @@ Confirming probe: replay with t4 forced to ont00000965 → unsat, no certify. Re
 Input:
 
 ```
-Stage graph: default. Max feedback rounds: 2. Formal only after structural accept.
+Stage graph: default. Max feedback rounds: 2. Replay: frozen-suffix.
 
-Trace (proposal P4):
+Trace (proposal P4) — repaired structural defect + latent formal defect:
 
 t0  admit: passage OK
-t1  propose: construct with brand token in a free-text column + broken FK name
-t2  structural: thin  note="brand-like values; undeclared FK"
-t3  feedback: dormant_hint brand_lexicon + "declare FKs"
-t4  propose: FK fixed; brand token still present
-t5  structural: thin  note="brand-like values remain"
-t6  feedback: same brand hint family re-injected
-t7  propose: brand token removed; FK still valid
-t8  structural: accept
-t9  formal: unsat  (independent: event class asserted as continuant — taxonomy error present since t1 and never edited)
-t10 dispose: reject
+t1  propose: brand token in free-text column + broken FK + Event-as-continuant taxonomy error
+t2  structural: thin  note="brand-like values; undeclared FK"   [derived]
+t3  feedback: brand_lexicon + "declare FKs"
+t4  propose: FK fixed; brand remains; taxonomy error remains
+t5  structural: thin  note="brand-like values remain"   [derived]
+t6  feedback: brand hint again
+t7  propose: brand removed; FK valid; taxonomy error **still present** (unchanged since t1)
+t8  structural: accept   [derived]
+t9  formal: unsat  note="Event asserted under Continuant"   [derived]
+t10 dispose: reject   [derived]
 
-Question: Why reject? Is there a single but-for cause? Minimal flip set(s).
+Question: Why reject? Single but-for? Minimal flip set for certify.
 ```
 
 Output:
 ```
 Disposition: reject
 Stage graph: default
+Replay: frozen-suffix
 Verdict classes: **R + N + L + G**
 
 Chain:
-- t1 taxonomy error (occurrent/continuant mix) — decisive for formal reject (latent until t9)
-- t1–t7 brand/FK arc — contributing to *delay*; loop eventually cleared structural
-- t8 structural accept — contributing (licensed formal)
-- t9 formal unsat — proximate dispose signal
+- t1 taxonomy error introduced — contributing history (still present in t7 body)
+- t1–t6 brand/FK arc — contributing to **delay** only (cleared before formal)
+- t7 propose (brand fixed, taxonomy still wrong) — **decisive** exogenous body at formal entry
+- t8 accept — derived; licenses formal
+- t9 unsat — derived proximate
 - t10 reject — terminal
 
-G: formal licensed by t8 accept. Legal.
+G: formal licensed by t8. Legal.
 
-L: Feedback **did** cause structural repair on brand/FK (t7 vs t4). That loop success is **not** the cause of reject; it only admitted the proposal to formal where a *different* defect fired.
+L: Feedback **caused** the brand/FK structural repair (t7 vs t4). That success is **not** the cause of reject; it only opened formal on a body that still carried taxonomy unsat.
 
-N / overdetermination of “path to reject”:
-- For the actual reject at formal: the taxonomy error is necessary given t8–t9.
-- For “would the proposal have failed eventually”: brand thin alone could reject at structural if rounds exhausted before t7 — a **second independently sufficient** path that was avoided.
-- Actual world reject is formal-primary. Counterfactual structural-only reject is a different disposition path.
+N / actual-cause check:
+- Actual disposition is formal reject. The brand defect was **repaired in-flight** before t8 — it is **not** an active cause of the actual outcome.
+- Sole active but-for (trace-scope): taxonomy error in the t7 body. Overdetermination of actual reject: **no**.
+- (Counterfactual: had brand never been fixed, structural reject could have occurred first — a different world, different disposition path. Under the gated graph, structural-visible and formal-visible defects cannot co-cause a *formal* reject.)
 
-Minimal flip set for certify (joint — both defects must clear):
-- { fix taxonomy in proposal before formal (e.g. at t7 or t1), **and** keep brand/FK repair so structural still accepts }
-  Flip only taxonomy but reintroduce brand at t7 → structural thin → may reject without formal.
-  Flip only brand (actual t7) with taxonomy left → still formal reject (actual world).
+Minimal flip set for certify (size 1, exogenous):
+- { t7 := same brand/FK-clean body **with taxonomy corrected** (Event as occurrent / split class) }
+  Replay: structural accept → formal consistent → certify.
+  No second edit required for brand: already clean in recorded t7.
 
-Overdetermination for certify: **yes** — need joint flip covering structural-visible and formal-visible defects. No single-event but-for for certify.
-
-Confirming probe: (1) taxonomy-only fix + freeze brand broken → structural reject path. (2) brand-only fix (actual) → formal reject. (3) both fixes → certify.
+Confirming probe: taxonomy-only fix at t7 → certify. Reintroduce brand at t7 with taxonomy fixed → structural thin path (different failure mode).
 ```
 
 ---
@@ -320,34 +345,45 @@ Confirming probe: (1) taxonomy-only fix + freeze brand broken → structural rej
 Input:
 
 ```
-Stage graph: default.
+Stage graph: default. Replay: frozen-suffix.
 
-Trace (proposal P5) — partial log only:
+Trace (proposal P5) — true formal overdetermination (two unsat cores):
 
-t0  admit: passage_id=77
-t1  propose: <body omitted from log>
-t2  structural: accept
-t3  formal: unsat
-t4  dispose: reject
+t0  admit: passage OK
+t1  propose: body contains BOTH
+      (core A) Event subclass asserted under Continuant
+      (core B) unsatisfiable cardinality: min 2 on a property forced empty by disjoint axioms
+t2  structural: accept   [derived — neither core is structural-visible]
+t3  formal: unsat  cores={A, B}  (explanation lists both independently)   [derived]
+t4  dispose: reject   [derived]
 
-No proposal body, no unsat explanation, no feedback.
+Known simulator fact: repairing only A leaves unsat(B); repairing only B leaves unsat(A); repairing both → consistent.
 
-Question: Attribute reject. Minimal flip set?
+Question: But-for structure of reject. Minimal flip set for certify.
 ```
 
 Output:
 ```
 Disposition: reject
 Stage graph: default
-Verdict classes: **U + G**
+Replay: frozen-suffix
+Verdict classes: **R + N + G**
 
-G: structural accept licensed formal; formal unsat licensed reject. Path legal; cause of unsat **not** recoverable.
+Chain:
+- t1 proposal with cores A and B — both **decisive** under N (each in every minimal flip set for certify; either alone suffices for actual unsat)
+- t2 accept — derived; licenses formal
+- t3 unsat {A,B} — derived
+- t4 reject — terminal
 
-R: proximate cause is t3 unsat → t4 reject. Root content of unsat is **underdetermined** (missing axiom/explanation and proposal body).
+G: formal licensed. Legal.
 
-Minimal flip set: **underdetermined**. Candidates include “edit proposal to remove unsat core” and “weaken ontology constraint,” but the trace does not identify which atoms unsat. Any specific flip set would be invention.
+N: **Overdetermination yes.** No single-core but-for for the actual formal reject: fixing only A or only B leaves reject. Joint flip required for certify.
 
-Confirming probe: re-run formal with explanation API / unsat core dump attached to the trace; or re-emit t1 body. Then reclassify as R with a concrete flip set.
+Minimal flip set for certify (exogenous; joint):
+- { t1 := proposal with core A removed **and** core B removed }
+  Size-1 edits that clear only one core are **not** sufficient → not minimal *successful* flips for certify; they are incomplete.
+
+Confirming probe: edit A only → still unsat(B). Edit B only → still unsat(A). Edit both → certify. Illustrates N under the gated graph (both defects formal-visible, co-present at formal entry).
 ```
 
 ---
@@ -357,50 +393,33 @@ Confirming probe: re-run formal with explanation API / unsat core dump attached 
 Input:
 
 ```
-Bridge specimen (marked B). Stage graph: default per proposal.
+Stage graph: default. Replay: frozen-suffix.
 
-Run-level observation (population):
-- 40 proposals in ontology family F_event
-- 31 of 40 dispose=reject at formal with the same unsat pattern: "Event subclass asserted under Continuant"
-- structural accept rate on those 31: 28/31 (structural usually accepted)
-- family F_object in same run: 2/35 formal rejects, unrelated cores
+Trace (proposal P6) — partial log:
 
-Sample proposal-level trace (representative of the 31):
+t0  admit: passage_id=77
+t1  propose: <body omitted>
+t2  structural: accept   [derived]
+t3  formal: unsat   [derived; no core dump]
+t4  dispose: reject   [derived]
 
-t0  admit: passage about status transitions
-t1  propose: StatusEvent fields placed on Order class (continuant)
-t2  structural: accept
-t3  formal: unsat (Event under Continuant)
-t4  dispose: reject
-
-Question: Explain the run-level formal-reject spike for F_event in proposal-level causal terms. What flip would clear the family pattern?
+Question: Attribute reject. Minimal flip set?
 ```
 
 Output:
 ```
-Disposition (proposal): reject | Run-level symptom: F_event formal-reject spike
+Disposition: reject
 Stage graph: default
-Verdict classes: **B + R + G**
+Replay: frozen-suffix
+Verdict classes: **U + G**
 
-Bridge:
-- Population pattern is **repeated proposal-level mechanism**: structural accept + systematic occurrent/continuant mis-modeling → formal unsat. Not aperture composition (structural often accepts) and not a single flaky formal run.
+G: path legal (accept → formal → reject).
 
-Proposal-level chain (representative):
-- t1 conflation — decisive
-- t2 accept — contributing (licenses formal)
-- t3 unsat — proximate
-- t4 reject — terminal
+R: proximate derived chain t3→t4. Root exogenous content of unsat is **underdetermined** (t1 body and unsat core missing).
 
-G: formal licensed; rejects legal.
+Minimal flip set: **underdetermined**. Naming a specific proposal edit would invent atoms. Design flips (weaken ontology) are equally underdetermined without cores.
 
-R / family-level flip set (design intervention):
-- { voice/schema constraint or pre-formal check forbidding Event⊑Continuant pattern in proposals } 
-  or { feedback template that splits event tables before structural }
-  Evaluated as reduction in F_event formal-reject rate on replay of the 40.
-
-Minimal flip for the single sample: { t1 split StatusEvent from Order correctly } → formal consistent (assuming no other defects).
-
-Confirming probe: re-derive the 31 with the design flip; expect formal-reject rate collapse for that unsat core while F_object unchanged. If rate stays high, bridge attribution is wrong (e.g. true cause is ontology pin change, not proposal pattern).
+Confirming probe: attach t1 body and unsat core to the trace; reclassify under R/N with an exogenous flip set.
 ```
 
 ---
@@ -410,17 +429,69 @@ Confirming probe: re-derive the 31 with the design flip; expect formal-reject ra
 Input:
 
 ```
-Stage graph: default. Max rounds: 0 (no feedback edge used).
+Aggregate specimen (marked A). Stage graph: default per proposal. Replay: frozen-suffix.
+
+Run-level observation:
+- 40 proposals in family F_event
+- 31/40 dispose=reject at formal; same unsat pattern "Event subclass under Continuant"
+- structural accept on 28/31 of those
+- F_object in same run: 2/35 formal rejects, unrelated cores
+
+Representative proposal trace:
+
+t0  admit: status transitions passage
+t1  propose: StatusEvent fields on Order (continuant)
+t2  structural: accept   [derived]
+t3  formal: unsat (Event under Continuant)   [derived]
+t4  dispose: reject   [derived]
+
+Question: Explain the F_event spike in proposal-level terms. Trace flip vs design flip.
+```
+
+Output:
+```
+Disposition (sample): reject | Run-level: F_event formal-reject spike
+Stage graph: default
+Replay: frozen-suffix
+Verdict classes: **A + R + G**
+
+A (aggregate):
+- Population pattern = **repeated proposal-level mechanism**: structural accept + systematic occurrent/continuant mis-model → formal unsat.
+- Aperture composition is a poor primary account when structural accept rate is high on the failing set.
+
+Sample chain:
+- t1 conflation — **decisive** (exogenous)
+- t2–t4 — derived path
+
+G: formal licensed; rejects legal.
+
+Minimal flip set (sample, trace-scope):
+- { t1 := StatusEvent split from Order correctly } → formal consistent (other defects absent)
+
+Design flip (family-level intervention; separate field):
+- { voice or pre-formal check forbidding Event⊑Continuant in proposals }
+  Evaluated on the 40-proposal population; does not redefine t1’s decisive tag on the sample.
+
+Confirming probe: apply design flip across the 31; expect unsat-core rate collapse for F_event with F_object stable. Sample-level: exogenous t1 fix → certify.
+```
+
+---
+
+### Example 8:
+
+Input:
+
+```
+Stage graph: default. Max rounds: 0 (feedback unused). Replay: frozen-suffix.
+Policy (config, hashed): formal_only_after_structural_accept=true
 
 Trace:
 
-t0  admit
-t1  propose
-t2  structural: thin
-t3  formal: consistent   ← invoked despite thin
-t4  dispose: certify
-
-Policy note in config blob (hashed): formal_only_after_structural_accept=true
+t0  admit: ...
+t1  propose: body B
+t2  structural: thin   [derived]
+t3  formal: consistent   [derived — invoked despite thin]
+t4  dispose: certify   [derived]
 
 Question: Graph legality and disposition attribution.
 ```
@@ -428,21 +499,21 @@ Question: Graph legality and disposition attribution.
 Output:
 ```
 Disposition: certify (recorded)
-Stage graph: default with formal_only_after_structural_accept=true
+Stage graph: default; formal_only_after_structural_accept=true
+Replay: frozen-suffix
 Verdict classes: **G** (primary) + **R**
 
-G: **Illegal formal invocation.** t2 thin and no escalate→formal edge ⇒ formal at t3 violates the declared graph/policy. Certify is a recorded dispose but not a licensed outcome under the graph.
+G: **Illegal formal invocation.** t2 thin and no escalate-policy edge ⇒ t3 violates the graph. Recorded certify is unlicensed under the declared policy.
 
-R: Causal story of “why certify” is secondary to G failure. Licensed dispositions would be reject/escalate at structural under max rounds 0, or an explicit policy flip.
+R: “Why certify?” is secondary to G. Licensed derived dispose under policy would recompute as structural reject (max rounds 0) if the gate were enforced.
 
-Minimal flip set for *legal* certify:
-- { t2 := accept, and formal still consistent } 
-  or { policy formal_only_after_structural_accept=false  (graph override), keep t3–t4 }
+Minimal flip set for *legal* certify (exogenous / design):
+- Design flip: { formal_only_after_structural_accept := false } then formal may run on thin (policy override specimen)
+- Trace flip: { t1 := body that derives structural accept } with formal still consistent → licensed certify path
 
-Minimal flip set for legal reject:
-- { remove t3–t4; dispose reject at structural under max rounds 0 }
+Illegal: { t2 := accept } as a flip — derived edit.
 
-Confirming probe: enforce gate in simulator — with policy true, t3 must not run; disposition becomes structural reject. Documents G as first-class content.
+Confirming probe: enforce policy in simulator → formal does not run → dispose reject at structural. Documents G.
 ```
 
 ## Tags:
