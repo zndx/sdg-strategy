@@ -1,7 +1,116 @@
 # Aperture Selection for Domain Harvesting
 
 ## Description:
-This task involves reasoning about the choice of Qdrant collection (the "aiming" aperture versus the full vocabulary collection) and the associated strategy lens configuration used to select passages from a large document stream for downstream derivation. It evaluates the model's ability to understand the trade-offs between precision-focused harvesting (tight conceptual aperture) and broader recall, and how the choice of lens snapshot and binding directly shapes the input window for the entire corpus pipeline.
+This task requires **designing, predicting, and auditing the harvest aperture** — the first admission membrane in the corpus pipeline — with **computable ground truth**, not narrative trade-off essays.
+
+> Choose or diagnose a boundary topology `(C, τ, e, index)` over a document stream, knowing every downstream measurement is conditional on what that membrane admits. Recover admitted-set composition, operating points under stated costs, which cross-aperture comparisons are licensed, whether observed drift is membrane-move or stream-move, and what the aperture structurally cannot see.
+
+### Unification with the rest of the objective suite
+
+| sibling | relationship |
+|---------|----------------|
+| **Provenance simplex** | Aperture is a **strategy** selection mechanism, not the **window**. The window is the raw slice (harvest cursor / passage store / Iceberg snapshot); the aperture decides which admitted material from that slice enters derivation. Confusing the two is a category error. |
+| **Boundary-relative opinion states** | That task *infers* permeability from traces. This task *chooses and audits* the permeability of the harvest membrane. Same membrane vocabulary; design vs diagnosis. |
+| **Opinion algebra** ([`_opinion-algebra.md`](./_opinion-algebra.md)) | Composition predictions and calibrated residual uncertainty on predicted makeup use the shared ω surface (qualitative bins or numeric; u licensed by evidence). Fusion restrictions and label collapse apply when product labels (`rich`/`thin` rates) are treated as facts across apertures. |
+
+**Theory of Mind (operational, tag-level):** drift attribution — given only admitted-set observations, decide whether the **boundary moved** or the **stream moved** — is the same epistemic shape as recovering a counterparty's permeability from verdicts. Snapshot hashes alone cannot flag composition drift under a fixed membrane over a moving FinePDFs distribution.
+
+### What an aperture is (the membrane)
+
+An **aperture** is an admission surface over passages (or analogous units). In the reference text binding:
+
+```
+admit(p)  ⇔  ∃ c ∈ C.  sim(e(p), e(c)) ≥ τ
+```
+
+with late-interaction / MaxSim-style `sim` against concept **definitional text** (content-first SKOS, not label litany).
+
+| component | role | must be pinned for metrology-grade harvest |
+|-----------|------|-----------------------------------------------|
+| **C** | concept set (aiming SKOS → ColBERT collection points) | `lens/aiming.skos.ttl` + `lens/aiming.snapshot.json` |
+| **τ** | admission threshold (or top-k / floor policy) | knobs / harvest policy in strategy |
+| **e** | embedding / late-interaction **model version** | model id + weights digest — **part of the membrane**, not an invisible constant |
+| **index** | ANN realization (HNSW `ef`/`M`, quantization, exact vs approx) | either hashed into the strategy or **exact search mandated at the gate** |
+
+**Effective aperture** is a function of `(C, τ, e, index)`, not of `C` alone. Two runs with identical `strategy_id` that omit `e` or `index` from the hash can harvest **different** sets — a metrology defect. Live reference shape: aiming collection `sdg_aperture` (composite multi-domain concepts, rich definitions) vs full vocab `sdg_domains` (classification vocabulary; primary role is later congruence/grounding, not the harvest rifle). Binding declares runtime collection names; materialize is repo → Qdrant.
+
+**Composite apertures** union vertical domains (LIMS, manufacturing/SysML, energy, CSG, utility, …) with horizontal **Data Engineering** (schema/lineage/catalog/profile) — the domain under every vertical and the dogfood of blind-column CTA/CPA.
+
+### Ground truth is simulator-computable
+
+Specimens supply (or imply) a **labeled stream simulator**: each passage carries domain labels (in-domain / adjacent / off-domain / canary tags), known `sim` scores or rank tables against C, and optional derive outcome class (`rich` / `thin` / inert) if measured **after** admission.
+
+From that:
+
+| quantity | nature |
+|----------|--------|
+| admitted set A, |A| | count |
+| precision / recall / adjacent coverage vs labels | count ratios |
+| composition vector (mass per domain label in A) | counts → optional multinomial ω over labels with u licensed by sample size (algebra module; Dirichlet with **W = 2** fixed) |
+| operating value under a cost model | arithmetic on counts |
+
+**Cost model** (required when asking “which aperture is better”):
+
+- `c_pass` — compute (or $) per harvested passage through derive  
+- `v_rich` — value of a rich derivation  
+- `c_thin` — cost of a thin/inert round (wasted work)  
+- optional `c_miss` — cost of failing to admit a valuable in-domain passage (recall penalty)
+
+Without a cost model (or another stated objective), “better aperture” has **no unique correct answer** — only plausible essays. The correct output is then **underdetermined** plus what must be specified, not a preferred story.
+
+### Selection effects (channel ≠ object, retrieval costume)
+
+**Rich-rate conditioned on admission is not comparable across apertures.** Tightening C or raising τ improves the *measured* rich proportion by changing the measured population — the same selection-effect pattern as optimizing an artifact under one signal and scoring it under a correlated judge.
+
+Main-vs-shadow (or aiming-vs-vocab) comparisons of downstream metrology license metric comparison **only** via one of:
+
+| correction | meaning |
+|------------|---------|
+| **(a) Intersection** | evaluate only on A_main ∩ A_shadow (same passages) |
+| **(b) Fixed probe set** | aperture-independent canary / holdout passages scored under every membrane |
+| **(c) Importance weighting** | reweight by admission propensities when a design justifies it |
+
+A model that compares raw rich-rates (or family mix rates) across apertures **without** one of (a)–(c) is wrong even if the essay sounds careful. “Isolate aperture as an experimental variable” is incomplete without stating **how** isolation is achieved for the metric at hand.
+
+### Question types (verdict space)
+
+| code | type | ask |
+|------|------|-----|
+| **O** | operating-point selection | given stream stats + cost model → choose C / τ (or binding); value is computable |
+| **M** | composition prediction | predict admitted makeup (counts or ω with calibrated u); score against simulator |
+| **X** | comparability analysis | which cross-aperture metric comparisons are licensed? name (a)/(b)/(c) or refuse |
+| **D** | drift attribution | given manifests + realized harvests, did the **membrane** move or the **stream**? (may be **underdetermined**) |
+| **B** | blind-spot reasoning | what the aperture structurally cannot admit; canary probes that must fail admission |
+| **H** | membrane completeness | is `strategy_id` / manifest pinning the full membrane `(C, τ, e, index)`? |
+
+Composite answers expected (e.g. **M + X**, **D** underdetermined + probe, **O + B**).
+
+### Required output shape
+
+```
+Membrane: C=…  τ=…  e=…  index=…   [or "incomplete pin" under H]
+Verdict classes: <O|M|X|D|B|H …>
+
+Admitted-set / composition (counts or ω; u licensed if predictive):
+  …
+
+Operating value (if O):  V = …   [show arithmetic]
+
+Comparability (if X or any cross-aperture metric claim):
+  licensed: yes via (a|b|c) | no — refuse naive comparison
+  …
+
+Drift (if D):
+  membrane | stream | underdetermined
+  fingerprint: …
+
+Blind spots / canaries (if B):
+  …
+
+Confirming probe: <re-harvest, pin change, canary injection, or intersection eval that flips the verdict>
+```
+
+Derivation must cite simulator tables, manifests, and cost numbers. Guesses that treat rich-rate as aperture-invariant, equate aiming with window, or assume `strategy_id` pins `e`/ANN without evidence are wrong.
 
 ## Modality:
 Text only
@@ -13,26 +122,53 @@ Text only
 Input:
 
 ```
-A strategy defines two collections:
-- aiming collection (sdg_aperture): a smaller, high-precision set of concepts focused on industrial equipment maintenance, failure modes, and sensor readings.
-- full vocab collection (sdg_domains): the complete ontology vocabulary.
+Harvest membrane choice. Stream simulator (N = 10_000 passages, labels known):
 
-Explain the expected effect on the harvested passage set and subsequent derive quality if a run uses the aiming collection versus the full vocabulary collection for the initial domain harvest step.
+Domain labels in stream:
+- LIMS-core: 800
+- DATAENG (schema/lineage/catalog prose): 600
+- adjacent (regulatory / supply-chain touching labs): 1_200
+- off-domain: 7_400
+
+Two candidate membranes (same e = colbert-v1@sha_e1, exact search, index params irrelevant):
+
+Membrane A — aiming C_A = {LIMS concepts with rich definitions}, τ = 0.62
+  Simulator admission counts: LIMS 640, DATAENG 40, adjacent 180, off 90  → |A| = 950
+  Of admitted, derive outcomes if run: rich 380, thin 420, inert 150
+
+Membrane V — binding uses full vocab C_V = sdg_domains (973 concepts), same τ = 0.62, same e
+  Admission: LIMS 700, DATAENG 420, adjacent 900, off 2_100 → |A| = 4_120
+  Outcomes: rich 520, thin 2_400, inert 1_200
+
+Cost model: c_pass = 1, v_rich = 5, c_thin = 1 (inert charged as thin). No separate c_miss.
+
+Tasks:
+1. Compute operating value V = v_rich·n_rich − c_pass·|A| − c_thin·(n_thin+n_inert) for A and V. Which wins under this cost model?
+2. Compare "rich rate" rich/|A| across membranes. Is the comparison licensed? If not, what correction applies?
+3. Stage role: is V an appropriate *harvest* aperture, or a mis-bound congruence vocabulary?
 ```
 
 Output:
 ```
-Using the aiming collection (sdg_aperture):
-- Harvest will be more selective: only passages whose embeddings are close to the aiming concepts will be admitted.
-- Expected benefits: higher density of directly relevant content for the target domain (fewer off-topic FinePDFs documents), better signal-to-noise for the derive agent, higher proportion of "rich" metrology outcomes.
-- Risks: potential under-coverage of adjacent but useful concepts (e.g., regulatory or supply-chain documents that use broader vocabulary).
+Membrane: A = (C_LIMS, τ=0.62, e=colbert-v1@sha_e1, exact); V = (C_vocab, same τ, e, exact)
+Verdict classes: **O + X + H/stage**
 
-Using the full vocabulary collection (sdg_domains):
-- Harvest will be broader: any passage matching any domain concept may be included.
-- Expected benefits: greater volume and diversity, possibly surfacing useful long-tail patterns.
-- Risks: dilution of the input window with marginally relevant material, increased rate of "thin" or "inert" derivations, higher compute cost in later stages, and greater chance that the agent spends rounds on low-value passages.
+1. Operating values:
+   V_A = 5·380 − 1·950 − 1·(420+150) = 1900 − 950 − 570 = **380**
+   V_V = 5·520 − 1·4120 − 1·(2400+1200) = 2600 − 4120 − 3600 = **−5120**
+   Under this cost model **A wins**. (Different costs could flip O; the fact of the matter is the arithmetic, not an essay.)
 
-The choice is recorded in the strategy lens binding and directly influences the harvest cursor and the resulting run zettel. Strategy drift checks will flag changes to the aiming snapshot between runs.
+2. Rich rates: A → 380/950 ≈ 0.40; V → 520/4120 ≈ 0.13.
+   **Naive comparison of rich-rate across A and V is not licensed** as proof that A "produces higher quality derivations" in a population-invariant sense — the rate is conditioned on different admission events (selection effect / channel≠object in retrieval costume).
+   Licensed options:
+   - (a) evaluate outcomes only on A ∩ V (passages admitted by both);
+   - (b) fixed probe set run under both membranes;
+   - (c) importance weights if propensities are modeled.
+   Raw rich-rate improvement under A is partly **population change**, not only better work on shared passages.
+
+3. Stage role: full vocab as harvest rifle is usually a **mis-binding**. Vocab's primary job is congruence/grounding downstream; using it as C at harvest dilutes admission (see off-domain 2100). H: binding must declare which collection is the harvest aperture.
+
+Confirming probe: score the same 200 labeled canaries under A and V (correction b); recompute rich-rate and V on that fixed set. If A's advantage shrinks to near zero on the intersection/probe while remaining large on conditioned rates, the selection artifact is confirmed.
 ```
 
 ---
@@ -42,28 +178,205 @@ The choice is recorded in the strategy lens binding and directly influences the 
 Input:
 
 ```
-During a shadow strategy experiment, the aiming collection snapshot was updated to include additional LIMS and SysML concepts. Describe the likely downstream effects on corpus composition and on the strategy manifest itself.
+Operating-point selection on τ only. Fixed C = composite aiming (LIMS + manufacturing + energy + CSG + utility + DATAENG; 29 concepts), e and exact search pinned.
+
+Simulator gives admission and outcome counts vs τ:
+
+τ     |A|   n_rich  n_thin+inert  n_in_domain_missed (of 2000 in-domain in stream)
+0.50  2400  420     1980          200
+0.62  1100  360     740           480
+0.75   500  280     220           900
+
+Cost model: c_pass = 1, v_rich = 4, c_thin = 1, c_miss = 2
+Define V(τ) = v_rich·n_rich − c_pass·|A| − c_thin·(n_thin+inert) − c_miss·n_in_domain_missed
+
+Select τ*. Show arithmetic. State what remains underdetermined if c_miss were unspecified.
 ```
 
 Output:
 ```
-Likely downstream effects:
+Membrane: C fixed composite aiming; e pinned; exact; τ varies
+Verdict classes: **O**
 
-1. Harvest behavior changes: new passages matching the added LIMS/SysML concepts will now be admitted by the aiming filter that previously would have been excluded.
-2. Derive workload shifts: the agent will see more content involving laboratory information management and systems modeling language artifacts. This may increase the rate at which certain ontology families (e.g., measurement, directive) receive new entities.
-3. Metrology and congruence scores may move because the new content has different structural characteristics than the original industrial maintenance corpus.
-4. The strategy manifest itself must change: the lens/aiming.snapshot.json component will have a new hash, producing a new strategy_id. The lens/aiming.skos.ttl may also be updated.
-5. Any run using the new strategy ref will record the updated strategy_id and the corresponding stage_keys in its zettels.
-6. When comparing main versus shadow, the difference in aperture is a first-class experimental variable that must be isolated from other strategy changes (voices, targets, etc.).
+V(0.50) = 4·420 − 2400 − 1980 − 2·200 = 1680 − 2400 − 1980 − 400 = **−3100**
+V(0.62) = 4·360 − 1100 − 740 − 2·480 = 1440 − 1100 − 740 − 960 = **−1360**
+V(0.75) = 4·280 − 500 − 220 − 2·900 = 1120 − 500 − 220 − 1800 = **−1400**
 
-Because the aiming snapshot is part of the strategy, all such experiments remain fully reproducible and comparable via the manifest.
+τ* = **0.62** under this cost model (least negative among tabulated points).
+
+If c_miss were unspecified: ranking between 0.62 and 0.75 is **underdetermined** (miss gap 480 vs 900 · c_miss can dominate); correct output is underdetermination + request for c_miss (or a probe-set recall SLA), not a preferred essay.
+
+Confirming probe: denser τ grid around 0.62; or hold τ and expand C (DATAENG definitions) to reduce misses without lowering τ — tests C–τ edge.
+```
+
+---
+
+### Example 3:
+
+Input:
+
+```
+Shadow experiment. Main strategy_id S0 pins aiming C0 (no DATAENG branch). Shadow S1 adds DATAENG concepts (notation 14.x) to aiming SKOS; new aiming.snapshot hash → new strategy_id S1. Voices/targets unchanged. e and exact search identical and pinned in both manifests.
+
+Simulator (same window / stream snapshot W):
+- Main admitted |A0| = 1000; domain mix: LIMS 55%, mfg 20%, energy 10%, other-vertical 10%, DATAENG-labeled 5%
+- Shadow admitted |A1| = 1350; mix: LIMS 40%, mfg 15%, energy 8%, other-vertical 8%, DATAENG-labeled 29%
+- Main rich-rate on A0: 0.38; Shadow rich-rate on A1: 0.31
+- Intersection A0 ∩ A1: 920 passages; rich-rate on intersection under main derive config: 0.37; under shadow (same passages, re-derived): 0.36
+
+A colleague claims: "Shadow is worse — rich-rate dropped from 0.38 to 0.31; roll back DATAENG."
+
+Assess composition change, manifest identity, and whether the colleague's comparison is licensed. Predict the qualitative composition shift from adding DATAENG (M).
+```
+
+Output:
+```
+Membrane: S0 = (C0, …); S1 = (C0 ∪ DATAENG, …); e, τ, index, window W pinned equal
+Verdict classes: **M + X + H**
+
+Manifest / H:
+- S0 → S1 is the correct identity move: aiming.skos + aiming.snapshot hashes change; strategy_id must roll. Voices unchanged ⇒ harvest delta attributable to C, not prompt drift.
+
+Composition (M):
+- Adding DATAENG predicts increased admission of schema/lineage/catalog/profiling prose (horizontal domain under every vertical). Simulator confirms: DATAENG-labeled share 5% → 29%, |A| 1000 → 1350. LIMS share falls as a **mix shift**, not necessarily LIMS abandonment (absolute LIMS counts need the count table; rates alone are composition, not loss).
+
+Comparability (X):
+- Colleague's claim uses raw rich-rate 0.38 → 0.31 across different admitted populations → **not licensed**. Selection effect: shadow measures a different population (more DATAENG passages), so conditioned rich-rate is not "quality of the membrane" in isolation.
+- Licensed evidence already in the trace: intersection (a) shows 0.37 vs 0.36 — negligible change on shared passages. The apparent degradation is almost entirely population change, not worse work on the common set.
+- Correct experimental report: isolate aperture via intersection or probe set; do not roll back DATAENG on naive rich-rate alone.
+
+Confirming probe: fixed probe set (b) with LIMS / DATAENG / off-domain canaries under S0 and S1; require DATAENG canaries admit under S1 not S0, LIMS canaries stable, off-domain still floored (separation).
+```
+
+---
+
+### Example 4:
+
+Input:
+
+```
+Drift attribution. Two harvest runs, same declared strategy_id S (byte-identical lens/aiming.snapshot.json, binding, knobs τ, recorded e digest, exact search). Window pins differ:
+
+Run 0: FinePDFs cursor epoch E0 → admitted composition: LIMS 50%, energy 25%, DATAENG 15%, off 10%; |A|=1200
+Run 1: cursor epoch E1 (three months later) → LIMS 35%, energy 20%, DATAENG 15%, off 30%; |A|=1200
+
+No re-materialize between runs. ANN set to exact in both.
+
+A dashboard flags "aperture drift" because off-domain share rose.
+
+Attribute: membrane vs stream vs underdetermined. What fingerprint distinguishes the cases? What confirming probe?
+```
+
+Output:
+```
+Membrane: claimed identical S (C, τ, e, exact) both runs
+Verdict classes: **D**
+
+Attribution: **stream-primary** (window / source distribution moved), not membrane-move — *given* the manifest pins are trusted and exact search eliminates index nondeterminism.
+
+Fingerprint:
+- Membrane-move: concept/threshold/model/index hash changes; admission deltas **align to edited concepts** (category-structured around C diff) even on a frozen stream replay.
+- Stream-move: strategy_id and membrane pins unchanged; composition tracks **source mix / cursor epoch**; replaying Run1's membrane on E0's frozen passages recovers Run0-like mix.
+- Here strategy_id and e/τ/C are identical by statement ⇒ membrane-move is eliminated unless H fails (undeclared e/index drift). Off-domain rise with fixed membrane is the signature of a moving FinePDFs distribution — **exactly what snapshot hashes will not flag**.
+
+If e or ANN were **not** in the pin set: **underdetermined** between silent membrane change and stream change — correct verdict U + probe, not a guess.
+
+Confirming probe:
+1. Re-harvest E0 passages with Run1 binary/config; expect Run0 composition if membrane truly fixed.
+2. Re-harvest E1 with Run0 config; expect Run1-like off-domain elevation if stream moved.
+3. If (1) fails, hunt undeclared e/index drift (H defect) despite strategy_id equality.
+```
+
+---
+
+### Example 5:
+
+Input:
+
+```
+Blind-spot / canary design. Composite aiming C includes LIMS + DATAENG with rich skos:definition text; τ = 0.62; e pinned; exact search.
+
+Claim by author: "Aperture covers laboratory results end-to-end including column-semantic cataloging."
+
+Available canary passages (labels known, sim-to-nearest-c tabulated offline):
+
+| id | label | max sim to C | notes |
+|----|-------|--------------|-------|
+| K1 | LIMS specimen lifecycle | 0.81 | should admit |
+| K2 | DATAENG column semantic type annotation | 0.78 | should admit if DATAENG definitions are real |
+| K3 | pure tax-code jurisdiction essay | 0.41 | off-domain |
+| K4 | LIMS-adjacent GLP regulation without assay content | 0.58 | adjacent; borderline |
+| K5 | vocab-label litany only ("Customer, Order, Amount") with no definitional prose | 0.44 | tests content-first doctrine |
+| K6 | well-log WITSML trajectory narrative | 0.33 | energy not in this C (C is LIMS+DATAENG only for this specimen) |
+
+τ = 0.62. Which canaries must admit / must reject if the claim and content-first doctrine hold? What does a K2 miss falsify? Verdict class B.
+```
+
+Output:
+```
+Membrane: C = LIMS ∪ DATAENG; τ=0.62; e pinned; exact
+Verdict classes: **B** (+ doctrine check)
+
+Admission under claim + τ:
+- **Must admit:** K1 (0.81), K2 (0.78) — in-domain for stated C; K2 is the dogfood canary for "column-semantic cataloging."
+- **Must reject:** K3 (0.41), K5 (0.44), K6 (0.33) — below τ; K6 is structural blind spot for this C (energy not in membrane); K5 fails content-first (labels without definitions should not clear a definition-driven MaxSim gate).
+- **Borderline:** K4 (0.58) — reject at 0.62; adjacent coverage is a conscious blind spot unless τ or C expands.
+
+If K2 misses (sim actually < τ or not in index): falsifies "cataloging covered" — either DATAENG definitions are poor/empty (separation failure), wrong collection binding, or index not materialized from claimed SKOS (H/materialize defect).
+
+Confirming probe: inject K1–K6 into the live stream (or offline MaxSim table against production C); require the admit/reject pattern above. Expanding C to energy should flip K6 without flipping K3.
+```
+
+---
+
+### Example 6:
+
+Input:
+
+```
+Membrane completeness (H). Two runs report the same strategy_id S from hashing:
+  lens/aiming.skos.ttl, aiming.snapshot.json, binding.json, knobs (τ=0.62), voices, targets.
+
+Run R0 and R1 use different embedding image digests (e0 vs e1) not present in the manifest leaves.
+Both use HNSW with ef=64 on R0 and ef=256 on R1; neither ef nor "exact vs ANN" is hashed.
+Realized |A| and top-domain mix differ substantially on the same window pin W.
+
+Is strategy_id equality sufficient to treat apertures as identical? What must be pinned? How does this interact with drift checks?
+```
+
+Output:
+```
+Membrane: nominal S identical; effective (C, τ, e, index) **not** identical
+Verdict classes: **H + D**
+
+strategy_id equality is **not** sufficient. Effective aperture = (C, τ, e, index). Here e and ANN params moved outside the hash ⇒ **hidden membrane components**. Realized admission differences on fixed W are membrane-effective drift invisible to current drift checks.
+
+Must pin for metrology-grade harvest:
+- e: model id + weights/image digest
+- index: exact search **or** (HNSW M/ef, quantization, build seed) in the manifest / stage_key
+- C, τ already partially pinned via lens + knobs
+
+Until then: two runs with same strategy_id can harvest different sets — gate defect, not stream mystery.
+
+Drift interaction: dashboard "composition drift" under same strategy_id is **underdetermined** among (stream move | silent e change | ANN recall change). Confirming probes must freeze W and swap one factor at a time.
+
+Confirming probe:
+1. Mandate exact search at harvest gate (or hash ef/M); re-run R0/R1 on W.
+2. Add e digest to strategy leaves; expect strategy_id split when e0≠e1.
+3. Replay identical (C,τ,e,exact) on W — admitted sets should match within tie-break policy.
 ```
 
 ## Tags:
 - Aperture Selection
-- Information Retrieval
-- Harvesting
+- Harvest Membrane
 - Lens Configuration
-- Systems Thinking
-- Relational Data
+- Operating Point
+- Selection Effects
+- Comparability
+- Drift Attribution
+- Blind Spots
+- Information Retrieval
+- Metrology
+- Provenance Simplex
+- Strategy Identity
 - Synthetic
