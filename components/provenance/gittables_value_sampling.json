@@ -1,7 +1,7 @@
 {
   "component": "provenance/gittables_value_sampling",
   "purpose": "Retained lineage for grounding relational VALUE generation in real GitTables columns. Real values are admitted (not sanitized) because this discrete, content-hashed sampling strategy is pinned by a corpus's strategy_id, so provenance is auditable end-to-end (GitTables snapshot -> this strategy vN -> corpus column -> published corpus vX -> Apache Atlas). RH 2026-07-13: provenance succeeds exclusion.",
-  "version": "gtvs-v1-seg-v3-2026-07-13",
+  "version": "gtvs-v1-seg-v4-2026-07-13",
   "source": {
     "dataset": "GitTables",
     "root": "/raid/datasets/gittables",
@@ -10,9 +10,10 @@
   },
   "segmentation": {
     "kind": "column-name regex + value-shape validator (the value shape must corroborate the name)",
-    "version": "seg-v3-2026-07-13",
+    "version": "seg-v4-2026-07-13",
     "per_value_gate": "v3: a value enters a pool ONLY if its OWN shape passes the type's validator — the column NAME classifies the type, but each value is individually admitted. (v2 admitted every cleaned value of a name-classified column, so a mostly-name column's stray junk row like 'Incr Critical%' or a single-word place in an org column like 'Guéckédou' leaked in.) Trade-off: fewer but clean pools (organization 255 clean multi-word/suffixed vs the polluted v2 set).",
     "placeholder_filter": "v3 also rejects registration/scrape placeholders that pass shape but read as nonsense: WHOIS 'REDACTED FOR PRIVACY', 'domains by proxy', 'not disclosed', 'dummy'/'test data'.",
+    "framework_filter": "v4 rejects ERP/CMS framework internals scraped into value columns (Odoo ir.model.access CSV dumps 'access_account_analytic_account_user'/'model_mrp_document', Frappe DocType labels 'Link DocType') across all pools, and tightens the identifier validator to a code-like shape (digit OR uppercase OR <=1 underscore) so an english-phrase snake_case internal name can't land in an id/serial/sku column.",
     "rules": {
       "person_name": {"name": "name|employee|person|contact|author|customer|client|owner|manager|holder", "value_validator": "^[A-Z][a-z]+(?:[ '\\-][A-Z][a-z]+){1,2}$"},
       "organization": {"name": "company|organi[sz]ation|org|employer|vendor|supplier|institution|firm|agency|manufacturer|brand", "value_validator": "org-suffix (Inc|LLC|Ltd|Corp|Company|Bank|University|...|Industries) OR >=2 Capitalized words"},
