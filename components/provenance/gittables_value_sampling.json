@@ -1,7 +1,7 @@
 {
   "component": "provenance/gittables_value_sampling",
   "purpose": "Retained lineage for grounding relational VALUE generation in real GitTables columns. Real values are admitted (not sanitized) because this discrete, content-hashed sampling strategy is pinned by a corpus's strategy_id, so provenance is auditable end-to-end (GitTables snapshot -> this strategy vN -> corpus column -> published corpus vX -> Apache Atlas). RH 2026-07-13: provenance succeeds exclusion.",
-  "version": "gtvs-v1-seg-v2-2026-07-13",
+  "version": "gtvs-v1-seg-v3-2026-07-13",
   "source": {
     "dataset": "GitTables",
     "root": "/raid/datasets/gittables",
@@ -10,7 +10,9 @@
   },
   "segmentation": {
     "kind": "column-name regex + value-shape validator (the value shape must corroborate the name)",
-    "version": "seg-v2-2026-07-13",
+    "version": "seg-v3-2026-07-13",
+    "per_value_gate": "v3: a value enters a pool ONLY if its OWN shape passes the type's validator — the column NAME classifies the type, but each value is individually admitted. (v2 admitted every cleaned value of a name-classified column, so a mostly-name column's stray junk row like 'Incr Critical%' or a single-word place in an org column like 'Guéckédou' leaked in.) Trade-off: fewer but clean pools (organization 255 clean multi-word/suffixed vs the polluted v2 set).",
+    "placeholder_filter": "v3 also rejects registration/scrape placeholders that pass shape but read as nonsense: WHOIS 'REDACTED FOR PRIVACY', 'domains by proxy', 'not disclosed', 'dummy'/'test data'.",
     "rules": {
       "person_name": {"name": "name|employee|person|contact|author|customer|client|owner|manager|holder", "value_validator": "^[A-Z][a-z]+(?:[ '\\-][A-Z][a-z]+){1,2}$"},
       "organization": {"name": "company|organi[sz]ation|org|employer|vendor|supplier|institution|firm|agency|manufacturer|brand", "value_validator": "org-suffix (Inc|LLC|Ltd|Corp|Company|Bank|University|...|Industries) OR >=2 Capitalized words"},
@@ -50,8 +52,19 @@
     }
   },
   "round_trip_alignment": {
-    "status": "planned",
-    "purpose": "engine/Grok verifies sampled values SEMANTICALLY and by MAGNITUDE fit THIS table's columns in context (e.g. reject a 2.97M value for base_salary); re-sample on mismatch. Its model + prompt version become the next discrete lineage field."
+    "status": "implemented",
+    "prompt_version": "align-v1-2026-07-13",
+    "kind": "SUBTRACTIVE — the agent returns a plausibility CONSTRAINT (num_min/num_max/keep_terms), never a value; the sampler filters the provenance-retained pool to it. Values stay real; the agent only decides which are admissible.",
+    "cas_loop": "boundary (implausible magnitude/semantic) -> signal (column meaning + candidate real values) -> agent (engine reasons) -> constraint -> membrane (constraint must leave a non-empty admissible pool; else sample the nearest real values, never a mechanical placeholder)",
+    "cache": "build/gittables/alignment_cache.json (persisted, auditable; keyed by prompt_version|semantic_type|column|domain)",
+    "module": "src/aegir/ontology/value_alignment.py :: constrain / apply",
+    "demonstrated": "base_salary constraint [20000,200000] -> constrained real values 39272..190013 (was 5.85..2.97M)",
+    "numeric_gate": "numeric pools are magnitude-mixed, so GitTables is used for a numeric column ONLY with an aligner constraint (else the mechanical type-gen, which is magnitude-reasonable)"
+  },
+  "no_silent_fallback": {
+    "default": "gittables=True (rows.py::value_for); the only mechanical values for an INJECTED column come from an explicit opt-out (tests), never a silent transient",
+    "availability_boundary": "rows.py::require_gittables() — call at corpus-gen entry; HALTS if profiles missing/degenerate (RH: quality can't silently degrade if GitTables is transiently unavailable)",
+    "legitimate_mechanical": "booleans, dates, and columns claiming no injected type use the type-correct generator (not degradation); coverage is measurable, not silent"
   },
   "pii_governance": {
     "pii_types": ["person_name", "email", "phone", "geo_place"],
@@ -59,6 +72,9 @@
   },
   "methods": {
     "extractor": "scripts/build_gittables_value_profiles.py -> build/gittables/{value_profiles.json,lineage.json}",
-    "injection": "src/aegir/ontology/rows.py :: value_for(gittables=True) -> _gittables_value (type-checked, deterministic)"
+    "injection": "src/aegir/ontology/rows.py :: value_for(gittables=True) -> _gittables_value (type-checked, deterministic)",
+    "unified_core": "BOTH value paths delegate to the SAME core (rows._gittables_value + rows._semantic_type_of): (1) rows.value_for — the textbook-embedded / lineup tables; (2) entities._cell (via _gt_value) — the FLOW's relational Data Product (the RELEASE corpus). One core → identical realism across ontology-grounding -> relational -> views -> textbooks (RH 2026-07-13: 'same views and values in both'). add_views + render_payload_blocks read THROUGH the construct cells, so real values propagate to views and textbook markdown with no extra work.",
+    "run_entry_boundary": "flow build_constructs + generate_chapter.main call rows.require_gittables() ONCE before generating (hard halt if profiles missing).",
+    "camelcase_norm": "rows._semantic_type_of splits camelCase/snake to spaced-lowercase so 'employeeName'/'employee_name' detect identically in both paths."
   }
 }
