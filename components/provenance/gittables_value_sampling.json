@@ -1,0 +1,64 @@
+{
+  "component": "provenance/gittables_value_sampling",
+  "purpose": "Retained lineage for grounding relational VALUE generation in real GitTables columns. Real values are admitted (not sanitized) because this discrete, content-hashed sampling strategy is pinned by a corpus's strategy_id, so provenance is auditable end-to-end (GitTables snapshot -> this strategy vN -> corpus column -> published corpus vX -> Apache Atlas). RH 2026-07-13: provenance succeeds exclusion.",
+  "version": "gtvs-v1-seg-v2-2026-07-13",
+  "source": {
+    "dataset": "GitTables",
+    "root": "/raid/datasets/gittables",
+    "total_tables": 562214,
+    "license_posture": "public GitHub-derived relational tables; per-value source recorded as <table_sha1>:<column>"
+  },
+  "segmentation": {
+    "kind": "column-name regex + value-shape validator (the value shape must corroborate the name)",
+    "version": "seg-v2-2026-07-13",
+    "rules": {
+      "person_name": {"name": "name|employee|person|contact|author|customer|client|owner|manager|holder", "value_validator": "^[A-Z][a-z]+(?:[ '\\-][A-Z][a-z]+){1,2}$"},
+      "organization": {"name": "company|organi[sz]ation|org|employer|vendor|supplier|institution|firm|agency|manufacturer|brand", "value_validator": "org-suffix (Inc|LLC|Ltd|Corp|Company|Bank|University|...|Industries) OR >=2 Capitalized words"},
+      "monetary": {"name": "salary|pay|wage|price|cost|amount|revenue|budget|fee|income|balance|usd|dollar", "value_validator": "$-prefixed OR comma-thousands OR cents"},
+      "measurement": {"name": "weight|height|length|width|depth|temperature|distance|speed|size|dimension", "value_validator": "^-?\\d+\\.\\d+$"},
+      "quantity": {"name": "count|quantity|qty|total|units|stock", "value_validator": "^\\d+$"},
+      "identifier": {"name": "id|code|ref|sku|isbn|barcode|serial", "value_validator": "alnum code, not a bare float"},
+      "product": {"name": "product|item|model|goods|service|part", "value_validator": null},
+      "category": {"name": "status|state|type|category|kind|class|level|grade|tier|group", "value_validator": "Title-Case phrase"},
+      "url": {"name": "url|link|website|homepage|uri", "value_validator": "^https?://"},
+      "color": {"name": "colou?r", "value_validator": "Title-Case"},
+      "geo_place": {"name": "city|state|country|region|province|county|location|address|street|place|nation", "value_validator": "Title-Case"},
+      "job_title": {"name": "title|position|role|job|occupation|designation", "value_validator": "Title-Case"},
+      "temporal": {"name": "date|time|year|created|updated|start|end|dob|birth|timestamp|period", "value_validator": "date-ish"},
+      "email": {"name": "e?mail", "value_validator": "email"},
+      "phone": {"name": "phone|tel|mobile|fax|cell", "value_validator": "NNN-NNN-NNNN"}
+    }
+  },
+  "filter_heuristics": {
+    "max_value_len": 60, "min_distinct_per_column": 4, "min_rows": 5, "max_null_fraction": 0.5,
+    "reject": "formatting junk [\\{}$^~], lorem-ipsum filler, quoted stray junk, unnamed/NA columns",
+    "cap_per_type": 4000, "cap_per_column": 30
+  },
+  "sampling": {
+    "selection": "random sample of source tables (seeded), snapshot_sha1 recorded per run",
+    "default_run": {"sample_tables": 8000, "seed": 13},
+    "per_cell": "DETERMINISTIC seed = hash(table_name, column_name, row_ix); reproducible cell values",
+    "type_compatibility": {"str": ["xsd:string", "entity", "untyped"], "num": ["xsd:decimal", "xsd:double", "xsd:float"], "int": ["xsd:integer", "xsd:int", "xsd:long"], "date": ["xsd:date", "xsd:dateTime"]},
+    "injected_types": ["person_name", "organization", "product", "url", "color", "identifier", "monetary", "measurement", "quantity"],
+    "deferred_types": {
+      "email": "high-risk PII -> sensitivity membrane before injection",
+      "phone": "high-risk PII -> sensitivity membrane before injection",
+      "job_title": "residual pool noise pending stronger curation",
+      "category": "residual pool noise; status/type columns usually satisfied by the ontology enum",
+      "geo_place": "PII + truncation noise",
+      "temporal": "GitTables pool is dateTime-format; the mechanical date-gen is already xsd-correct"
+    }
+  },
+  "round_trip_alignment": {
+    "status": "planned",
+    "purpose": "engine/Grok verifies sampled values SEMANTICALLY and by MAGNITUDE fit THIS table's columns in context (e.g. reject a 2.97M value for base_salary); re-sample on mismatch. Its model + prompt version become the next discrete lineage field."
+  },
+  "pii_governance": {
+    "pii_types": ["person_name", "email", "phone", "geo_place"],
+    "policy": "provenance-retained, NOT excluded; a sensitivity membrane catches the genuinely-dangerous few (SSN, credentials, medical PII), not the realistic many; email/phone injection gated on that membrane"
+  },
+  "methods": {
+    "extractor": "scripts/build_gittables_value_profiles.py -> build/gittables/{value_profiles.json,lineage.json}",
+    "injection": "src/aegir/ontology/rows.py :: value_for(gittables=True) -> _gittables_value (type-checked, deterministic)"
+  }
+}
