@@ -1,0 +1,42 @@
+{
+  "component": "methods/taxonomy_authentication",
+  "purpose": "The durable methods for turning a FLAT, disjointness-free run ontology into an AUTHENTIC genus+differentia taxonomy that supports Data-Element ELUCIDATION. Captured as a component so the pipeline wires into Metaflow as a step when appropriate (RH 2026-07-14). The taxonomy mid-tier IS the differentia structure: a genus alone is a bag; what makes it a taxonomy is that each species earns a differentia. authentic-taxonomy ≡ sufficient-differentia ≡ elucidable-ontology.",
+  "version": "taxauth-v1-2026-07-14",
+  "problem_frame": {
+    "objective": "INSUFFICIENT DIFFERENTIA (per-element), not confusable-pairs (RH: pairwise is too limiting — intrinsic, open-world, and it IS the elucidation objective; differentia is only defined UNDER a genus, which is why the mid-tier is the precondition).",
+    "guard_observable_vs_logical": "A differentia counts only if it is DATA-OBSERVABLE (projects to a column / FK), not a purely metaphysical distinction. Trichotomy: differentia in-shape → discriminable; in-OWL-not-shape → projection gap (SHACL arc); not-in-OWL → ontology gap (author one, or mark legitimately-non-observable)."
+  },
+  "calibration_constraint": {
+    "rule": "The taxonomy's breadth × depth is bounded by the distribution of probability mass relative to the discriminating potential among element specifications in the GENERATED lexicon — concretely the vector-space separability the NHSVM / Atelier discriminators can exploit (RH 2026-07-14).",
+    "mechanism": "rate-distortion. The lexicon is a source; the taxonomy quantizes it into genus cells. Adding genera lowers distortion only while the source HAS the information; past the FRONTIER (inertia elbow / silhouette peak) we quantize NOISE = fabricated differentia below the discriminator's resolution. Induce AT the frontier, never finer; measure differentia-sufficiency RELATIVE to that resolution, not absolute.",
+    "future_versions": "The frontier moves out only with more probability mass: (1) more lexicon/corpus (primary, free) → higher frontier_k + real species per genus; (2) stronger encoder/generator → higher intrinsic_dim; (3) NHSVM/discriminator must scale JOINTLY or finer labels are unusable; (4) domain concentration for depth. Always report differentia_sufficiency vs the current frontier and TRACK intrinsic_dim / frontier_k across versions."
+  },
+  "pipeline": {
+    "1_genus_induction": {
+      "module": "src/aegir/ontology/genus_induction.py",
+      "method": "embed element specs (name+definition+attrs, all-MiniLM-L6-v2) → measure discriminating potential (intrinsic_dim = eigenspectrum participation ratio; inertia-elbow / silhouette sweep → frontier_k) → KMeans at frontier_k → per-element differentia_sufficiency (margin to 2nd-nearest genus + near-duplicate-sibling detection). Provisional genera are a SCAFFOLD.",
+      "first_run": {"lexicon": 2141, "intrinsic_dim": 111, "frontier_k": 32, "silhouette_rises_to": 512, "reading": "32 genera = breadth; sub-structure to 512 = depth; ~111-dim budget shared", "differentia_sufficiency": 0.6478, "insufficient": 754}
+    },
+    "2_differentia_authoring": {
+      "module": "src/aegir/ontology/differentia_authoring.py",
+      "prompt_version": "differentia-v1-2026-07-14",
+      "method": "AUTHENTICATE the scaffold via the Holland S&B CAS loop. name_genus() → a real superordinate (NOT a member). Then per species: BOUNDARY (insufficient) → SIGNAL (genus + species + confusable siblings) → AGENT proposes the single most salient OBSERVABLE differentia → MEMBRANE disposes → re-prompt on reject (closed loop, never one-shot).",
+      "proposer": "SWAPPABLE. engine_proposer (single gRPC call to Qwen3.6 via aegir.engine.client, schema-constrained + re-prompt) now; an ACP-harnessed multi-turn proposer (aegir.refine.acp) drops in where the task needs tool-use, WITHOUT touching the loop or membranes.",
+      "membranes": {
+        "parse": "property camelCase, kind∈{data,object} (normalized), restriction present; rejects format-example echoes.",
+        "observability": "data → needs xsd datatype / enumerated value; object → needs a Manchester restriction onto a target class; a value restriction must be a real value, not the property name.",
+        "discrimination": "the differentia must not be identical to any accepted sibling's — the CAS re-prompt driver (a shared property with DIFFERENT values is fine; identical is rejected with the colliding sibling named).",
+        "hermit_TODO": "batched: consistency + genus+differentia ⊨ species + non-triviality vs siblings (build_realized_ontology.consistency_check, AEGIR_REASON_BUDGET_S-guarded). Not yet wired — the next increment; also a stronger value-guard (value ≠ class name)."
+      },
+      "pilot": "genus 'Record' (DatabaseRecord/AssessmentRecord/PatientRecord/HealthRecord/EmploymentRecord/ComplianceRecord/CertificationRecord) → 7/7 differentiated, ~1 round: PatientRecord→consentStatus value 'active', ComplianceRecord→issuingAuthority some RegulatoryAuthority, EmploymentRecord→employmentPeriod value 'work performed'."
+    },
+    "3_downstream_cascade": "authored differentia → disjointness adjudication WITHIN real genera (#6 machinery) → SHACL arc carries the differentia into shapes (discriminative faithfulness; discriminability.projection_gap_rate→0) → re-project corpus (disambiguating columns) → DEE eval ground truth (Harbor/Terminal-Bench + Atropos RL)."
+  },
+  "observables": ["intrinsic_dim", "frontier_k", "differentia_sufficiency (vs frontier)", "discriminability projection_gap_rate"],
+  "metaflow_wiring": "when appropriate: a foreach over induced genera → name_genus + author_genus (proposer=engine or ACP) → batched HermiT membrane → emit accepted axioms → re-measure differentia_sufficiency → accrete into the catalog. Idempotent per genus (cache by genus signature + prompt_version). Depth recurses within each genus, bounded by the local frontier.",
+  "modules": {
+    "genus_induction": "src/aegir/ontology/genus_induction.py",
+    "differentia_authoring": "src/aegir/ontology/differentia_authoring.py",
+    "discriminability_observable": "src/aegir/ontology/discriminability.py"
+  }
+}
