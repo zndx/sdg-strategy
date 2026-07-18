@@ -138,14 +138,15 @@ Examples:
 
 When leaf grounding under-determines among children, default coarsened parents:
 
-The three real CCO ICE children under genus `cco:ont00000958` (Information Content Entity) — cited by
-authoritative IRI, never a coined CamelCase alias:
+The three real CCO ICE children under genus `cco:ont00000958` (rdfs:label “Information Content Entity”; skos:altLabel “ICE”) — cited by authoritative IRI, never a coined CamelCase alias. Display names use **skos:altLabel**:
 
-| parent (CCO IRI) | label | typical leaves |
-|------------------|-------|----------------|
-| `cco:ont00000686` | Designative ICE | identifiers, codes used as names, surrogate-adjacent designators |
-| `cco:ont00000853` | Descriptive ICE | measurements, quantities, free descriptions, timestamps of occurrence |
-| `cco:ont00000965` | Prescriptive ICE | status codes, directives, controlled state vocabularies |
+| parent (CCO IRI) | skos:altLabel | rdfs:label (full) | typical leaves |
+|------------------|---------------|-------------------|----------------|
+| `cco:ont00000686` | Designative ICE | Designative Information Content Entity | identifiers, codes used as names, surrogate-adjacent designators |
+| `cco:ont00000853` | Descriptive ICE | Descriptive Information Content Entity | measurements, quantities, free descriptions, timestamps of occurrence |
+| `cco:ont00000965` | **Directive ICE** | Prescriptive Information Content Entity | status codes, directives, controlled state vocabularies |
+
+For Designative/Descriptive, skos:altLabel shortens rdfs:label consistently. For `cco:ont00000965`, skos:altLabel is **Directive ICE** while rdfs:label is **Prescriptive Information Content Entity** — **“Prescriptive ICE” is not a CCO string** (unofficial mashup). Paths: `cco:ont00000965 (Directive ICE)`.
 
 Inherit coarsened counting / projection rules from the opinion algebra (W = 2; parent mass atomic under v1).
 
