@@ -1,0 +1,61 @@
+{
+ "strategy_id": "0b5bb57ebe93",
+ "components": {
+  "knobs/flow_defaults.json": "1dc926f3c8a1aacf914558be414c79dffa7ea007e4b5c0fb65b428aebcf03065",
+  "lens/aperture.skos.ttl": "2693a0251f89325f48dc91b596c6243547b08eeeb062220ab50be99f3b7f445a",
+  "lens/aperture.snapshot.json": "16dddd1502ce4d8d81c6e81e3ceacbb83f75761db033964065c06345da9c2517",
+  "lens/binding.json": "cf71372769c169ff8758ebb40c45edbc2bfc46bbf780464dc2eb7f49d7fb5ad4",
+  "lens/vocab.skos.ttl": "bae6020d11115635968547760ab935ee33827b7629c050f5fe97ea4c484ccb59",
+  "lens/vocab.snapshot.json": "8a58a63839c58f208d39a7f3147279401f2a0086aa2fee1db56655b735f2d136",
+  "targets/brand_lexicon.json": "074968842e0259704d38aaf9cb53621bc5a8755d12f6a2ca54e60b467f7031c0",
+  "targets/collections_unit.json": "037b88bd796476d31cb42fbedb0d9512232aafdc4a84090966236047d63d204c",
+  "targets/differentia_value_specs.json": "d7dd1e8320bef4d5e438254b853eee4e7c8866681f194e9d2f7ce5fcc815930f",
+  "targets/floors.json": "829a595b7489b95b3e1d6ecab236bb754664b926388f122243b5bb607a523ffa",
+  "targets/schemapile_key_norms.json": "92f5dc4889af89ab3f4f24ddf382797355141e3e23dae686d82cbab9f531ba74",
+  "targets/schemapile_shape_norms.json": "4000c3fc9f8c32ea87bcc754c84be6f2f9f46760a9b966c1a6ed7e6ed20f7113",
+  "targets/semantic_plausibility.json": "24a47ab0a53e76ea0f75788273c6e352a889f9a2917ab34af238173980fe2cbc",
+  "targets/table_register.json": "38c47c0d41ff4420d707522c6ac9f6b97f01be193f309040c5af6b49e9a1f44e",
+  "voices/aegir_writer.md": "8f02bfcb7dd4b5bd866d0d526bf7832a45684cdbc90508556a4b1c55cf6b69ea",
+  "voices/backend.local.toml": "c8cac9ea9017bbd029f8439871c35281095abe76b854335f289d494c92532ef4",
+  "voices/derive.dormant_hints.json": "33ec098cd7804b6fd87eabf5f0ed690f9df1c2f395795ed02439155878001b40",
+  "voices/derive.feedback.py": "8096d3e6e09510e6038808d14188e410eeec6f98d07faab8d88eb08d1751f101",
+  "voices/derive.schema.json": "2f3249d8d72a2b08245f268e4585e8a3839526702ca0d2fe736fa13ba3f50842",
+  "voices/derive.system.md": "4eaee4376ccf567e39066010e815d06969466f99771920a2385c624cf538929d",
+  "voices/mcp_kvasir.tools.json": "57f79ff039673f5961f2fa88561aa783511d9dae2d3d1f98860287550110572d",
+  "voices/register_voice.json": "10766842096a4c44bc4d15b4f83ab499ff8e8c4ff6977cbc40e4a3870227bf51",
+  "voices/turn_protocol.md": "0ed89aa0dec1c72a7dd666bcf0aa8c2511003564b8e311caf6300d2beb91d9a7"
+ },
+ "pillars": {
+  "lens": [
+   "lens/aperture.skos.ttl",
+   "lens/aperture.snapshot.json",
+   "lens/binding.json",
+   "lens/vocab.skos.ttl",
+   "lens/vocab.snapshot.json"
+  ],
+  "voices": [
+   "voices/aegir_writer.md",
+   "voices/backend.local.toml",
+   "voices/derive.dormant_hints.json",
+   "voices/derive.feedback.py",
+   "voices/derive.schema.json",
+   "voices/derive.system.md",
+   "voices/mcp_kvasir.tools.json",
+   "voices/register_voice.json",
+   "voices/turn_protocol.md"
+  ],
+  "knobs": [
+   "knobs/flow_defaults.json"
+  ],
+  "targets": [
+   "targets/brand_lexicon.json",
+   "targets/collections_unit.json",
+   "targets/differentia_value_specs.json",
+   "targets/floors.json",
+   "targets/schemapile_key_norms.json",
+   "targets/schemapile_shape_norms.json",
+   "targets/semantic_plausibility.json",
+   "targets/table_register.json"
+  ]
+ }
+}
