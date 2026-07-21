@@ -29,6 +29,11 @@
 @prefix sdg:     <https://signals.zndx.org/sdg#> .
 
 <https://signals.zndx.org/sdg#LIMS> a skos:Concept ;
+    skos:topConceptOf <https://signals.zndx.org/sdg/scheme> ;
+    skos:narrower <https://signals.zndx.org/sdg#LIMS_SPECIMEN_LIFECYCLE> ,
+        <https://signals.zndx.org/sdg#LIMS_ASSAY_EXECUTION> ,
+        <https://signals.zndx.org/sdg#LIMS_RESULT_INTERPRETATION> ,
+        <https://signals.zndx.org/sdg#LIMS_QUALITY_TRACEABILITY> ;
     skos:prefLabel "Laboratory Information Management" ;
     skos:notation "9" ;
     skos:altLabel "LIMS" ;
@@ -39,6 +44,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#LIMS_SPECIMEN_LIFECYCLE> a skos:Concept ;
+    skos:altLabel "LIMS_SPECIMEN_LIFECYCLE" ;
     skos:prefLabel "Specimen Lifecycle Management" ;
     skos:notation "9.1" ;
     skos:altLabel "Sample Lifecycle" ;
@@ -48,6 +54,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#LIMS_ASSAY_EXECUTION> a skos:Concept ;
+    skos:altLabel "LIMS_ASSAY_EXECUTION" ;
     skos:prefLabel "Assay and Method Execution" ;
     skos:notation "9.2" ;
     skos:altLabel "Analytical Run" ;
@@ -57,6 +64,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#LIMS_RESULT_INTERPRETATION> a skos:Concept ;
+    skos:altLabel "LIMS_RESULT_INTERPRETATION" ;
     skos:prefLabel "Result Capture and Interpretation" ;
     skos:notation "9.3" ;
     skos:altLabel "Test Result" ;
@@ -66,6 +74,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#LIMS_QUALITY_TRACEABILITY> a skos:Concept ;
+    skos:altLabel "LIMS_QUALITY_TRACEABILITY" ;
     skos:prefLabel "Quality, Compliance and Traceability" ;
     skos:notation "9.4" ;
     skos:altLabel "QA/QC and Compliance" ;
@@ -85,6 +94,12 @@
 ## ----------------------------------------------------------------------
 
 <https://signals.zndx.org/sdg#MFG> a skos:Concept ;
+    skos:topConceptOf <https://signals.zndx.org/sdg/scheme> ;
+    skos:narrower <https://signals.zndx.org/sdg#MFG_STRUCTURE> ,
+        <https://signals.zndx.org/sdg#MFG_INTERFACE> ,
+        <https://signals.zndx.org/sdg#MFG_REQUIREMENT> ,
+        <https://signals.zndx.org/sdg#MFG_PROCESS> ;
+    skos:altLabel "MFG" ;
     skos:prefLabel "Manufacturing and Systems Engineering" ;
     skos:notation "10" ;
     skos:altLabel "Systems Engineering" ;
@@ -95,6 +110,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#MFG_STRUCTURE> a skos:Concept ;
+    skos:altLabel "MFG_STRUCTURE" ;
     skos:prefLabel "Parts, Assemblies and Bills of Material" ;
     skos:notation "10.1" ;
     skos:altLabel "Product Structure" ;
@@ -104,6 +120,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#MFG_INTERFACE> a skos:Concept ;
+    skos:altLabel "MFG_INTERFACE" ;
     skos:prefLabel "Interfaces, Ports and Connections" ;
     skos:notation "10.2" ;
     skos:altLabel "System Interconnection" ;
@@ -113,6 +130,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#MFG_REQUIREMENT> a skos:Concept ;
+    skos:altLabel "MFG_REQUIREMENT" ;
     skos:prefLabel "Requirements, Constraints and Analysis" ;
     skos:notation "10.3" ;
     skos:altLabel "Specification and Verification" ;
@@ -122,6 +140,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#MFG_PROCESS> a skos:Concept ;
+    skos:altLabel "MFG_PROCESS" ;
     skos:prefLabel "Manufacturing Processes and Behaviour" ;
     skos:notation "10.4" ;
     skos:altLabel "Production and Behaviour" ;
@@ -131,6 +150,12 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#ENERGY> a skos:Concept ;
+    skos:topConceptOf <https://signals.zndx.org/sdg/scheme> ;
+    skos:narrower <https://signals.zndx.org/sdg#ENERGY_WELLBORE> ,
+        <https://signals.zndx.org/sdg#ENERGY_LOGGING> ,
+        <https://signals.zndx.org/sdg#ENERGY_TRAJECTORY> ,
+        <https://signals.zndx.org/sdg#ENERGY_OPERATIONS> ;
+    skos:altLabel "ENERGY" ;
     skos:prefLabel "Energy and Well Drilling" ;
     skos:notation "11" ;
     skos:altLabel "Upstream Oil and Gas" ;
@@ -141,6 +166,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#ENERGY_WELLBORE> a skos:Concept ;
+    skos:altLabel "ENERGY_WELLBORE" ;
     skos:prefLabel "Wells, Wellbores and Subsurface Targets" ;
     skos:notation "11.1" ;
     skos:altLabel "Well Construction" ;
@@ -150,6 +176,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#ENERGY_LOGGING> a skos:Concept ;
+    skos:altLabel "ENERGY_LOGGING" ;
     skos:prefLabel "Well Logging and Downhole Measurement" ;
     skos:notation "11.2" ;
     skos:altLabel "Formation Evaluation" ;
@@ -159,6 +186,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#ENERGY_TRAJECTORY> a skos:Concept ;
+    skos:altLabel "ENERGY_TRAJECTORY" ;
     skos:prefLabel "Wellbore Trajectory and Survey" ;
     skos:notation "11.3" ;
     skos:altLabel "Directional Survey" ;
@@ -168,6 +196,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#ENERGY_OPERATIONS> a skos:Concept ;
+    skos:altLabel "ENERGY_OPERATIONS" ;
     skos:prefLabel "Drilling Operations and Rig Equipment" ;
     skos:notation "11.4" ;
     skos:altLabel "Rig Operations" ;
@@ -177,6 +206,12 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#CSG> a skos:Concept ;
+    skos:topConceptOf <https://signals.zndx.org/sdg/scheme> ;
+    skos:narrower <https://signals.zndx.org/sdg#CSG_PRIMITIVE> ,
+        <https://signals.zndx.org/sdg#CSG_BOOLEAN> ,
+        <https://signals.zndx.org/sdg#CSG_BREP> ,
+        <https://signals.zndx.org/sdg#CSG_FABRICATION> ;
+    skos:altLabel "CSG" ;
     skos:prefLabel "Solid Geometry Design for Consumer Electronics" ;
     skos:notation "12" ;
     skos:altLabel "CSG for Electronics Product Design" ;
@@ -187,6 +222,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#CSG_PRIMITIVE> a skos:Concept ;
+    skos:altLabel "CSG_PRIMITIVE" ;
     skos:prefLabel "Solid Primitives and Shapes" ;
     skos:notation "12.1" ;
     skos:altLabel "Geometric Primitives" ;
@@ -196,6 +232,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#CSG_BOOLEAN> a skos:Concept ;
+    skos:altLabel "CSG_BOOLEAN" ;
     skos:prefLabel "Constructive Solid Geometry and Boolean Composition" ;
     skos:notation "12.2" ;
     skos:altLabel "CSG Boolean Tree" ;
@@ -205,6 +242,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#CSG_BREP> a skos:Concept ;
+    skos:altLabel "CSG_BREP" ;
     skos:prefLabel "Boundary Representation, Meshes and NURBS" ;
     skos:notation "12.3" ;
     skos:altLabel "B-rep and Tessellation" ;
@@ -214,6 +252,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#CSG_FABRICATION> a skos:Concept ;
+    skos:altLabel "CSG_FABRICATION" ;
     skos:prefLabel "Design for Fabrication of Electronic Products" ;
     skos:notation "12.4" ;
     skos:altLabel "Electronics DFM" ;
@@ -235,6 +274,11 @@
 ## ----------------------------------------------------------------------
 
 <https://signals.zndx.org/sdg#UTILITY> a skos:Concept ;
+    skos:topConceptOf <https://signals.zndx.org/sdg/scheme> ;
+    skos:narrower <https://signals.zndx.org/sdg#UTILITY_POWER> ,
+        <https://signals.zndx.org/sdg#UTILITY_WATER> ,
+        <https://signals.zndx.org/sdg#UTILITY_TELECOM> ;
+    skos:altLabel "UTILITY" ;
     skos:prefLabel "Utility-Scale Networks" ;
     skos:notation "13" ;
     skos:altLabel "Utility Infrastructure Networks" ;
@@ -245,6 +289,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#UTILITY_POWER> a skos:Concept ;
+    skos:altLabel "UTILITY_POWER" ;
     skos:prefLabel "Electric Power Transmission and Distribution" ;
     skos:notation "13.1" ;
     skos:altLabel "Power Grid" ;
@@ -254,6 +299,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#UTILITY_WATER> a skos:Concept ;
+    skos:altLabel "UTILITY_WATER" ;
     skos:prefLabel "Water and Wastewater Networks" ;
     skos:notation "13.2" ;
     skos:altLabel "Water Distribution and Collection" ;
@@ -263,6 +309,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#UTILITY_TELECOM> a skos:Concept ;
+    skos:altLabel "UTILITY_TELECOM" ;
     skos:prefLabel "Carrier-Grade Telecommunications Networks" ;
     skos:notation "13.3" ;
     skos:altLabel "Carrier Networks" ;
@@ -272,6 +319,12 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#DATAENG> a skos:Concept ;
+    skos:topConceptOf <https://signals.zndx.org/sdg/scheme> ;
+    skos:narrower <https://signals.zndx.org/sdg#DATAENG_MODELING> ,
+        <https://signals.zndx.org/sdg#DATAENG_LINEAGE> ,
+        <https://signals.zndx.org/sdg#DATAENG_CATALOG> ,
+        <https://signals.zndx.org/sdg#DATAENG_QUALITY> ;
+    skos:altLabel "DATAENG" ;
     skos:prefLabel "Data Engineering, Metadata and Lineage" ;
     skos:notation "14" ;
     skos:altLabel "Data Management" ;
@@ -282,6 +335,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#DATAENG_MODELING> a skos:Concept ;
+    skos:altLabel "DATAENG_MODELING" ;
     skos:prefLabel "Relational and Schema Modeling" ;
     skos:notation "14.1" ;
     skos:altLabel "Data Modeling" ;
@@ -291,6 +345,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#DATAENG_LINEAGE> a skos:Concept ;
+    skos:altLabel "DATAENG_LINEAGE" ;
     skos:prefLabel "Data Lineage and Provenance" ;
     skos:notation "14.2" ;
     skos:altLabel "Data Provenance" ;
@@ -300,6 +355,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#DATAENG_CATALOG> a skos:Concept ;
+    skos:altLabel "DATAENG_CATALOG" ;
     skos:prefLabel "Metadata Cataloging and Semantic Annotation" ;
     skos:notation "14.3" ;
     skos:altLabel "Data Catalog" ;
@@ -309,6 +365,7 @@
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#DATAENG_QUALITY> a skos:Concept ;
+    skos:altLabel "DATAENG_QUALITY" ;
     skos:prefLabel "Data Profiling, Quality and Observability" ;
     skos:notation "14.4" ;
     skos:altLabel "Data Quality" ;
@@ -463,3 +520,11 @@
     owl:deprecated true ;
     dct:isReplacedBy <https://signals.zndx.org/sdg#UTILITY_WATER> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
+
+<https://signals.zndx.org/sdg/scheme> a skos:ConceptScheme ;
+    skos:hasTopConcept <https://signals.zndx.org/sdg#LIMS> ,
+        <https://signals.zndx.org/sdg#MFG> ,
+        <https://signals.zndx.org/sdg#ENERGY> ,
+        <https://signals.zndx.org/sdg#CSG> ,
+        <https://signals.zndx.org/sdg#UTILITY> ,
+        <https://signals.zndx.org/sdg#DATAENG> .
