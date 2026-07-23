@@ -1824,15 +1824,15 @@
     skos:broader <https://signals.zndx.org/sdg#PROCESS> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_INTERNAL_AUDITING_DIVISION> a skos:Concept ;
+<https://signals.zndx.org/sdg#MATERIAL_ENTITY_INTERNAL_AUDITING_DIVISION> a skos:Concept ;
     skos:prefLabel "Internal Auditing Division" ;
-    skos:notation "2.6" ;
+    skos:notation "2.2.3" ;
     skos:altLabel "INTERNAL_AUDITING_DIVISION" ;
     skos:altLabel "InternalAuditingDivision" ;
     skos:altLabel "CertifiedInternalAuditor" ;
     skos:altLabel "InternalAuditingFunction" ;
     skos:definition "An InternalAuditingDivision is a material entity that has a CertifiedInternalAuditor as a direct part." ;
-    skos:broader <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT> ;
+    skos:broader <https://signals.zndx.org/sdg#MATERIAL_ENTITY> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#ICE_FINE_ASSESSMENT_EVENT> a skos:Concept ;
@@ -1869,7 +1869,7 @@
 
 <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_EMERGENCY_SUPPLIES_KIT> a skos:Concept ;
     skos:prefLabel "Emergency Supplies Kit" ;
-    skos:notation "2.7" ;
+    skos:notation "2.6" ;
     skos:altLabel "EMERGENCY_SUPPLIES_KIT" ;
     skos:altLabel "EmergencySuppliesKit" ;
     skos:altLabel "DisasterSupplyItem" ;
@@ -1991,7 +1991,7 @@
 
 <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_JOINT_INFORMATION_ENVIRONMENT> a skos:Concept ;
     skos:prefLabel "Joint Information Environment" ;
-    skos:notation "2.8" ;
+    skos:notation "2.7" ;
     skos:altLabel "JOINT_INFORMATION_ENVIRONMENT" ;
     skos:altLabel "JointInformationEnvironment" ;
     skos:definition "A JointInformationEnvironment is defined as a bfo:0000004 that isPartOf some SecureInfrastructureService. Each JointInformationEnvironment is a bfo:0000004 and bears the isPartOf relation to some SecureInfrastructureService. The isPartOf relation holds between a JointInformationEnvironment and some SecureInfrastructureService, classifying the former as a" ;
@@ -2195,7 +2195,7 @@
 
 <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_PICK_DROP_LOCATION> a skos:Concept ;
     skos:prefLabel "Pick Drop Location" ;
-    skos:notation "2.9" ;
+    skos:notation "2.8" ;
     skos:altLabel "PICK_DROP_LOCATION" ;
     skos:altLabel "PickDropLocation" ;
     skos:altLabel "TransportRoute" ;
@@ -2388,7 +2388,7 @@
 
 <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_SECURITY_INFRASTRUCTURE> a skos:Concept ;
     skos:prefLabel "Security Infrastructure" ;
-    skos:notation "2.10" ;
+    skos:notation "2.9" ;
     skos:altLabel "SECURITY_INFRASTRUCTURE" ;
     skos:altLabel "SecurityInfrastructure" ;
     skos:altLabel "AccessControlMechanism" ;
@@ -2516,7 +2516,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_BUSINESS_ENTITY> a skos:Concept ;
     skos:prefLabel "Business Entity" ;
-    skos:notation "2.2.3" ;
+    skos:notation "2.2.4" ;
     skos:altLabel "BUSINESS_ENTITY" ;
     skos:altLabel "Business Entity" ;
     skos:altLabel "Commercial Entity" ;
@@ -2567,7 +2567,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CANCER_PATIENT> a skos:Concept ;
     skos:prefLabel "Cancer Patient" ;
-    skos:notation "2.2.4" ;
+    skos:notation "2.2.5" ;
     skos:altLabel "CANCER_PATIENT" ;
     skos:altLabel "cancer recipient" ;
     skos:altLabel "oncology patient" ;
@@ -2604,7 +2604,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CERTIFIED_INTERNAL_AUDITOR> a skos:Concept ;
     skos:prefLabel "Certified Internal Auditor" ;
-    skos:notation "2.2.5" ;
+    skos:notation "2.2.6" ;
     skos:altLabel "CERTIFIED_INTERNAL_AUDITOR" ;
     skos:altLabel "Certified auditor" ;
     skos:altLabel "Internal audit professional" ;
@@ -2617,7 +2617,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CHEMICAL_INSTALLATION> a skos:Concept ;
     skos:prefLabel "Chemical Installation" ;
-    skos:notation "2.2.6" ;
+    skos:notation "2.2.7" ;
     skos:altLabel "CHEMICAL_INSTALLATION" ;
     skos:altLabel "Chemical processing plant" ;
     skos:altLabel "Chemical production facility" ;
@@ -2629,7 +2629,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CHILD_PROTECTION_TEAM> a skos:Concept ;
     skos:prefLabel "Child Protection Team" ;
-    skos:notation "2.2.7" ;
+    skos:notation "2.2.8" ;
     skos:altLabel "CHILD_PROTECTION_TEAM" ;
     skos:altLabel "ChildProtectionTeam" ;
     skos:definition "An organization that protects a child functions as the protector of that child. A child is protected by an organization. An organization that protects a child constitutes an entity engaged in the protection of a child. (Definitional)" ;
@@ -2652,7 +2652,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CLIENT> a skos:Concept ;
     skos:prefLabel "Client" ;
-    skos:notation "2.2.8" ;
+    skos:notation "2.2.9" ;
     skos:altLabel "CLIENT" ;
     skos:altLabel "service recipient" ;
     skos:altLabel "client agent" ;
@@ -2690,7 +2690,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CLINICAL_SYSTEM> a skos:Concept ;
     skos:prefLabel "Clinical System" ;
-    skos:notation "2.2.9" ;
+    skos:notation "2.2.10" ;
     skos:altLabel "CLINICAL_SYSTEM" ;
     skos:altLabel "Clinical System" ;
     skos:altLabel "Clinical Care System" ;
@@ -2704,7 +2704,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CLOUD_STORAGE_VOLUME> a skos:Concept ;
     skos:prefLabel "Cloud Storage Volume" ;
-    skos:notation "2.2.10" ;
+    skos:notation "2.2.11" ;
     skos:altLabel "CLOUD_STORAGE_VOLUME" ;
     skos:altLabel "Cloud Storage Volume" ;
     skos:altLabel "Database Storage Allocation" ;
@@ -2730,7 +2730,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_COLLEGE_ADMINISTRATION> a skos:Concept ;
     skos:prefLabel "College Administration" ;
-    skos:notation "2.2.11" ;
+    skos:notation "2.2.12" ;
     skos:altLabel "COLLEGE_ADMINISTRATION" ;
     skos:altLabel "higher education administration" ;
     skos:altLabel "college management body" ;
@@ -2744,7 +2744,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_COLLEGE_COMMUNITY_MEMBER> a skos:Concept ;
     skos:prefLabel "College Community Member" ;
-    skos:notation "2.2.12" ;
+    skos:notation "2.2.13" ;
     skos:altLabel "COLLEGE_COMMUNITY_MEMBER" ;
     skos:altLabel "College Community Member" ;
     skos:altLabel "Educational Organization Member" ;
@@ -2771,7 +2771,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_COMMUNITY_HEALTHCARE_SETTING> a skos:Concept ;
     skos:prefLabel "Community Healthcare Setting" ;
-    skos:notation "2.2.13" ;
+    skos:notation "2.2.14" ;
     skos:altLabel "COMMUNITY_HEALTHCARE_SETTING" ;
     skos:altLabel "Community Healthcare Setting" ;
     skos:altLabel "Community Health Facility" ;
@@ -2784,7 +2784,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CONTINUOUS_EMISSIONS_MONITORING_SYSTEM> a skos:Concept ;
     skos:prefLabel "Continuous Emissions Monitoring System" ;
-    skos:notation "2.2.14" ;
+    skos:notation "2.2.15" ;
     skos:altLabel "CONTINUOUS_EMISSIONS_MONITORING_SYSTEM" ;
     skos:altLabel "Continuous Emissions Monitoring System" ;
     skos:altLabel "CEMS" ;
@@ -2797,7 +2797,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_COPIED_DOCUMENT> a skos:Concept ;
     skos:prefLabel "Copied Document" ;
-    skos:notation "2.2.15" ;
+    skos:notation "2.2.16" ;
     skos:altLabel "COPIED_DOCUMENT" ;
     skos:altLabel "Material Copy of Document" ;
     skos:altLabel "Document Replica" ;
@@ -2810,7 +2810,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CORPORATE_AGENT> a skos:Concept ;
     skos:prefLabel "Corporate Agent" ;
-    skos:notation "2.2.16" ;
+    skos:notation "2.2.17" ;
     skos:altLabel "CORPORATE_AGENT" ;
     skos:altLabel "Corporate Agent" ;
     skos:altLabel "Business Entity" ;
@@ -2836,7 +2836,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CORPORATE_COALITION> a skos:Concept ;
     skos:prefLabel "Corporate Coalition" ;
-    skos:notation "2.2.17" ;
+    skos:notation "2.2.18" ;
     skos:altLabel "CORPORATE_COALITION" ;
     skos:altLabel "Corporate Coalition" ;
     skos:altLabel "Business Alliance Group" ;
@@ -2849,7 +2849,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CORPORATE_EMPLOYEE> a skos:Concept ;
     skos:prefLabel "Corporate Employee" ;
-    skos:notation "2.2.18" ;
+    skos:notation "2.2.19" ;
     skos:altLabel "CORPORATE_EMPLOYEE" ;
     skos:altLabel "Corporate Employee" ;
     skos:altLabel "Corporate Staff Member" ;
@@ -2940,7 +2940,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CUSTOMER_NETWORK> a skos:Concept ;
     skos:prefLabel "Customer Network" ;
-    skos:notation "2.2.19" ;
+    skos:notation "2.2.20" ;
     skos:altLabel "CUSTOMER_NETWORK" ;
     skos:altLabel "Customer Network" ;
     skos:altLabel "Client Network" ;
@@ -2953,7 +2953,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_DISH> a skos:Concept ;
     skos:prefLabel "Dish" ;
-    skos:notation "2.2.20" ;
+    skos:notation "2.2.21" ;
     skos:altLabel "DISH" ;
     skos:altLabel "served food portion" ;
     skos:altLabel "plate meal" ;
@@ -3007,7 +3007,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_DONOR_AGENT> a skos:Concept ;
     skos:prefLabel "Donor Agent" ;
-    skos:notation "2.2.21" ;
+    skos:notation "2.2.22" ;
     skos:altLabel "DONOR_AGENT" ;
     skos:altLabel "Donation participant agent" ;
     skos:altLabel "Donating agent" ;
@@ -3017,9 +3017,9 @@
     skos:broader <https://signals.zndx.org/sdg#MATERIAL_ENTITY> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#GENERIC_EARTH_OBSERVATION_DATA> a skos:Concept ;
+<https://signals.zndx.org/sdg#MATERIAL_ENTITY_EARTH_OBSERVATION_DATA> a skos:Concept ;
     skos:prefLabel "Earth Observation Data" ;
-    skos:notation "0.13" ;
+    skos:notation "2.2.23" ;
     skos:altLabel "EARTH_OBSERVATION_DATA" ;
     skos:altLabel "satellite environmental data" ;
     skos:altLabel "Earth observation data" ;
@@ -3028,12 +3028,12 @@
     skos:altLabel "environmental data from satellites" ;
     skos:altLabel "remote environmental data" ;
     skos:definition "Environmental data collected by a satellite artifact. This term applies to datasets captured by orbital platforms using specialized sensors to monitor the Earth's atmosphere, land, and oceans. Environmental data is defined by its collection through a satellite artifact. A satellite artifact is responsible for gathering environmental data. Environmental data gathered from orbit by satellite artifacts equipped with remote sensing instruments. This data supports atmospheric monitoring, land surface tracking, and oceanographic studies." ;
-    skos:broader <https://signals.zndx.org/sdg#GENERIC> ;
+    skos:broader <https://signals.zndx.org/sdg#MATERIAL_ENTITY> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#GENERIC_ECONOMIC_GOODS_AND_SERVICES> a skos:Concept ;
     skos:prefLabel "Economic Goods And Services" ;
-    skos:notation "0.14" ;
+    skos:notation "0.13" ;
     skos:altLabel "ECONOMIC_GOODS_AND_SERVICES" ;
     skos:altLabel "Economic Goods and Services" ;
     skos:altLabel "Traded Economic Functions" ;
@@ -3046,7 +3046,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_ENERGY_SAVING_COMPONENT> a skos:Concept ;
     skos:prefLabel "Energy Saving Component" ;
-    skos:notation "2.2.22" ;
+    skos:notation "2.2.24" ;
     skos:altLabel "ENERGY_SAVING_COMPONENT" ;
     skos:altLabel "Energy Efficiency Part" ;
     skos:altLabel "Power Saver Module" ;
@@ -3058,7 +3058,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_ETHICAL_INVESTMENT_ASSET> a skos:Concept ;
     skos:prefLabel "Ethical Investment Asset" ;
-    skos:notation "2.2.23" ;
+    skos:notation "2.2.25" ;
     skos:altLabel "ETHICAL_INVESTMENT_ASSET" ;
     skos:altLabel "Ethical investment asset" ;
     skos:altLabel "Ethical financial instrument" ;
@@ -3106,7 +3106,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_EXECUTIVE_EXECUTION_FUNCTION> a skos:Concept ;
     skos:prefLabel "Executive Execution Function" ;
-    skos:notation "0.15" ;
+    skos:notation "0.14" ;
     skos:altLabel "EXECUTIVE_EXECUTION_FUNCTION" ;
     skos:altLabel "executive execution function" ;
     skos:altLabel "strategic implementation" ;
@@ -3120,7 +3120,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EXECUTIVE_TEAM> a skos:Concept ;
     skos:prefLabel "Executive Team" ;
-    skos:notation "2.2.24" ;
+    skos:notation "2.2.26" ;
     skos:altLabel "EXECUTIVE_TEAM" ;
     skos:altLabel "Executive Board" ;
     skos:altLabel "Senior Leadership" ;
@@ -3133,7 +3133,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EXECUTIVE_TEAM_MEMBER> a skos:Concept ;
     skos:prefLabel "Executive Team Member" ;
-    skos:notation "2.2.25" ;
+    skos:notation "2.2.27" ;
     skos:altLabel "EXECUTIVE_TEAM_MEMBER" ;
     skos:altLabel "Executive Team Member" ;
     skos:altLabel "Executive Officer" ;
@@ -3147,7 +3147,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EXPEDITION_EQUIPMENT> a skos:Concept ;
     skos:prefLabel "Expedition Equipment" ;
-    skos:notation "2.2.26" ;
+    skos:notation "2.2.28" ;
     skos:altLabel "EXPEDITION_EQUIPMENT" ;
     skos:altLabel "Expedition Equipment" ;
     skos:altLabel "Arctic Gear" ;
@@ -3161,7 +3161,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EXPEDITION_PARTICIPANT> a skos:Concept ;
     skos:prefLabel "Expedition Participant" ;
-    skos:notation "2.2.27" ;
+    skos:notation "2.2.29" ;
     skos:altLabel "EXPEDITION_PARTICIPANT" ;
     skos:altLabel "expedition crew member" ;
     skos:altLabel "arctic expedition member" ;
@@ -3200,7 +3200,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EXPORTED_DATA_ARTIFACT> a skos:Concept ;
     skos:prefLabel "Exported Data Artifact" ;
-    skos:notation "2.2.28" ;
+    skos:notation "2.2.30" ;
     skos:altLabel "EXPORTED_DATA_ARTIFACT" ;
     skos:altLabel "Exported Data Artifact" ;
     skos:altLabel "Data Export Product" ;
@@ -3213,7 +3213,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EXTERNAL_AGENCY> a skos:Concept ;
     skos:prefLabel "External Agency" ;
-    skos:notation "2.2.29" ;
+    skos:notation "2.2.31" ;
     skos:altLabel "EXTERNAL_AGENCY" ;
     skos:altLabel "External Agency" ;
     skos:altLabel "Outside Business Partner" ;
@@ -3226,7 +3226,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_INDUSTRIAL_EMISSION_SOURCE> a skos:Concept ;
     skos:prefLabel "Industrial Emission Source" ;
-    skos:notation "2.2.30" ;
+    skos:notation "2.2.32" ;
     skos:altLabel "INDUSTRIAL_EMISSION_SOURCE" ;
     skos:altLabel "industrial emission source" ;
     skos:altLabel "pollution source" ;
@@ -3239,7 +3239,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_INFORMATION_CAPABILITY> a skos:Concept ;
     skos:prefLabel "Information Capability" ;
-    skos:notation "0.16" ;
+    skos:notation "0.15" ;
     skos:altLabel "INFORMATION_CAPABILITY" ;
     skos:altLabel "information capability" ;
     skos:altLabel "information transmission capability" ;
@@ -3265,7 +3265,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_INFORMATION_SYSTEM> a skos:Concept ;
     skos:prefLabel "Information System" ;
-    skos:notation "2.2.31" ;
+    skos:notation "2.2.33" ;
     skos:altLabel "INFORMATION_SYSTEM" ;
     skos:altLabel "Clinical Data Platform" ;
     skos:altLabel "Medical Records System" ;
@@ -3291,7 +3291,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_INTELLIGENCE_OUTPUT> a skos:Concept ;
     skos:prefLabel "Intelligence Output" ;
-    skos:notation "2.2.32" ;
+    skos:notation "2.2.34" ;
     skos:altLabel "INTELLIGENCE_OUTPUT" ;
     skos:altLabel "Intelligence Output" ;
     skos:altLabel "Healthcare Analytics Result" ;
@@ -3343,7 +3343,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_INVESTOR_RELATIONS_ACTIVITY> a skos:Concept ;
     skos:prefLabel "Investor Relations Activity" ;
-    skos:notation "0.17" ;
+    skos:notation "0.16" ;
     skos:altLabel "INVESTOR_RELATIONS_ACTIVITY" ;
     skos:altLabel "Investor Relations" ;
     skos:altLabel "IR Activities" ;
@@ -3357,7 +3357,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_KEYFRAME_TIMELINE> a skos:Concept ;
     skos:prefLabel "Keyframe Timeline" ;
-    skos:notation "2.2.33" ;
+    skos:notation "2.2.35" ;
     skos:altLabel "KEYFRAME_TIMELINE" ;
     skos:altLabel "keyframe timeline" ;
     skos:altLabel "animation timeline" ;
@@ -3370,7 +3370,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_LATERAL_RESTRAINT_STRAP> a skos:Concept ;
     skos:prefLabel "Lateral Restraint Strap" ;
-    skos:notation "2.2.34" ;
+    skos:notation "2.2.36" ;
     skos:altLabel "LATERAL_RESTRAINT_STRAP" ;
     skos:altLabel "lateral restraint strap" ;
     skos:altLabel "prosthetic lateral strap" ;
@@ -3383,7 +3383,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_LAW_ENFORCEMENT_AGENCY> a skos:Concept ;
     skos:prefLabel "Law Enforcement Agency" ;
-    skos:notation "2.2.35" ;
+    skos:notation "2.2.37" ;
     skos:altLabel "LAW_ENFORCEMENT_AGENCY" ;
     skos:altLabel "Law Enforcement Agency" ;
     skos:altLabel "Law Enforcement Entity" ;
@@ -3395,7 +3395,7 @@
 
 <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_MARITAL_STATE> a skos:Concept ;
     skos:prefLabel "Marital State" ;
-    skos:notation "2.11" ;
+    skos:notation "2.10" ;
     skos:altLabel "MARITAL_STATE" ;
     skos:altLabel "marital condition" ;
     skos:altLabel "civil marriage status" ;
@@ -3499,7 +3499,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_MINOR_PERSON> a skos:Concept ;
     skos:prefLabel "Minor Person" ;
-    skos:notation "2.2.36" ;
+    skos:notation "2.2.38" ;
     skos:altLabel "MINOR_PERSON" ;
     skos:altLabel "Young person" ;
     skos:altLabel "Underage individual" ;
@@ -3512,7 +3512,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_PATIENT> a skos:Concept ;
     skos:prefLabel "Patient" ;
-    skos:notation "2.2.37" ;
+    skos:notation "2.2.39" ;
     skos:altLabel "PATIENT" ;
     skos:altLabel "clinical care recipient" ;
     skos:altLabel "patient agent" ;
@@ -3564,7 +3564,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_PRACTICE_MANAGEMENT_TOPIC> a skos:Concept ;
     skos:prefLabel "Practice Management Topic" ;
-    skos:notation "0.18" ;
+    skos:notation "0.17" ;
     skos:altLabel "PRACTICE_MANAGEMENT_TOPIC" ;
     skos:altLabel "Practice Management Topic" ;
     skos:altLabel "Professional Practice Management" ;
@@ -3602,7 +3602,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_PREVALENCE_RATE> a skos:Concept ;
     skos:prefLabel "Prevalence Rate" ;
-    skos:notation "0.19" ;
+    skos:notation "0.18" ;
     skos:altLabel "PREVALENCE_RATE" ;
     skos:altLabel "Prevalence Frequency" ;
     skos:altLabel "Population Proportion" ;
@@ -3641,7 +3641,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_PUBLIC_INFORMATION_OFFICER> a skos:Concept ;
     skos:prefLabel "Public Information Officer" ;
-    skos:notation "2.2.38" ;
+    skos:notation "2.2.40" ;
     skos:altLabel "PUBLIC_INFORMATION_OFFICER" ;
     skos:altLabel "PublicInformationOfficer" ;
     skos:definition "The government organization role designated for overseeing public information and media relations entails the management and dissemination of such content. Managing and disseminating public information and media relations constitutes the operational duties of a government organization role. A government organization role is defined by its responsibility to manage and disseminate public information and media relations." ;
@@ -3671,7 +3671,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_QUANTITATIVE_ANALYTIC_TOOL> a skos:Concept ;
     skos:prefLabel "Quantitative Analytic Tool" ;
-    skos:notation "2.2.39" ;
+    skos:notation "2.2.41" ;
     skos:altLabel "QUANTITATIVE_ANALYTIC_TOOL" ;
     skos:altLabel "Numerical Analysis Instrument" ;
     skos:altLabel "Statistical Calculation Device" ;
@@ -3684,7 +3684,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_RAFFLE_CONDUCTING_ACTIVITY> a skos:Concept ;
     skos:prefLabel "Raffle Conducting Activity" ;
-    skos:notation "0.20" ;
+    skos:notation "0.19" ;
     skos:altLabel "RAFFLE_CONDUCTING_ACTIVITY" ;
     skos:altLabel "Raffle Conducting Activity" ;
     skos:altLabel "Raffle Organization Activity" ;
@@ -3697,7 +3697,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_RECEIVING_FACILITY_STAFF> a skos:Concept ;
     skos:prefLabel "Receiving Facility Staff" ;
-    skos:notation "2.2.40" ;
+    skos:notation "2.2.42" ;
     skos:altLabel "RECEIVING_FACILITY_STAFF" ;
     skos:altLabel "Receiving Center Personnel" ;
     skos:altLabel "Facility Intake Staff" ;
@@ -3710,7 +3710,7 @@
 
 <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_RECOVERED_STATE> a skos:Concept ;
     skos:prefLabel "Recovered State" ;
-    skos:notation "2.12" ;
+    skos:notation "2.11" ;
     skos:altLabel "RECOVERED_STATE" ;
     skos:altLabel "Post-Deficiency Recovery State" ;
     skos:altLabel "Restored Health State" ;
@@ -3749,7 +3749,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_SERVICE_PROVIDER> a skos:Concept ;
     skos:prefLabel "Service Provider" ;
-    skos:notation "2.2.41" ;
+    skos:notation "2.2.43" ;
     skos:altLabel "SERVICE_PROVIDER" ;
     skos:altLabel "ServiceProvider" ;
     skos:definition "A material entity is defined as an entity that provides a service function. A service function is provided by a material entity. A material entity serves as the provider of a service function." ;
@@ -3844,7 +3844,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_SOCIAL_NETWORKING_SERVICE_TYPE> a skos:Concept ;
     skos:prefLabel "Social Networking Service Type" ;
-    skos:notation "0.21" ;
+    skos:notation "0.20" ;
     skos:altLabel "SOCIAL_NETWORKING_SERVICE_TYPE" ;
     skos:altLabel "SocialNetworkingServiceType" ;
     skos:definition "A service type functions as the category that encompasses social networking service usage. Social networking service usage falls within the scope of a service type. The designation of a service type applies to cases covering social networking service usage." ;
@@ -3853,7 +3853,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_SOCIAL_SERVICES_DEPARTMENT> a skos:Concept ;
     skos:prefLabel "Social Services Department" ;
-    skos:notation "2.2.42" ;
+    skos:notation "2.2.44" ;
     skos:altLabel "SOCIAL_SERVICES_DEPARTMENT" ;
     skos:altLabel "Social services department" ;
     skos:altLabel "Department of social services" ;
@@ -3905,7 +3905,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_TARGET_MATERIAL> a skos:Concept ;
     skos:prefLabel "Target Material" ;
-    skos:notation "2.2.43" ;
+    skos:notation "2.2.45" ;
     skos:altLabel "TARGET_MATERIAL" ;
     skos:altLabel "Target Substance" ;
     skos:altLabel "Material Target" ;
@@ -3958,7 +3958,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_TELESCOPE_INSTRUMENT_ARTIFACT> a skos:Concept ;
     skos:prefLabel "Telescope Instrument Artifact" ;
-    skos:notation "2.2.44" ;
+    skos:notation "2.2.46" ;
     skos:altLabel "TELESCOPE_INSTRUMENT_ARTIFACT" ;
     skos:altLabel "Telescope Instrument" ;
     skos:altLabel "Telescope Artifact" ;
@@ -3985,7 +3985,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_THREAT_INFORMATION> a skos:Concept ;
     skos:prefLabel "Threat Information" ;
-    skos:notation "2.2.45" ;
+    skos:notation "2.2.47" ;
     skos:altLabel "THREAT_INFORMATION" ;
     skos:altLabel "Threat Information" ;
     skos:altLabel "Threat Intelligence Data" ;
@@ -4040,7 +4040,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_ASSESSMENT_PARTICIPANT> a skos:Concept ;
     skos:prefLabel "Assessment Participant" ;
-    skos:notation "0.22" ;
+    skos:notation "0.21" ;
     skos:altLabel "ASSESSMENT_PARTICIPANT" ;
     skos:altLabel "Team assessment member" ;
     skos:altLabel "Assessment group" ;
@@ -4053,7 +4053,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_ATHLETIC_MONITORING_ACTIVITY> a skos:Concept ;
     skos:prefLabel "Athletic Monitoring Activity" ;
-    skos:notation "0.23" ;
+    skos:notation "0.22" ;
     skos:altLabel "ATHLETIC_MONITORING_ACTIVITY" ;
     skos:altLabel "Athletic Monitoring Activity" ;
     skos:altLabel "Athlete Performance Monitoring" ;
@@ -4081,7 +4081,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_AUTHORIZED_ENTITY> a skos:Concept ;
     skos:prefLabel "Authorized Entity" ;
-    skos:notation "2.2.46" ;
+    skos:notation "2.2.48" ;
     skos:altLabel "AUTHORIZED_ENTITY" ;
     skos:altLabel "Authorized Actor" ;
     skos:altLabel "Authorized Party" ;
@@ -4107,7 +4107,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_AUTOMATED_SYSTEM> a skos:Concept ;
     skos:prefLabel "Automated System" ;
-    skos:notation "2.2.47" ;
+    skos:notation "2.2.49" ;
     skos:altLabel "AUTOMATED_SYSTEM" ;
     skos:altLabel "autonomous control system" ;
     skos:altLabel "self-operating system" ;
@@ -4121,7 +4121,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_AVAILABLE_TOPPING> a skos:Concept ;
     skos:prefLabel "Available Topping" ;
-    skos:notation "2.2.48" ;
+    skos:notation "2.2.50" ;
     skos:altLabel "AVAILABLE_TOPPING" ;
     skos:altLabel "available food topping" ;
     skos:altLabel "ready topping" ;
@@ -4158,21 +4158,21 @@
     skos:broader <https://signals.zndx.org/sdg#PROCESS> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#GENERIC_BOARD_OF_EQUALIZATION> a skos:Concept ;
+<https://signals.zndx.org/sdg#MATERIAL_ENTITY_BOARD_OF_EQUALIZATION> a skos:Concept ;
     skos:prefLabel "Board Of Equalization" ;
-    skos:notation "0.24" ;
+    skos:notation "2.2.51" ;
     skos:altLabel "BOARD_OF_EQUALIZATION" ;
     skos:altLabel "Tax Equalization Board" ;
     skos:altLabel "Board of Tax Equalization" ;
     skos:altLabel "Equalization Board" ;
     skos:altLabel "Tax Appeal Board" ;
     skos:definition "A board of equalization is a board that handles tax appeals. The board reviews tax assessment disputes and ensures equal taxation. This board operates within local government to manage tax equity. A board is defined as an entity that handles tax appeals. The function of handling tax appeals is assigned to a board. A board of equalization handles tax appeals. This board reviews tax assessment disputes." ;
-    skos:broader <https://signals.zndx.org/sdg#GENERIC> ;
+    skos:broader <https://signals.zndx.org/sdg#MATERIAL_ENTITY> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#GENERIC_BUILDING_FLOOR_STRUCTURE> a skos:Concept ;
     skos:prefLabel "Building Floor Structure" ;
-    skos:notation "0.25" ;
+    skos:notation "0.23" ;
     skos:altLabel "BUILDING_FLOOR_STRUCTURE" ;
     skos:altLabel "Building Floor Level" ;
     skos:altLabel "Floor Assembly Structure" ;
@@ -4184,7 +4184,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_CYBER_SECURITY_INCIDENT> a skos:Concept ;
     skos:prefLabel "Cyber Security Incident" ;
-    skos:notation "0.26" ;
+    skos:notation "0.24" ;
     skos:altLabel "CYBER_SECURITY_INCIDENT" ;
     skos:altLabel "Security Breach Event" ;
     skos:altLabel "Network Intrusion Alert" ;
@@ -4210,7 +4210,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_DATA_INPUT> a skos:Concept ;
     skos:prefLabel "Data Input" ;
-    skos:notation "0.27" ;
+    skos:notation "0.25" ;
     skos:altLabel "DATA_INPUT" ;
     skos:altLabel "data input" ;
     skos:altLabel "information input" ;
@@ -4223,7 +4223,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_DECISION_MAKING_PROCESS_DEFINITION> a skos:Concept ;
     skos:prefLabel "Decision Making Process Definition" ;
-    skos:notation "0.28" ;
+    skos:notation "0.26" ;
     skos:altLabel "DECISION_MAKING_PROCESS_DEFINITION" ;
     skos:altLabel "Planning Decision Process" ;
     skos:altLabel "Decision Action Sequence" ;
@@ -4236,7 +4236,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_DEGRADED_SYSTEM_CONDITION> a skos:Concept ;
     skos:prefLabel "Degraded System Condition" ;
-    skos:notation "0.29" ;
+    skos:notation "0.27" ;
     skos:altLabel "DEGRADED_SYSTEM_CONDITION" ;
     skos:altLabel "DegradedSystemCondition" ;
     skos:definition "A degraded system condition constitutes a reduction in function that resides within a state action and carries a loss of dependent continuant as a quality. A decrease of function inhering in a state action possesses a loss of dependent continuant as a quality, thereby forming a degraded system condition. Any instance classified as a degraded system condition must manifest as a decrease of function within a state action, accompanied by a loss of dependent continuant as a quality." ;
@@ -4245,7 +4245,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_DEPARTING_EMPLOYEE> a skos:Concept ;
     skos:prefLabel "Departing Employee" ;
-    skos:notation "2.2.49" ;
+    skos:notation "2.2.52" ;
     skos:altLabel "DEPARTING_EMPLOYEE" ;
     skos:altLabel "DepartingEmployee" ;
     skos:definition "A departing employee is defined precisely by the presence of a specific role and a departure status, with the disjoint function conjunct explicitly excluded. The specific role and the departure status jointly constitute a departing employee, while the disjoint The classification of a departing employee requires the possession of both a specific role and a departure status, while explicitly omitting the disjoint function conjunct." ;
@@ -4254,7 +4254,7 @@
 
 <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_GEOGRAPHIC_REGION> a skos:Concept ;
     skos:prefLabel "Geographic Region" ;
-    skos:notation "2.13" ;
+    skos:notation "2.12" ;
     skos:altLabel "GEOGRAPHIC_REGION" ;
     skos:altLabel "Administrative Zone" ;
     skos:altLabel "Territorial Boundary" ;
@@ -4319,7 +4319,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_HEALTHCARE_AGENT> a skos:Concept ;
     skos:prefLabel "Healthcare Agent" ;
-    skos:notation "2.2.50" ;
+    skos:notation "2.2.53" ;
     skos:altLabel "HEALTHCARE_AGENT" ;
     skos:altLabel "healthcare service provider" ;
     skos:altLabel "medical care agent" ;
@@ -4346,7 +4346,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_LECTURE_NOTES> a skos:Concept ;
     skos:prefLabel "Lecture Notes" ;
-    skos:notation "2.2.51" ;
+    skos:notation "2.2.54" ;
     skos:altLabel "LECTURE_NOTES" ;
     skos:altLabel "Lecture Notes" ;
     skos:altLabel "Lecture Transcript" ;
@@ -4368,7 +4368,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_LEGAL_ENTITY_OR_PERSON> a skos:Concept ;
     skos:prefLabel "Legal Entity Or Person" ;
-    skos:notation "2.2.52" ;
+    skos:notation "2.2.55" ;
     skos:altLabel "LEGAL_ENTITY_OR_PERSON" ;
     skos:altLabel "Legal entity" ;
     skos:altLabel "Legal person" ;
@@ -4381,7 +4381,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_LEGAL_PROFESSIONAL> a skos:Concept ;
     skos:prefLabel "Legal Professional" ;
-    skos:notation "0.30" ;
+    skos:notation "0.28" ;
     skos:altLabel "LEGAL_PROFESSIONAL" ;
     skos:altLabel "legal professional" ;
     skos:altLabel "qualified legal advocate" ;
@@ -4394,7 +4394,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_LEGAL_TECH_SOLUTION_LAB> a skos:Concept ;
     skos:prefLabel "Legal Tech Solution Lab" ;
-    skos:notation "2.2.53" ;
+    skos:notation "2.2.56" ;
     skos:altLabel "LEGAL_TECH_SOLUTION_LAB" ;
     skos:altLabel "Legal Tech Innovation Hub" ;
     skos:altLabel "Law Tech Lab" ;
@@ -4406,7 +4406,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_LEGISLATIVE_DEPARTMENT> a skos:Concept ;
     skos:prefLabel "Legislative Department" ;
-    skos:notation "2.2.54" ;
+    skos:notation "2.2.57" ;
     skos:altLabel "LEGISLATIVE_DEPARTMENT" ;
     skos:altLabel "Legislative Department" ;
     skos:altLabel "Legislative Affairs Office" ;
@@ -4445,7 +4445,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_LOGIN_CREDENTIALS> a skos:Concept ;
     skos:prefLabel "Login Credentials" ;
-    skos:notation "0.31" ;
+    skos:notation "0.29" ;
     skos:altLabel "LOGIN_CREDENTIALS" ;
     skos:altLabel "Authentication Credential Record" ;
     skos:altLabel "Login Authorization Record" ;
@@ -4471,7 +4471,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_MAIL_DROP_LOCATION> a skos:Concept ;
     skos:prefLabel "Mail Drop Location" ;
-    skos:notation "2.2.55" ;
+    skos:notation "2.2.58" ;
     skos:altLabel "MAIL_DROP_LOCATION" ;
     skos:altLabel "Mail Drop Location" ;
     skos:altLabel "Mail Drop Point" ;
@@ -4484,7 +4484,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_MALNOURISHED_CHILD> a skos:Concept ;
     skos:prefLabel "Malnourished Child" ;
-    skos:notation "2.2.56" ;
+    skos:notation "2.2.59" ;
     skos:altLabel "MALNOURISHED_CHILD" ;
     skos:altLabel "malnourished child" ;
     skos:altLabel "child with nutritional deficiency" ;
@@ -4510,7 +4510,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_MONITORING_PROTOCOL> a skos:Concept ;
     skos:prefLabel "Monitoring Protocol" ;
-    skos:notation "0.32" ;
+    skos:notation "0.30" ;
     skos:altLabel "MONITORING_PROTOCOL" ;
     skos:altLabel "Monitoring Protocol" ;
     skos:altLabel "Sensor Monitoring Procedure" ;
@@ -4523,7 +4523,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_MUNICIPAL_POOL_FACILITY> a skos:Concept ;
     skos:prefLabel "Municipal Pool Facility" ;
-    skos:notation "2.2.57" ;
+    skos:notation "2.2.60" ;
     skos:altLabel "MUNICIPAL_POOL_FACILITY" ;
     skos:altLabel "Public Swimming Pool Complex" ;
     skos:altLabel "Municipal Recreation Pool" ;
@@ -4536,7 +4536,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_INFRASTRUCTURE> a skos:Concept ;
     skos:prefLabel "Network Infrastructure" ;
-    skos:notation "2.2.58" ;
+    skos:notation "2.2.61" ;
     skos:altLabel "NETWORK_INFRASTRUCTURE" ;
     skos:altLabel "Data Transmission Network" ;
     skos:altLabel "Computer Communication System" ;
@@ -4549,7 +4549,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_PROVIDER> a skos:Concept ;
     skos:prefLabel "Network Provider" ;
-    skos:notation "2.2.59" ;
+    skos:notation "2.2.62" ;
     skos:altLabel "NETWORK_PROVIDER" ;
     skos:altLabel "Network access provider" ;
     skos:altLabel "Internet service provider" ;
@@ -4560,9 +4560,9 @@
     skos:broader <https://signals.zndx.org/sdg#MATERIAL_ENTITY> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#GENERIC_NETWORK_RESOURCE> a skos:Concept ;
+<https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_RESOURCE> a skos:Concept ;
     skos:prefLabel "Network Resource" ;
-    skos:notation "0.33" ;
+    skos:notation "2.2.63" ;
     skos:altLabel "NETWORK_RESOURCE" ;
     skos:altLabel "Network Resource" ;
     skos:altLabel "Allocated Network Asset" ;
@@ -4570,12 +4570,12 @@
     skos:altLabel "Computing Network Asset" ;
     skos:altLabel "Network-Allocated Resource" ;
     skos:definition "This resource is allocated to a computer network to support communication, computation, or data management tasks. Practitioners provision it to enable service delivery, manage bandwidth, or maintain system availability in distributed computing environments. [Definitional] Every network resource constitutes a member of the resource category allocated to a computer network. [Relational-fronted] Allocation to a computer network determines the classification of a resource as a network resource. Applies to hardware, software, or data assets assigned to a computer network for operational use, such as servers, bandwidth, or storage within enterprise or cloud infrastructures." ;
-    skos:broader <https://signals.zndx.org/sdg#GENERIC> ;
+    skos:broader <https://signals.zndx.org/sdg#MATERIAL_ENTITY> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_SCRUBBING_CENTER> a skos:Concept ;
     skos:prefLabel "Network Scrubbing Center" ;
-    skos:notation "2.2.60" ;
+    skos:notation "2.2.64" ;
     skos:altLabel "NETWORK_SCRUBBING_CENTER" ;
     skos:altLabel "NetworkScrubbingCenter" ;
     skos:definition "A telecommunication network node is defined as a network scrubbing center when it performs a traffic cleaning function. (Definitional) A network scrubbing center operates as a telecommunication network node by executing a traffic cleaning function. (Procedural)" ;
@@ -4584,7 +4584,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NON_DIESEL_POWERED_VEHICLE> a skos:Concept ;
     skos:prefLabel "Non Diesel Powered Vehicle" ;
-    skos:notation "2.2.61" ;
+    skos:notation "2.2.65" ;
     skos:altLabel "NON_DIESEL_POWERED_VEHICLE" ;
     skos:altLabel "NonDieselPoweredVehicle" ;
     skos:definition "A non-diesel powered vehicle is defined as a ground motor vehicle that operates using a non-diesel power source, such as a fuel cell. (Definitional) Any ground motor vehicle that utilizes a non-diesel power source, such as a fuel cell, is classified as a non-diesel powered vehicle. (Relational-fronted / Predicate-fronted) A non-diesel powered vehicle constitutes a ground motor vehicle operating on a non-diesel power source, for example a fuel cell." ;
@@ -4593,7 +4593,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NONPROFIT_ORGANIZATION> a skos:Concept ;
     skos:prefLabel "Nonprofit Organization" ;
-    skos:notation "2.2.62" ;
+    skos:notation "2.2.66" ;
     skos:altLabel "NONPROFIT_ORGANIZATION" ;
     skos:altLabel "Nonprofit Organization" ;
     skos:altLabel "Public Benefit Organization" ;
@@ -4605,7 +4605,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_REFERRAL_PROCESS> a skos:Concept ;
     skos:prefLabel "Referral Process" ;
-    skos:notation "0.34" ;
+    skos:notation "0.31" ;
     skos:altLabel "REFERRAL_PROCESS" ;
     skos:altLabel "Referral Process" ;
     skos:altLabel "Case Referral Process" ;
@@ -4627,7 +4627,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_REGULATORY_BODY> a skos:Concept ;
     skos:prefLabel "Regulatory Body" ;
-    skos:notation "2.2.63" ;
+    skos:notation "2.2.67" ;
     skos:altLabel "REGULATORY_BODY" ;
     skos:altLabel "Regulatory Body" ;
     skos:altLabel "Regulatory Authority" ;
@@ -4639,7 +4639,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_RENDERING_ENGINE> a skos:Concept ;
     skos:prefLabel "Rendering Engine" ;
-    skos:notation "2.2.64" ;
+    skos:notation "2.2.68" ;
     skos:altLabel "RENDERING_ENGINE" ;
     skos:altLabel "Animation Rendering Engine" ;
     skos:altLabel "Animation Sequence Renderer" ;
@@ -4653,7 +4653,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_RENDERING_ENVIRONMENT_DEFINITION> a skos:Concept ;
     skos:prefLabel "Rendering Environment" ;
-    skos:notation "0.35" ;
+    skos:notation "0.32" ;
     skos:altLabel "RENDERING_ENVIRONMENT_DEFINITION" ;
     skos:altLabel "animation rendering space" ;
     skos:altLabel "3D rendering environment" ;
@@ -4666,7 +4666,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_REPORTING_CHANNEL> a skos:Concept ;
     skos:prefLabel "Reporting Channel" ;
-    skos:notation "0.36" ;
+    skos:notation "0.33" ;
     skos:altLabel "REPORTING_CHANNEL" ;
     skos:altLabel "Disclosure Channel" ;
     skos:altLabel "Whistleblower Line" ;
@@ -4679,7 +4679,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_REQUESTED_PROVIDER_TYPE> a skos:Concept ;
     skos:prefLabel "Requested Provider Type" ;
-    skos:notation "0.37" ;
+    skos:notation "0.34" ;
     skos:altLabel "REQUESTED_PROVIDER_TYPE" ;
     skos:altLabel "Requested Provider Type" ;
     skos:altLabel "Requested Service Type" ;
@@ -4692,7 +4692,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_REQUESTING_CLIENT> a skos:Concept ;
     skos:prefLabel "Requesting Client" ;
-    skos:notation "2.2.65" ;
+    skos:notation "2.2.69" ;
     skos:altLabel "REQUESTING_CLIENT" ;
     skos:altLabel "Client Making Request" ;
     skos:altLabel "Client Requestor" ;
@@ -4706,7 +4706,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_REQUESTING_ENTITY> a skos:Concept ;
     skos:prefLabel "Requesting Entity" ;
-    skos:notation "2.2.66" ;
+    skos:notation "2.2.70" ;
     skos:altLabel "REQUESTING_ENTITY" ;
     skos:altLabel "Request submitter" ;
     skos:altLabel "Duplicating requestor" ;
@@ -4719,7 +4719,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_RESEARCH_ACTIVITY> a skos:Concept ;
     skos:prefLabel "Research Activity" ;
-    skos:notation "0.38" ;
+    skos:notation "0.35" ;
     skos:altLabel "RESEARCH_ACTIVITY" ;
     skos:altLabel "Research Project" ;
     skos:altLabel "Scientific Study" ;
@@ -4732,7 +4732,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_FACILITY_INFRASTRUCTURE> a skos:Concept ;
     skos:prefLabel "Facility Infrastructure" ;
-    skos:notation "2.2.67" ;
+    skos:notation "2.2.71" ;
     skos:altLabel "FACILITY_INFRASTRUCTURE" ;
     skos:altLabel "Facility Infrastructure" ;
     skos:altLabel "Physical Infrastructure" ;
@@ -4754,7 +4754,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_FINANCIAL_FUND> a skos:Concept ;
     skos:prefLabel "Financial Fund" ;
-    skos:notation "2.2.68" ;
+    skos:notation "2.2.72" ;
     skos:altLabel "FINANCIAL_FUND" ;
     skos:altLabel "financial fund entity" ;
     skos:altLabel "fund agent" ;
@@ -4766,7 +4766,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_FINANCIAL_MANAGEMENT_PROCESS> a skos:Concept ;
     skos:prefLabel "Financial Management Process" ;
-    skos:notation "0.39" ;
+    skos:notation "0.36" ;
     skos:altLabel "FINANCIAL_MANAGEMENT_PROCESS" ;
     skos:altLabel "FinancialManagementProcess" ;
     skos:definition "A financial activity is an activity that involves financial strategy oversight. Financial strategy oversight is involved in a financial activity. When a financial activity is present, it includes financial strategy oversight." ;
@@ -4775,7 +4775,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_FINANCIAL_PRODUCT> a skos:Concept ;
     skos:prefLabel "Financial Product" ;
-    skos:notation "2.2.69" ;
+    skos:notation "2.2.73" ;
     skos:altLabel "FINANCIAL_PRODUCT" ;
     skos:altLabel "financial instrument" ;
     skos:altLabel "financial artifact" ;
@@ -4822,7 +4822,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_HEALTHCARE_NETWORK_INFRASTRUCTURE> a skos:Concept ;
     skos:prefLabel "Healthcare Network Infrastructure" ;
-    skos:notation "2.2.70" ;
+    skos:notation "2.2.74" ;
     skos:altLabel "HEALTHCARE_NETWORK_INFRASTRUCTURE" ;
     skos:altLabel "Healthcare Network Infrastructure" ;
     skos:altLabel "Healthcare Network Support System" ;
@@ -4835,7 +4835,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_HEALTHCARE_ORGANIZATION> a skos:Concept ;
     skos:prefLabel "Healthcare Organization" ;
-    skos:notation "2.2.71" ;
+    skos:notation "2.2.75" ;
     skos:altLabel "HEALTHCARE_ORGANIZATION" ;
     skos:altLabel "Healthcare provider" ;
     skos:altLabel "Medical organization" ;
@@ -4874,7 +4874,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_HOUSING_CLIENT> a skos:Concept ;
     skos:prefLabel "Housing Client" ;
-    skos:notation "2.2.72" ;
+    skos:notation "2.2.76" ;
     skos:altLabel "HOUSING_CLIENT" ;
     skos:altLabel "Housing Client" ;
     skos:altLabel "Rental Housing Client" ;
@@ -4909,7 +4909,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_HUMAN_AGENT> a skos:Concept ;
     skos:prefLabel "Human Agent" ;
-    skos:notation "2.2.73" ;
+    skos:notation "2.2.77" ;
     skos:altLabel "HUMAN_AGENT" ;
     skos:altLabel "Human Agent" ;
     skos:altLabel "Individual Person" ;
@@ -4922,7 +4922,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_IMAGING_EQUIPMENT> a skos:Concept ;
     skos:prefLabel "Imaging Equipment" ;
-    skos:notation "2.2.74" ;
+    skos:notation "2.2.78" ;
     skos:altLabel "IMAGING_EQUIPMENT" ;
     skos:altLabel "Diagnostic Imaging Instrument" ;
     skos:altLabel "Medical Imaging Equipment" ;
@@ -4936,7 +4936,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_INDEPENDENT_ECONOMIC_AGENT> a skos:Concept ;
     skos:prefLabel "Independent Economic Agent" ;
-    skos:notation "2.2.75" ;
+    skos:notation "2.2.79" ;
     skos:altLabel "INDEPENDENT_ECONOMIC_AGENT" ;
     skos:altLabel "Independent Economic Agent" ;
     skos:altLabel "Market Participant" ;
@@ -4949,7 +4949,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_INDIVIDUAL> a skos:Concept ;
     skos:prefLabel "Individual" ;
-    skos:notation "2.2.76" ;
+    skos:notation "2.2.80" ;
     skos:altLabel "INDIVIDUAL" ;
     skos:altLabel "Human Person" ;
     skos:altLabel "Human Individual" ;
@@ -4962,7 +4962,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_OBSERVATORY_MOUNTING_STRUCTURE> a skos:Concept ;
     skos:prefLabel "Observatory Mounting Structure" ;
-    skos:notation "2.2.77" ;
+    skos:notation "2.2.81" ;
     skos:altLabel "OBSERVATORY_MOUNTING_STRUCTURE" ;
     skos:altLabel "Observatory Mounting Structure" ;
     skos:altLabel "Telescope Mount" ;
@@ -4975,7 +4975,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_OFFLINE_CHANNEL> a skos:Concept ;
     skos:prefLabel "Offline Channel" ;
-    skos:notation "0.40" ;
+    skos:notation "0.37" ;
     skos:altLabel "OFFLINE_CHANNEL" ;
     skos:altLabel "Offline Channel" ;
     skos:altLabel "Offline Media Channel" ;
@@ -4988,7 +4988,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_ONLINE_CHANNEL> a skos:Concept ;
     skos:prefLabel "Online Channel" ;
-    skos:notation "0.41" ;
+    skos:notation "0.38" ;
     skos:altLabel "ONLINE_CHANNEL" ;
     skos:altLabel "Digital Channel" ;
     skos:altLabel "Web Channel" ;
@@ -5027,7 +5027,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_OPERATIONAL_EQUIPMENT> a skos:Concept ;
     skos:prefLabel "Operational Equipment" ;
-    skos:notation "2.2.78" ;
+    skos:notation "2.2.82" ;
     skos:altLabel "OPERATIONAL_EQUIPMENT" ;
     skos:altLabel "operational apparatus" ;
     skos:altLabel "field equipment" ;
@@ -5040,7 +5040,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_OPERATIONAL_PROTOCOL> a skos:Concept ;
     skos:prefLabel "Operational Protocol" ;
-    skos:notation "0.42" ;
+    skos:notation "0.39" ;
     skos:altLabel "OPERATIONAL_PROTOCOL" ;
     skos:altLabel "Operational Protocol" ;
     skos:altLabel "Standard Operating Procedure" ;
@@ -5054,7 +5054,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_OPERATIONAL_UNIT> a skos:Concept ;
     skos:prefLabel "Operational Unit" ;
-    skos:notation "2.2.79" ;
+    skos:notation "2.2.83" ;
     skos:altLabel "OPERATIONAL_UNIT" ;
     skos:altLabel "operational base" ;
     skos:altLabel "police unit" ;
@@ -5093,7 +5093,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_ORGANIZATIONAL_AGENT> a skos:Concept ;
     skos:prefLabel "Organizational Agent" ;
-    skos:notation "2.2.80" ;
+    skos:notation "2.2.84" ;
     skos:altLabel "ORGANIZATIONAL_AGENT" ;
     skos:altLabel "Corporate Agent" ;
     skos:altLabel "Business Representative" ;
@@ -5118,7 +5118,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_ORGANIZATIONAL_HEALTH_METRIC> a skos:Concept ;
     skos:prefLabel "Organizational Health Metric" ;
-    skos:notation "0.43" ;
+    skos:notation "0.40" ;
     skos:altLabel "ORGANIZATIONAL_HEALTH_METRIC" ;
     skos:altLabel "Organizational Health Metric" ;
     skos:altLabel "Workplace Health Measure" ;
@@ -5131,7 +5131,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_ORGANIZATIONAL_LEADERSHIP_ROLE> a skos:Concept ;
     skos:prefLabel "Organizational Leadership Role" ;
-    skos:notation "0.44" ;
+    skos:notation "0.41" ;
     skos:altLabel "ORGANIZATIONAL_LEADERSHIP_ROLE" ;
     skos:altLabel "Organizational Leadership Role" ;
     skos:altLabel "Leadership Position" ;
@@ -5144,7 +5144,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_OZONE_OXYGEN_MIXTURE> a skos:Concept ;
     skos:prefLabel "Ozone Oxygen Mixture" ;
-    skos:notation "2.2.81" ;
+    skos:notation "2.2.85" ;
     skos:altLabel "OZONE_OXYGEN_MIXTURE" ;
     skos:altLabel "Ozone-oxygen blend" ;
     skos:altLabel "Therapeutic ozone mix" ;
@@ -5184,7 +5184,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CHILD> a skos:Concept ;
     skos:prefLabel "Child" ;
-    skos:notation "2.2.82" ;
+    skos:notation "2.2.86" ;
     skos:altLabel "CHILD" ;
     skos:altLabel "Child" ;
     skos:definition "A child denotes a person situated in the early developmental stage of life who possesses at least one biological parent. Every person who occupies the early developmental stage of life and possesses at least one biological parent is classified as a child. A child is defined as a person situated in the early developmental stage of life who possesses at least one biological parent." ;
@@ -5229,7 +5229,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_CORPORATE_ACTIVITY> a skos:Concept ;
     skos:prefLabel "Corporate Activity" ;
-    skos:notation "0.45" ;
+    skos:notation "0.42" ;
     skos:altLabel "CORPORATE_ACTIVITY" ;
     skos:altLabel "CorporateActivity" ;
     skos:definition "Corporate activity constitutes an organizational activity performed by a commercial organization to further its business objectives." ;
@@ -5274,7 +5274,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_CRIMINAL_JUSTICE_PROCESS> a skos:Concept ;
     skos:prefLabel "Criminal Justice Process" ;
-    skos:notation "0.46" ;
+    skos:notation "0.43" ;
     skos:altLabel "CRIMINAL_JUSTICE_PROCESS" ;
     skos:altLabel "CriminalJusticeProcess" ;
     skos:definition "A criminal justice process is a process that is realized within an administration process. The realization of a criminal justice process occurs in an administration process. An administration process is the process in which a criminal justice process is realized." ;
@@ -5283,7 +5283,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_CUSTOMER_DEVICE> a skos:Concept ;
     skos:prefLabel "Customer Device" ;
-    skos:notation "2.2.83" ;
+    skos:notation "2.2.87" ;
     skos:altLabel "CUSTOMER_DEVICE" ;
     skos:altLabel "CustomerDevice" ;
     skos:definition "The substitution of realized_in with has_continuant_part was executed to align with the continuant range constraint when relating devices to networks. When relating devices to networks, the required continuant range is satisfied by replacing realized_in with has_continuant_part. The relation realized_in is superseded by has_continuant_part so that the continuant range matches the requirement for linking devices to networks." ;
@@ -5292,7 +5292,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_DATABASE_CONTAINER> a skos:Concept ;
     skos:prefLabel "Database Container" ;
-    skos:notation "2.2.84" ;
+    skos:notation "2.2.88" ;
     skos:altLabel "DATABASE_CONTAINER" ;
     skos:altLabel "DatabaseContainer" ;
     skos:definition "A container functions as a storage unit located within a cloud storage volume. Storage operations within a cloud storage volume are executed by means of a container. Within a cloud storage volume, a container fulfills a storage function." ;
@@ -5301,7 +5301,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_DECISION_ACTION> a skos:Concept ;
     skos:prefLabel "Decision Action" ;
-    skos:notation "0.47" ;
+    skos:notation "0.44" ;
     skos:altLabel "DECISION_ACTION" ;
     skos:definition "This concept is defined as an action that constitutes a constituent element within a decision-making process. A decision-making process is composed of an action that functions as one of its constituent segments. The framework positions an action as a constituent segment within the progression of a decision-making process." ;
     skos:broader <https://signals.zndx.org/sdg#GENERIC> ;
@@ -5309,7 +5309,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_DECISION_TRANSITION_ACTION> a skos:Concept ;
     skos:prefLabel "Decision Transition Action" ;
-    skos:notation "0.48" ;
+    skos:notation "0.45" ;
     skos:altLabel "DECISION_TRANSITION_ACTION" ;
     skos:altLabel "DecisionTransitionAction" ;
     skos:definition "A decision transition action constitutes an occurrent process that is realized within a decision making process. A decision making process realizes an occurrent process classified as a decision transition action. The occurrent process instantiated within a decision making process is identified as a decision transition action." ;
@@ -5363,7 +5363,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_EXECUTIVE_LEADERSHIP_ROLE> a skos:Concept ;
     skos:prefLabel "Executive Leadership Role" ;
-    skos:notation "0.49" ;
+    skos:notation "0.46" ;
     skos:altLabel "EXECUTIVE_LEADERSHIP_ROLE" ;
     skos:altLabel "ExecutiveLeadershipRole" ;
     skos:definition "An executive leadership role is classified as an organizational leadership role and is characterized by containing at least one executive leadership process as a member. Every executive leadership role, serving as an organizational leadership role, maintains a member relationship with at least one executive leadership process. To qualify as an executive leadership role, an entity must first function as an organizational leadership role and must include at least one executive leadership process as a member." ;
@@ -5381,7 +5381,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_FINANCIAL_INSTRUMENT> a skos:Concept ;
     skos:prefLabel "Financial Instrument" ;
-    skos:notation "0.50" ;
+    skos:notation "0.47" ;
     skos:altLabel "FINANCIAL_INSTRUMENT" ;
     skos:altLabel "FinancialInstrument" ;
     skos:altLabel "ClearingFunction" ;
@@ -5391,7 +5391,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_FINANCIAL_STRATEGY_OVERSIGHT> a skos:Concept ;
     skos:prefLabel "Financial Strategy Oversight" ;
-    skos:notation "0.51" ;
+    skos:notation "0.48" ;
     skos:altLabel "FINANCIAL_STRATEGY_OVERSIGHT" ;
     skos:altLabel "FinancialStrategyOversight" ;
     skos:definition "A process classified under this category is defined by its participation within a financial management process. When modeling this entity, treat it as a process that participates in a financial management process. A process classified under this term is defined by its participation within a financial management process." ;
@@ -5400,7 +5400,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_HIGHER_EDUCATION_INSTITUTION> a skos:Concept ;
     skos:prefLabel "Higher Education Institution" ;
-    skos:notation "2.2.85" ;
+    skos:notation "2.2.89" ;
     skos:altLabel "HIGHER_EDUCATION_INSTITUTION" ;
     skos:altLabel "HigherEducationInstitution" ;
     skos:definition "An entity is classified as an educational organization that confers academic degrees if and only if it functions as an educational organization and confers academic degrees. (Definitional) Verification of an educational organization that confers academic degrees requires confirming that the entity operates as an educational organization and confers academic degrees. (Procedural)" ;
@@ -5409,7 +5409,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_INSTITUTIONAL_INVESTOR> a skos:Concept ;
     skos:prefLabel "Institutional Investor" ;
-    skos:notation "2.2.86" ;
+    skos:notation "2.2.90" ;
     skos:altLabel "INSTITUTIONAL_INVESTOR" ;
     skos:altLabel "InstitutionalInvestor" ;
     skos:definition "A material entity is defined as a material entity that provides investor funding for financial situations. The provision of investor funding for financial situations is performed by a material entity. Investor funding for financial situations is supplied by a material entity." ;
@@ -5427,7 +5427,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_USER> a skos:Concept ;
     skos:prefLabel "Network User" ;
-    skos:notation "2.2.87" ;
+    skos:notation "2.2.91" ;
     skos:altLabel "NETWORK_USER" ;
     skos:altLabel "NetworkUser" ;
     skos:definition "A material entity is characterized by its use of a computer network. The use of a computer network applies to a material entity. Identification of a material entity relies on its use of a computer network." ;
@@ -5445,7 +5445,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_ORGANIZATION> a skos:Concept ;
     skos:prefLabel "Organization" ;
-    skos:notation "2.2.88" ;
+    skos:notation "2.2.92" ;
     skos:altLabel "ORGANIZATION" ;
     skos:altLabel "Organization" ;
     skos:definition "A material entity is defined as an entity that possesses organization members. Organization members are possessed by a material entity. A material entity maintains organization members within its scope." ;
@@ -5454,7 +5454,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_ORGANIZATIONAL_CULTURE> a skos:Concept ;
     skos:prefLabel "Organizational Culture" ;
-    skos:notation "0.52" ;
+    skos:notation "0.49" ;
     skos:altLabel "ORGANIZATIONAL_CULTURE" ;
     skos:altLabel "OrganizationalCulture" ;
     skos:definition "An organization capability that inheres in an organization." ;
@@ -5490,7 +5490,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_POPULATION> a skos:Concept ;
     skos:prefLabel "Population" ;
-    skos:notation "2.2.89" ;
+    skos:notation "2.2.93" ;
     skos:altLabel "POPULATION" ;
     skos:altLabel "Population" ;
     skos:definition "A collection of persons is defined as this class when it functions as the subject of a prevalence rate. The subject of a prevalence rate is identified as a group of persons. A set of individuals is classified as this entity by assuming the role of subject for a prevalence rate." ;
@@ -5544,7 +5544,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_PRIM_RISKMANAGEMENTACTIVITY> a skos:Concept ;
     skos:prefLabel "Risk Management Activity" ;
-    skos:notation "0.53" ;
+    skos:notation "0.50" ;
     skos:altLabel "PRIM_RISKMANAGEMENTACTIVITY" ;
     skos:altLabel "RiskManagementActivity" ;
     skos:definition "A corporate process is defined as the identification, assessment, and mitigation of potential hazards or uncertainties. The corporate process operates by identifying, assessing, and mitigating potential hazards or uncertainties. Potential hazards or uncertainties are subject to identification, assessment, and mitigation within a corporate process." ;
@@ -5553,7 +5553,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_PRIM_CHEMICAL> a skos:Concept ;
     skos:prefLabel "Chemical" ;
-    skos:notation "2.2.90" ;
+    skos:notation "2.2.94" ;
     skos:altLabel "PRIM_CHEMICAL" ;
     skos:altLabel "Chemical" ;
     skos:definition "A material entity consists exclusively of either a chemical substance or a mixture. When categorizing a material entity, assign it the type chemical substance or the type mixture. Every material entity must be identified as either a chemical substance or a mixture." ;
@@ -5571,7 +5571,7 @@
 
 <https://signals.zndx.org/sdg#MATERIAL_ENTITY_PRIM_SCIENTIFICORGANIZATION> a skos:Concept ;
     skos:prefLabel "Scientific Organization" ;
-    skos:notation "2.2.91" ;
+    skos:notation "2.2.95" ;
     skos:altLabel "PRIM_SCIENTIFICORGANIZATION" ;
     skos:altLabel "ScientificOrganization" ;
     skos:definition "An organization qualifies under this definition when its principal aim is either conducting or supporting scientific research and development. To be classified as such, an organization must have its main objective directed toward carrying out or backing scientific research and development. The primary purpose of an organization is established as conducting or supporting scientific research and development." ;
@@ -5598,7 +5598,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_PRIM_TARIFFSTRUCTURE> a skos:Concept ;
     skos:prefLabel "Tariff Structure" ;
-    skos:notation "0.54" ;
+    skos:notation "0.51" ;
     skos:altLabel "PRIM_TARIFFSTRUCTURE" ;
     skos:altLabel "TariffStructure" ;
     skos:definition "TariffStructure is defined structurally as a CatalogStructure. The structural grounding relation places TariffStructure within the CatalogStructure classification. TariffStructure is formally established as a CatalogStructure through structural grounding." ;
@@ -5625,7 +5625,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_PRIM_SOCIALNETWORKINGSERVICEUSAGE> a skos:Concept ;
     skos:prefLabel "Social Networking Service Usage" ;
-    skos:notation "0.55" ;
+    skos:notation "0.52" ;
     skos:altLabel "PRIM_SOCIALNETWORKINGSERVICEUSAGE" ;
     skos:altLabel "SocialNetworkingServiceUsage" ;
     skos:definition "SocialNetworkingServiceUsage defines a specific instance within a service usage category that denotes the act of using a social networking platform. The relationship between a service usage category and the activity of utilizing a social networking platform is instantiated by SocialNetworkingServiceUsage. SocialNetworkingServiceUsage constitutes a specific instance of a service usage category, denoting the activity of utilizing a social networking platform." ;
@@ -5774,7 +5774,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_DECISION_MAKING_PROCESS> a skos:Concept ;
     skos:prefLabel "Decision Making Process" ;
-    skos:notation "0.56" ;
+    skos:notation "0.53" ;
     skos:altLabel "DECISION_MAKING_PROCESS" ;
     skos:altLabel "DecisionMakingProcess" ;
     skos:altLabel "IndependentContinuant" ;
@@ -5794,7 +5794,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_RENDERING_ENVIRONMENT> a skos:Concept ;
     skos:prefLabel "Rendering Environment" ;
-    skos:notation "0.57" ;
+    skos:notation "0.54" ;
     skos:altLabel "RENDERING_ENVIRONMENT" ;
     skos:altLabel "RenderingEnvironment" ;
     skos:altLabel "RenderedAnimationArtifact" ;
@@ -5814,7 +5814,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_ORGANIZATIONAL_LEADERSHIP_PROCESS> a skos:Concept ;
     skos:prefLabel "Organizational Leadership Process" ;
-    skos:notation "0.58" ;
+    skos:notation "0.55" ;
     skos:altLabel "ORGANIZATIONAL_LEADERSHIP_PROCESS" ;
     skos:altLabel "OrganizationalLeadershipProcess" ;
     skos:altLabel "OrganizationalLeadershipRole" ;
@@ -5875,7 +5875,7 @@
 
 <https://signals.zndx.org/sdg#GENERIC_IDENTIFIER_BEARER_UNION> a skos:Concept ;
     skos:prefLabel "Registered Identifier Bearer" ;
-    skos:notation "0.59" ;
+    skos:notation "0.56" ;
     skos:altLabel "IDENTIFIER_BEARER_UNION" ;
     skos:altLabel "RegisteredIdentifierBearer" ;
     skos:altLabel "NaturalPersonRegistrant" ;
@@ -11543,10 +11543,10 @@
     dct:isReplacedBy <https://signals.zndx.org/sdg#PROCESS_MANAGEMENT_MEETING_PROCESS> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#SDG_INDEPENDENT_CONTINUANT_INTERNAL_AUDITING_DIVISION> a skos:Concept ;
+<https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_INTERNAL_AUDITING_DIVISION> a skos:Concept ;
     skos:prefLabel "Internal Auditing Division" ;
     owl:deprecated true ;
-    dct:isReplacedBy <https://signals.zndx.org/sdg#INDEPENDENT_CONTINUANT_INTERNAL_AUDITING_DIVISION> ;
+    dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_INTERNAL_AUDITING_DIVISION> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#SDG_ICE_FINE_ASSESSMENT_EVENT> a skos:Concept ;
@@ -12161,10 +12161,10 @@
     dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_DONOR_AGENT> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#SDG_GENERIC_EARTH_OBSERVATION_DATA> a skos:Concept ;
+<https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_EARTH_OBSERVATION_DATA> a skos:Concept ;
     skos:prefLabel "Earth Observation Data" ;
     owl:deprecated true ;
-    dct:isReplacedBy <https://signals.zndx.org/sdg#GENERIC_EARTH_OBSERVATION_DATA> ;
+    dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EARTH_OBSERVATION_DATA> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#SDG_GENERIC_ECONOMIC_GOODS_AND_SERVICES> a skos:Concept ;
@@ -12695,10 +12695,10 @@
     dct:isReplacedBy <https://signals.zndx.org/sdg#PROCESS_BOARD_OF_ASSESSORS_MEETING> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#SDG_GENERIC_BOARD_OF_EQUALIZATION> a skos:Concept ;
+<https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_BOARD_OF_EQUALIZATION> a skos:Concept ;
     skos:prefLabel "Board Of Equalization" ;
     owl:deprecated true ;
-    dct:isReplacedBy <https://signals.zndx.org/sdg#GENERIC_BOARD_OF_EQUALIZATION> ;
+    dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_BOARD_OF_EQUALIZATION> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#SDG_GENERIC_BUILDING_FLOOR_STRUCTURE> a skos:Concept ;
@@ -12887,10 +12887,10 @@
     dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_PROVIDER> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#SDG_GENERIC_NETWORK_RESOURCE> a skos:Concept ;
+<https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_NETWORK_RESOURCE> a skos:Concept ;
     skos:prefLabel "Network Resource" ;
     owl:deprecated true ;
-    dct:isReplacedBy <https://signals.zndx.org/sdg#GENERIC_NETWORK_RESOURCE> ;
+    dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_RESOURCE> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_NETWORK_SCRUBBING_CENTER> a skos:Concept ;
@@ -16961,10 +16961,10 @@
     dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_DONOR_AGENT> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#SDG_GENERIC_FILLER_EARTHOBSERVATIONDATA> a skos:Concept ;
+<https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_FILLER_EARTHOBSERVATIONDATA> a skos:Concept ;
     skos:prefLabel "Earth Observation Data" ;
     owl:deprecated true ;
-    dct:isReplacedBy <https://signals.zndx.org/sdg#GENERIC_EARTH_OBSERVATION_DATA> ;
+    dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_EARTH_OBSERVATION_DATA> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#SDG_GENERIC_FILLER_ECONOMICGOODSANDSERVICES> a skos:Concept ;
@@ -17495,10 +17495,10 @@
     dct:isReplacedBy <https://signals.zndx.org/sdg#PROCESS_BOARD_OF_ASSESSORS_MEETING> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#SDG_GENERIC_FILLER_BOARDOFEQUALIZATION> a skos:Concept ;
+<https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_FILLER_BOARDOFEQUALIZATION> a skos:Concept ;
     skos:prefLabel "Board Of Equalization" ;
     owl:deprecated true ;
-    dct:isReplacedBy <https://signals.zndx.org/sdg#GENERIC_BOARD_OF_EQUALIZATION> ;
+    dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_BOARD_OF_EQUALIZATION> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#SDG_GENERIC_FILLER_BUILDINGFLOORSTRUCTURE> a skos:Concept ;
@@ -17687,10 +17687,10 @@
     dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_PROVIDER> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
-<https://signals.zndx.org/sdg#SDG_GENERIC_FILLER_NETWORKRESOURCE> a skos:Concept ;
+<https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_FILLER_NETWORKRESOURCE> a skos:Concept ;
     skos:prefLabel "Network Resource" ;
     owl:deprecated true ;
-    dct:isReplacedBy <https://signals.zndx.org/sdg#GENERIC_NETWORK_RESOURCE> ;
+    dct:isReplacedBy <https://signals.zndx.org/sdg#MATERIAL_ENTITY_NETWORK_RESOURCE> ;
     skos:inScheme <https://signals.zndx.org/sdg/scheme> .
 
 <https://signals.zndx.org/sdg#SDG_MATERIAL_ENTITY_FILLER_NETWORKSCRUBBINGCENTER> a skos:Concept ;
