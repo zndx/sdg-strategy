@@ -1,0 +1,73 @@
+{
+ "strategy_id": "6d4735d21132",
+ "components": {
+  "knobs/flow_defaults.json": "a12681a64a4018605678cb3c95295c0e3f03afe5f9c812dd0935dc5646e57896",
+  "lens/admission_filter.json": "073e480f66f98b0f851350324d1019a269e344a3a1d8775082a0c8d89fa81688",
+  "lens/aperture.skos.ttl": "70cac75e9e0cb4d734092f3c9a9fab0491d612478b85e939063615c32a2947a2",
+  "lens/aperture.snapshot.json": "f29aacd924d2ac98db26b3aca00ee2ada2801c6ba352b93e6ee15cc7cae05bb6",
+  "lens/binding.json": "cf71372769c169ff8758ebb40c45edbc2bfc46bbf780464dc2eb7f49d7fb5ad4",
+  "lens/energistics_integration.skos.ttl": "61ee079bfe0bf79b218ae9f1a06a3ba2bbe3dc970f7e22536eaa2b918d25cfa7",
+  "lens/fhir_integration.skos.ttl": "e67ae2501df07374b34fae7615e8a8f157629175dfcfb1be1236a53773057a0d",
+  "lens/fibo_integration.skos.ttl": "2169c3bc37e89128c8f7436bc6e1a7bf2d794edfe787a11461ea80d5272a4b67",
+  "lens/manufacturing_integration.skos.ttl": "170643401b341600686a3ef12653641e1e0446ca4636aa0add2e30b6de4af867",
+  "lens/sysmlv2_integration.skos.ttl": "d76d360fc1c0a66c3539899f1b601478251086af6ed6286ade818bbdb9e962ff",
+  "lens/vocab.skos.ttl": "9e71d309975340c948ec422fb6dda9ca1c55ef02bd4a645f1f5f4f4e6253f0a1",
+  "lens/vocab.snapshot.json": "4a2ac6908520959d9ed7477c33da50672ea452875cb1d772c4837c10d1fb02cb",
+  "targets/brand_lexicon.json": "074968842e0259704d38aaf9cb53621bc5a8755d12f6a2ca54e60b467f7031c0",
+  "targets/collections_unit.json": "037b88bd796476d31cb42fbedb0d9512232aafdc4a84090966236047d63d204c",
+  "targets/differentia_value_specs.json": "d7dd1e8320bef4d5e438254b853eee4e7c8866681f194e9d2f7ce5fcc815930f",
+  "targets/floors.json": "829a595b7489b95b3e1d6ecab236bb754664b926388f122243b5bb607a523ffa",
+  "targets/schemapile_key_norms.json": "92f5dc4889af89ab3f4f24ddf382797355141e3e23dae686d82cbab9f531ba74",
+  "targets/schemapile_shape_norms.json": "4000c3fc9f8c32ea87bcc754c84be6f2f9f46760a9b966c1a6ed7e6ed20f7113",
+  "targets/semantic_plausibility.json": "24a47ab0a53e76ea0f75788273c6e352a889f9a2917ab34af238173980fe2cbc",
+  "targets/table_register.json": "38c47c0d41ff4420d707522c6ac9f6b97f01be193f309040c5af6b49e9a1f44e",
+  "voices/aegir_writer.md": "8f02bfcb7dd4b5bd866d0d526bf7832a45684cdbc90508556a4b1c55cf6b69ea",
+  "voices/backend.local.toml": "c8cac9ea9017bbd029f8439871c35281095abe76b854335f289d494c92532ef4",
+  "voices/derive.dormant_hints.json": "33ec098cd7804b6fd87eabf5f0ed690f9df1c2f395795ed02439155878001b40",
+  "voices/derive.feedback.py": "8096d3e6e09510e6038808d14188e410eeec6f98d07faab8d88eb08d1751f101",
+  "voices/derive.schema.json": "2f3249d8d72a2b08245f268e4585e8a3839526702ca0d2fe736fa13ba3f50842",
+  "voices/derive.system.md": "4eaee4376ccf567e39066010e815d06969466f99771920a2385c624cf538929d",
+  "voices/mcp_kvasir.tools.json": "57f79ff039673f5961f2fa88561aa783511d9dae2d3d1f98860287550110572d",
+  "voices/register_voice.json": "10766842096a4c44bc4d15b4f83ab499ff8e8c4ff6977cbc40e4a3870227bf51",
+  "voices/turn_protocol.md": "0ed89aa0dec1c72a7dd666bcf0aa8c2511003564b8e311caf6300d2beb91d9a7"
+ },
+ "pillars": {
+  "lens": [
+   "lens/admission_filter.json",
+   "lens/aperture.skos.ttl",
+   "lens/aperture.snapshot.json",
+   "lens/binding.json",
+   "lens/energistics_integration.skos.ttl",
+   "lens/fhir_integration.skos.ttl",
+   "lens/fibo_integration.skos.ttl",
+   "lens/manufacturing_integration.skos.ttl",
+   "lens/sysmlv2_integration.skos.ttl",
+   "lens/vocab.skos.ttl",
+   "lens/vocab.snapshot.json"
+  ],
+  "voices": [
+   "voices/aegir_writer.md",
+   "voices/backend.local.toml",
+   "voices/derive.dormant_hints.json",
+   "voices/derive.feedback.py",
+   "voices/derive.schema.json",
+   "voices/derive.system.md",
+   "voices/mcp_kvasir.tools.json",
+   "voices/register_voice.json",
+   "voices/turn_protocol.md"
+  ],
+  "knobs": [
+   "knobs/flow_defaults.json"
+  ],
+  "targets": [
+   "targets/brand_lexicon.json",
+   "targets/collections_unit.json",
+   "targets/differentia_value_specs.json",
+   "targets/floors.json",
+   "targets/schemapile_key_norms.json",
+   "targets/schemapile_shape_norms.json",
+   "targets/semantic_plausibility.json",
+   "targets/table_register.json"
+  ]
+ }
+}
